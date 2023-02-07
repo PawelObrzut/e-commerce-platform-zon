@@ -5,8 +5,8 @@ POST http://localhost:8080/user/login
 content-type: application/json
 
 {
-  "email": "pawel@appliedtechnology.se",
-  "password": "notAnotherEasyPass"
+  "email": "qvasichev3@elegantthemes.com",
+  "password": "BWV8qNBX"
 }
 
 ###
