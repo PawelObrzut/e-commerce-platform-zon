@@ -40,12 +40,12 @@ const passport_1 = __importDefault(require("passport"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 passport_1.default.serializeUser((user, done) => done(null, user));
 passport_1.default.deserializeUser((user, done) => done(null, user));
-passport_1.default.use(new PassportLocal.Strategy({
+passport_1.default.use('login', new PassportLocal.Strategy({
     usernameField: 'email'
 }, (email, password, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // ! console.log('in the passport strategy before searching for a user');
-        const usersCollection = yield fetch(`http://localhost:8000/api/user/`, { method: 'GET' }).then(response => response.json());
+        const usersCollection = yield fetch('http://localhost:8000/api/user/', { method: 'GET' }).then(response => response.json());
         const user = usersCollection.data.find((user) => user.email === email);
         if (!user) {
             // ! console.log('USER IST NICHT DA');

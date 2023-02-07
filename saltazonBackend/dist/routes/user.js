@@ -24,7 +24,7 @@ router.get('/', authenticateToken_1.default, (req, res) => __awaiter(void 0, voi
     const usersCollection = yield fetch(`http://localhost:8000/api/user/`, { method: 'GET' }).then(response => response.json());
     return res.send(usersCollection);
 }));
-router.post('/login', passport_1.default.authenticate('local'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/login', passport_1.default.authenticate('login'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.user) {
         return res.send({ message: "Did you forget password?" });
     }
@@ -32,14 +32,12 @@ router.post('/login', passport_1.default.authenticate('local'), (req, res) => __
         return res.send('internal server error');
     }
     const token = jsonwebtoken_1.default.sign({ userid: req.user.id, mail: req.user.email }, privateKey
-    // { expiresIn: '1d' } // I do not know yet how to refresh the token
+    // { expiresIn: '1d' } // ! I do not know yet how to refresh the token
     );
     console.log('TOKEN', token);
     res.json({ accessToken: token });
 }));
-router.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // const encryptedPassword = await bcrypt.hash(req.body.password, 10);
-    // console.log(encryptedPassword)
+router.post('/register', passport_1.default.authenticate('signup'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send('Register');
 }));
 exports.default = router;

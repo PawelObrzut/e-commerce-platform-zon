@@ -3,7 +3,8 @@ import dotenv from 'dotenv';
 import userRouter from './routes/user';
 import productRouter from './routes/product';
 import passport from 'passport';
-import './middlewares/passport-strategy-local'; // TS side-effect import
+import './middlewares/passport-local-login'; // ! TS side-effect import
+import './middlewares/passport-local-signup';
 
 dotenv.config();
 
@@ -13,7 +14,6 @@ const port = process.env.PORT;
 app.use(express.json());
 
 app.use(passport.initialize());
-// app.use('/user', passport.authenticate('local', { failureRedirect: '/user/login' }), userRouter);
 app.use('/user', userRouter);
 app.use('/product', productRouter);
 

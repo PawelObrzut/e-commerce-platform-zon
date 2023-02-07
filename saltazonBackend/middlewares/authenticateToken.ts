@@ -12,15 +12,15 @@ const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
   if (!authHeader) {
     return res.sendStatus(401)
   }
-  
-  const reqToken = authHeader.split(' ')[1]
-  console.log('REQUEST TOKEN IS::', reqToken);
 
+  const reqToken = authHeader.split(' ')[1]
   jwt.verify(reqToken, privateKey, (error, decoded) => {
     if (error) {
       return res.sendStatus(403)
     }
-    console.log('WHAT THE HECK IS DECODED::', decoded);
+    // ! I do not know what to do with it yet
+    // ** decoded ** is a user object
+    console.log(decoded);
     next();
   })
 }

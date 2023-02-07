@@ -14,7 +14,7 @@ router.get('/', authenticateToken, async (req: Request, res: Response) => {
   return res.send(usersCollection);
 })
 
-router.post('/login', passport.authenticate('local'), async (req: RequestUser, res: Response) => {
+router.post('/login', passport.authenticate('login'), async (req: RequestUser, res: Response) => {
   if (!req.user) {
     return res.send({ message: "Did you forget password?"})
   }
@@ -24,15 +24,14 @@ router.post('/login', passport.authenticate('local'), async (req: RequestUser, r
   const token = jwt.sign(
     { userid: req.user.id, mail: req.user.email},
     privateKey
-    // { expiresIn: '1d' } // I do not know yet how to refresh the token
+    // { expiresIn: '1d' } // ! I do not know yet how to refresh the token
   )
   console.log('TOKEN', token)
   res.json({ accessToken: token });
 })
 
-router.post('/register', async (req: Request, res: Response) => {
-  // const encryptedPassword = await bcrypt.hash(req.body.password, 10);
-  // console.log(encryptedPassword)
+router.post('/register', passport.authenticate('signup'), async (req: Request, res: Response) => {
+
   res.send('Register');
 })
 

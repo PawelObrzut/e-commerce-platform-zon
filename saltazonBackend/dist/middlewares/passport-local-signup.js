@@ -40,28 +40,23 @@ const passport_1 = __importDefault(require("passport"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 passport_1.default.serializeUser((user, done) => done(null, user));
 passport_1.default.deserializeUser((user, done) => done(null, user));
-passport_1.default.use(new PassportLocal.Strategy({
+passport_1.default.use('signup', new PassportLocal.Strategy({
     usernameField: 'email'
 }, (email, password, done) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('PASS SIGNUP::', email, password);
     try {
-        // ! console.log('in the passport strategy before searching for a user');
-        const usersCollection = yield fetch(`http://localhost:8000/api/user/`, { method: 'GET' }).then(response => response.json());
-        const user = usersCollection.data.find((user) => user.email === email);
-        if (!user) {
-            // ! console.log('USER IST NICHT DA');
-            return done(null, false);
-        }
-        try {
-            if (user.password === password || (yield bcrypt_1.default.compare(password, user.password))) {
-                // ! console.log('PASSWORD CORRECT');
-                return done(null, user);
-            }
-            // ! console.log('PASSWORD INCORRECT');
-            return done(null, false);
-        }
-        catch (error) {
-            return done(error);
-        }
+        const user = yield fetch('http://localhost:8000/api/user/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: email,
+                password: yield bcrypt_1.default.hash(password, 10)
+            })
+        })
+            .then(response => response.json())
+            .then(data => data);
+        console.log('PASSPORT SIGNUP: DB RESPONSE:', user);
+        done(null, user);
     }
     catch (error) {
         done(error);

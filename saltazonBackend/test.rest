@@ -17,7 +17,7 @@ content-type: application/json
 ###
 # with invalid token the server should respond with 403 forbidden
 GET http://localhost:8080/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjQsIm1haWwiOiJxdmFzaWNoZXYzQGVsZWdhbnR0aGVtZXMuY29tIiwiaWF0IjoxNjc1Nzc5NTkzfQ.UQfCCQ96eF_IAqxXFU-r63-Yb4COVBDJG9jGXF4ZlG8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjQsIm1haWwiOiJxdmFzaWNoZXYzQGVsZWdhbnR0aGVtZXMuY29tIiwiaWF0IjoxNjc1Nzg3MDkyfQ.ijspeVgN5ohJNRvVerNJDR4qBSd1SN-QQspAM499s8A
 
 ###
 GET http://localhost:8080/product
@@ -25,5 +25,21 @@ GET http://localhost:8080/product
 ###
 # with no token the server should respond with 401 and redirect to login page
 GET http://localhost:8080/user
+
+###
+
+
+POST http://localhost:8080/user/login
+content-type: application/json
+
+{
+  "email": "nfoggarty1o@ft.com",
+  "password": "3hk8uly48B02"
+}
+
+###
+
+GET http://localhost:8080/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjYxLCJtYWlsIjoibmZvZ2dhcnR5MW9AZnQuY29tIiwiaWF0IjoxNjc1Nzk4NTkwfQ.fll1pnZ6WiOh1LWVNL6qaEsLN14QdHJ5mwwmEnfRhis
 
 ###

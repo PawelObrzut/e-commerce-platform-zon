@@ -16,12 +16,13 @@ const authenticateToken = (req, res, next) => {
         return res.sendStatus(401);
     }
     const reqToken = authHeader.split(' ')[1];
-    console.log('REQUEST TOKEN IS::', reqToken);
     jsonwebtoken_1.default.verify(reqToken, privateKey, (error, decoded) => {
         if (error) {
             return res.sendStatus(403);
         }
-        console.log('WHAT THE HECK IS DECODED::', decoded);
+        // ! I do not know what to do with it yet
+        // ** decoded ** is a user object
+        console.log(decoded);
         next();
     });
 };
