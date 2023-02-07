@@ -100,5 +100,5 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
-  "include": ["index.ts", "*.d.ts", "./routes/*.ts", "routes/api/users.ts"],
+  "include": ["index.ts", "*.d.ts", "./routes/*.ts", "routes/user.ts"],
 }
