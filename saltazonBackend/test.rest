@@ -1,6 +1,11 @@
-GET http://localhost:8080/user
+# testing endpoints
+###
+
+POST http://localhost:8080/user/login
+content-type: application/json
 
 ###
+
 POST http://localhost:8080/user/login
 content-type: application/json
 
@@ -10,7 +15,15 @@ content-type: application/json
 }
 
 ###
+# with invalid token the server should respond with 403 forbidden
+GET http://localhost:8080/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjQsIm1haWwiOiJxdmFzaWNoZXYzQGVsZWdhbnR0aGVtZXMuY29tIiwiaWF0IjoxNjc1Nzc5NTkzfQ.UQfCCQ96eF_IAqxXFU-r63-Yb4COVBDJG9jGXF4ZlG8
+
+###
 GET http://localhost:8080/product
 
 ###
-POST http://localhost:8080/user
+# with no token the server should respond with 401 and redirect to login page
+GET http://localhost:8080/user
+
+###
