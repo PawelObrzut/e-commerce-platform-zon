@@ -37,7 +37,7 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
     console.log('TOKEN', token);
     res.json({ accessToken: token });
 }));
-router.post('/register', passport_1.default.authenticate('signup'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/register', passport_1.default.authenticate('register'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send('Register');
 }));
 exports.default = router;

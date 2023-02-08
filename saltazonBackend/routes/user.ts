@@ -16,7 +16,7 @@ router.get('/', authenticateToken, async (req: Request, res: Response) => {
 
 router.post('/login', passport.authenticate('login'), async (req: RequestUser, res: Response) => {
   if (!req.user) {
-    return res.send({ message: "Did you forget password?"})
+    return res.send({ message: "Did you forget password?" })
   }
   if (!privateKey) {
     return res.send('internal server error')
@@ -30,7 +30,7 @@ router.post('/login', passport.authenticate('login'), async (req: RequestUser, r
   res.json({ accessToken: token });
 })
 
-router.post('/register', passport.authenticate('signup'), async (req: Request, res: Response) => {
+router.post('/register', passport.authenticate('register'), async (req: Request, res: Response) => {
 
   res.send('Register');
 })

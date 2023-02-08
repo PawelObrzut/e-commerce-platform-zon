@@ -1,0 +1,21 @@
+###
+
+
+POST http://localhost:8080/user/register
+content-type: application/json
+
+{
+  "email": "bruno@salt.se",
+  "password": "gargamel",
+  "role": "user"
+}
+
+###
+POST http://localhost:8080/user/register
+content-type: application/json
+
+{
+  "email": "xchippendale2r@wired.com",
+  "password": "QlsbLyx8yBTD",
+  "role": "user"
+}

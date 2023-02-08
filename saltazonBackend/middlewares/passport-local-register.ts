@@ -2,34 +2,40 @@ import * as PassportLocal from 'passport-local';
 import passport from 'passport';
 import bcrypt from 'bcrypt';
 import { InterfaceUser } from '../types/types';
+import { findUserByEmail } from '../utils/helperFunctions';
 
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user: InterfaceUser, done) => done(null, user));
  
 passport.use(
-  'signup',
+  'register',
   new PassportLocal.Strategy(
     {
       usernameField: 'email'
     }, 
     async (email, password, done) => {
-      console.log('PASS SIGNUP::', email, password);
-
       try {
-        const user = await fetch('http://localhost:8000/api/user/',
+        const user = await findUserByEmail(email);
+        if (user) {
+          console.log('user exists!')
+          return done(null, false);
+        }
+
+        const registerUser = await fetch('http://localhost:8000/api/user/',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             email: email,
-            password: await bcrypt.hash(password, 10)
+            password: await bcrypt.hash(password, 10),
+            role: 'user',
+            storeId: null
           })
         })
           .then(response => response.json())
           .then(data => data);
-        console.log('PASSPORT SIGNUP: DB RESPONSE:', user);
 
-        done(null, user)
+        done(null, true)
       } catch (error) {
         done(error)
       }

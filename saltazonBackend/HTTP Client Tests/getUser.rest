@@ -1,5 +1,12 @@
 # testing endpoints
 ###
+GET http://localhost:8080/product
+
+###
+# with no token the server should respond with 401 and redirect to login page
+GET http://localhost:8080/user
+
+###
 
 POST http://localhost:8080/user/login
 content-type: application/json
@@ -20,15 +27,6 @@ GET http://localhost:8080/user
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjQsIm1haWwiOiJxdmFzaWNoZXYzQGVsZWdhbnR0aGVtZXMuY29tIiwiaWF0IjoxNjc1Nzg3MDkyfQ.ijspeVgN5ohJNRvVerNJDR4qBSd1SN-QQspAM499s8A
 
 ###
-GET http://localhost:8080/product
-
-###
-# with no token the server should respond with 401 and redirect to login page
-GET http://localhost:8080/user
-
-###
-
-
 POST http://localhost:8080/user/login
 content-type: application/json
 

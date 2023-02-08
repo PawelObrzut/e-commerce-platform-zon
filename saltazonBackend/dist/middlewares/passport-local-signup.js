@@ -38,25 +38,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const PassportLocal = __importStar(require("passport-local"));
 const passport_1 = __importDefault(require("passport"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const helperFunctions_1 = require("../utils/helperFunctions");
 passport_1.default.serializeUser((user, done) => done(null, user));
 passport_1.default.deserializeUser((user, done) => done(null, user));
-passport_1.default.use('signup', new PassportLocal.Strategy({
+passport_1.default.use('register', new PassportLocal.Strategy({
     usernameField: 'email'
 }, (email, password, done) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('PASS SIGNUP::', email, password);
     try {
-        const user = yield fetch('http://localhost:8000/api/user/', {
+        const user = yield (0, helperFunctions_1.findUserByEmail)(email);
+        if (user) {
+            return done(null, false);
+        }
+        const registerUser = yield fetch('http://localhost:8000/api/user/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 email: email,
-                password: yield bcrypt_1.default.hash(password, 10)
+                password: yield bcrypt_1.default.hash(password, 10),
+                role: 'user'
             })
         })
             .then(response => response.json())
             .then(data => data);
-        console.log('PASSPORT SIGNUP: DB RESPONSE:', user);
-        done(null, user);
+        console.log('PASSPORT SIGNUP: DB RESPONSE:', registerUser);
+        done(null, registerUser);
     }
     catch (error) {
         done(error);

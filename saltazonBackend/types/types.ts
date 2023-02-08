@@ -1,11 +1,11 @@
 import {Request} from 'express';
 
 export interface InterfaceUser {
-  "id": number
-  "email": string,
-  "password": string,
-  "role": string,
-  "storeId": boolean
+  id: number
+  email: string,
+  password: string,
+  role: string,
+  storeId: boolean
 }
 
 export interface RequestUser extends Request {

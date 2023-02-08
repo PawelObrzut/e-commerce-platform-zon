@@ -20,8 +20,6 @@ const authenticateToken = (req, res, next) => {
         if (error) {
             return res.sendStatus(403);
         }
-        // ! I do not know what to do with it yet
-        // ** decoded ** is a user object
         console.log(decoded);
         next();
     });
