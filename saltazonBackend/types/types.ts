@@ -11,6 +11,7 @@ export interface InterfaceUser {
 export interface RequestUser extends Request {
   user?: {
     id?: number,
-    email?: string
+    email?: string,
+    password?: string
   }
 }

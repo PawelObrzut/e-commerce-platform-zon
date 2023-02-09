@@ -26,13 +26,16 @@ router.post('/login', passport.authenticate('login'), async (req: RequestUser, r
     privateKey
     // { expiresIn: '1d' } // ! I do not know yet how to refresh the token
   )
-  console.log('TOKEN', token)
-  res.json({ accessToken: token });
+
+  return res.json({ 
+    accessToken: token,
+    email: req.user.email
+  });
 })
 
 router.post('/register', passport.authenticate('register'), async (req: Request, res: Response) => {
 
-  res.send('Register');
+  return res.send('Register');
 })
 
 export default router;

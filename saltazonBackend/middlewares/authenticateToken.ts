@@ -18,7 +18,6 @@ const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
     if (error) {
       return res.sendStatus(403)
     }
-    console.log(decoded);
     next();
   })
 }

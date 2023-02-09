@@ -34,10 +34,12 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
     const token = jsonwebtoken_1.default.sign({ userid: req.user.id, mail: req.user.email }, privateKey
     // { expiresIn: '1d' } // ! I do not know yet how to refresh the token
     );
-    console.log('TOKEN', token);
-    res.json({ accessToken: token });
+    return res.json({
+        accessToken: token,
+        email: req.user.email
+    });
 }));
 router.post('/register', passport_1.default.authenticate('register'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send('Register');
+    return res.send('Register');
 }));
 exports.default = router;

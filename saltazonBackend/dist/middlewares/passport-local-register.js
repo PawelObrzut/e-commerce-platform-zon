@@ -39,8 +39,6 @@ const PassportLocal = __importStar(require("passport-local"));
 const passport_1 = __importDefault(require("passport"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const helperFunctions_1 = require("../utils/helperFunctions");
-passport_1.default.serializeUser((user, done) => done(null, user));
-passport_1.default.deserializeUser((user, done) => done(null, user));
 passport_1.default.use('register', new PassportLocal.Strategy({
     usernameField: 'email'
 }, (email, password, done) => __awaiter(void 0, void 0, void 0, function* () {

@@ -13,8 +13,9 @@ const app: Express = express();
 const port = process.env.PORT;
 
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 app.use(passport.initialize());
+
 app.use('/user', userRouter);
 app.use('/product', productRouter);
 

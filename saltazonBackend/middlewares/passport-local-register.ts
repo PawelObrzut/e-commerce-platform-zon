@@ -1,12 +1,8 @@
 import * as PassportLocal from 'passport-local';
 import passport from 'passport';
 import bcrypt from 'bcrypt';
-import { InterfaceUser } from '../types/types';
 import { findUserByEmail } from '../utils/helperFunctions';
 
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((user: InterfaceUser, done) => done(null, user));
- 
 passport.use(
   'register',
   new PassportLocal.Strategy(

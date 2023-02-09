@@ -20,7 +20,6 @@ const authenticateToken = (req, res, next) => {
         if (error) {
             return res.sendStatus(403);
         }
-        console.log(decoded);
         next();
     });
 };
