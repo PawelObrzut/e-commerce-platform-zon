@@ -7,25 +7,27 @@ passport.use(
   'register',
   new PassportLocal.Strategy(
     {
-      usernameField: 'email'
+      usernameField: 'email',
+      passReqToCallback: true
     }, 
-    async (email, password, done) => {
+    async (req, email, password, done) => {
+      console.log(req.body)
       try {
         const user = await findUserByEmail(email);
         if (user) {
-          console.log('user exists!')
+          console.log("user exists!")
           return done(null, false);
         }
 
-        const registerUser = await fetch('http://localhost:8000/api/user/',
+        await fetch('http://localhost:8000/api/user/',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             email: email,
             password: await bcrypt.hash(password, 10),
-            role: 'user',
-            storeId: null
+            role: req.body.role,
+            storeId: req.body.storeId || null
           })
         })
           .then(response => response.json())

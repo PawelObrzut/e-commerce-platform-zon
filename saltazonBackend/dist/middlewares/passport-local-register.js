@@ -40,22 +40,24 @@ const passport_1 = __importDefault(require("passport"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const helperFunctions_1 = require("../utils/helperFunctions");
 passport_1.default.use('register', new PassportLocal.Strategy({
-    usernameField: 'email'
-}, (email, password, done) => __awaiter(void 0, void 0, void 0, function* () {
+    usernameField: 'email',
+    passReqToCallback: true
+}, (req, email, password, done) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
     try {
         const user = yield (0, helperFunctions_1.findUserByEmail)(email);
         if (user) {
-            console.log('user exists!');
+            console.log("user exists!");
             return done(null, false);
         }
-        const registerUser = yield fetch('http://localhost:8000/api/user/', {
+        yield fetch('http://localhost:8000/api/user/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 email: email,
                 password: yield bcrypt_1.default.hash(password, 10),
-                role: 'user',
-                storeId: null
+                role: req.body.role,
+                storeId: req.body.storeId || null
             })
         })
             .then(response => response.json())
