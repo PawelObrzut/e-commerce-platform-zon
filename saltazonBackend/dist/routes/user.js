@@ -14,21 +14,51 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const utils_1 = require("../utils/utils");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const passport_1 = __importDefault(require("passport"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const authenticateToken_1 = __importDefault(require("../middlewares/authenticateToken"));
 const router = (0, express_1.Router)();
+const refreshTokens = [];
+const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 router.get('/', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const usersCollection = yield fetch(`http://localhost:8000/api/user/`, { method: 'GET' }).then(response => response.json());
     return res.send(usersCollection);
 }));
 router.post('/login', passport_1.default.authenticate('login'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    const token = (0, utils_1.generateJWT)(req);
+    const accessToken = (0, utils_1.generateAccessJWT)(req);
+    const refreshToken = (0, utils_1.genereteRefreshJWT)(req);
+    refreshTokens.push(refreshToken);
     return res.json({
-        accessToken: token,
+        accessToken: accessToken,
+        refreshToken: refreshToken,
         email: (_a = req.user) === null || _a === void 0 ? void 0 : _a.email
     });
 }));
+router.post('/refreshToken', (req, res, next) => {
+    const refreshToken = req.body.refreshToken;
+    if (!refreshToken) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+    if (!refreshTokens.includes(refreshToken)) {
+        return res.status(403).json({ message: 'Forbidden' });
+    }
+    if (!refreshKey) {
+        return res.status(500).json({ message: 'Cannot refresh Token' });
+    }
+    jsonwebtoken_1.default.verify(refreshToken, refreshKey, (error, user) => {
+        console.log('Step2 - user: ', user);
+        if (error) {
+            return res.sendStatus(403);
+        }
+        const accessToken = (0, utils_1.generateAccessJWT)(req);
+        console.log(req.user);
+        console.log('Step3 - new accessToken: ', accessToken);
+        return res.json({ accessToken: accessToken });
+    });
+});
 router.post('/register', passport_1.default.authenticate('register'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('User or Admin has been created');
     return res.status(203).json({ message: 'User Registered' });

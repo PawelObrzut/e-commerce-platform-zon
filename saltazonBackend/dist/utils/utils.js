@@ -12,17 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateJWT = exports.findUserByEmail = void 0;
+exports.genereteRefreshJWT = exports.generateAccessJWT = exports.findUserByEmail = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const privateKey = process.env.ACCESS_TOKEN_SECRET;
+const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 const findUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
     const usersCollection = yield fetch('http://localhost:8000/api/user/', { method: 'GET' }).then(response => response.json());
     return usersCollection.data.find((user) => user.email === email);
 });
 exports.findUserByEmail = findUserByEmail;
-const generateJWT = (req) => {
+const generateAccessJWT = (req) => {
     if (!req.user) {
         return 'Error, unable to issue a valid token';
     }
@@ -31,8 +32,19 @@ const generateJWT = (req) => {
     }
     return jsonwebtoken_1.default.sign({ userid: req.user.id, mail: req.user.email }, privateKey, { expiresIn: '15m' });
 };
-exports.generateJWT = generateJWT;
+exports.generateAccessJWT = generateAccessJWT;
+const genereteRefreshJWT = (req) => {
+    if (!req.user) {
+        return 'Error, unable to issue a valid token';
+    }
+    if (!refreshKey) {
+        return 'Error, unable to issue a valid token';
+    }
+    return jsonwebtoken_1.default.sign(req.user, refreshKey);
+};
+exports.genereteRefreshJWT = genereteRefreshJWT;
 exports.modules = {
     findUserByEmail: exports.findUserByEmail,
-    generateJWT: exports.generateJWT
+    generateAccessJWT: exports.generateAccessJWT,
+    genereteRefreshJWT: exports.genereteRefreshJWT
 };
