@@ -34,8 +34,8 @@ router.post('/login', passport.authenticate('login'), async (req: RequestUser, r
 })
 
 router.post('/register', passport.authenticate('register'), async (req: Request, res: Response) => {
-
-  return res.send('Register');
+  console.log('User or Admin has been created')
+  return res.status(203).json({ message: 'User Registered'});
 })
 
 export default router;

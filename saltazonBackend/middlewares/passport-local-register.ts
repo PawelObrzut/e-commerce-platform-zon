@@ -11,7 +11,8 @@ passport.use(
       passReqToCallback: true
     }, 
     async (req, email, password, done) => {
-      console.log(req.body)
+      console.log(req.body.role);
+      console.log(req.body.storeId);
       try {
         const user = await findUserByEmail(email);
         if (user) {

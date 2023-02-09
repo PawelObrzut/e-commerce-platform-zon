@@ -40,6 +40,7 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
     });
 }));
 router.post('/register', passport_1.default.authenticate('register'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    return res.send('Register');
+    console.log('User or Admin has been created');
+    return res.status(203).json({ message: 'User Registered' });
 }));
 exports.default = router;

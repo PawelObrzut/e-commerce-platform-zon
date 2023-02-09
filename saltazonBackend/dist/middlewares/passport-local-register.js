@@ -43,7 +43,8 @@ passport_1.default.use('register', new PassportLocal.Strategy({
     usernameField: 'email',
     passReqToCallback: true
 }, (req, email, password, done) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
+    console.log(req.body.role);
+    console.log(req.body.storeId);
     try {
         const user = yield (0, helperFunctions_1.findUserByEmail)(email);
         if (user) {
