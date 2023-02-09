@@ -13,30 +13,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const utils_1 = require("../utils/utils");
 const passport_1 = __importDefault(require("passport"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const dotenv_1 = __importDefault(require("dotenv"));
 const authenticateToken_1 = __importDefault(require("../middlewares/authenticateToken"));
 const router = (0, express_1.Router)();
-dotenv_1.default.config();
-const privateKey = process.env.ACCESS_TOKEN_SECRET;
 router.get('/', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const usersCollection = yield fetch(`http://localhost:8000/api/user/`, { method: 'GET' }).then(response => response.json());
     return res.send(usersCollection);
 }));
 router.post('/login', passport_1.default.authenticate('login'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!req.user) {
-        return res.send({ message: "Did you forget password?" });
-    }
-    if (!privateKey) {
-        return res.send('internal server error');
-    }
-    const token = jsonwebtoken_1.default.sign({ userid: req.user.id, mail: req.user.email }, privateKey
-    // { expiresIn: '1d' } // ! I do not know yet how to refresh the token
-    );
+    var _a;
+    const token = (0, utils_1.generateJWT)(req);
     return res.json({
         accessToken: token,
-        email: req.user.email
+        email: (_a = req.user) === null || _a === void 0 ? void 0 : _a.email
     });
 }));
 router.post('/register', passport_1.default.authenticate('register'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {

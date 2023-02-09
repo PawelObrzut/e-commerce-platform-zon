@@ -38,15 +38,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const PassportLocal = __importStar(require("passport-local"));
 const passport_1 = __importDefault(require("passport"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const helperFunctions_1 = require("../utils/helperFunctions");
+const utils_1 = require("../utils/utils");
 passport_1.default.use('register', new PassportLocal.Strategy({
     usernameField: 'email',
     passReqToCallback: true
 }, (req, email, password, done) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body.role);
-    console.log(req.body.storeId);
     try {
-        const user = yield (0, helperFunctions_1.findUserByEmail)(email);
+        const user = yield (0, utils_1.findUserByEmail)(email);
         if (user) {
             console.log("user exists!");
             return done(null, false);

@@ -1,7 +1,7 @@
 import * as PassportLocal from 'passport-local';
 import passport from 'passport';
 import bcrypt from 'bcrypt';
-import { findUserByEmail } from '../utils/helperFunctions';
+import { findUserByEmail } from '../utils/utils';
 
 passport.use(
   'register',
@@ -11,8 +11,6 @@ passport.use(
       passReqToCallback: true
     }, 
     async (req, email, password, done) => {
-      console.log(req.body.role);
-      console.log(req.body.storeId);
       try {
         const user = await findUserByEmail(email);
         if (user) {
