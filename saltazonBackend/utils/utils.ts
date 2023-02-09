@@ -10,28 +10,22 @@ export const findUserByEmail = async (email: string): Promise<InterfaceUser | un
   return usersCollection.data.find((user: InterfaceUser) => user.email === email);
 }
 
-export const generateAccessJWT = (req: RequestUser) => {
-  if (!req.user) {
-    return 'Error, unable to issue a valid token';
-  }
+export const generateAccessJWT = (user: RequestUser) => {
   if (!privateKey) {
     return 'Error, unable to issue a valid token';
   }
   return jwt.sign(
-    { userid: req.user.id, mail: req.user.email },
+    user,
     privateKey,
     { expiresIn: '15m' } 
   )
 }
 
-export const genereteRefreshJWT = (req: RequestUser) => {
-  if (!req.user) {
-    return 'Error, unable to issue a valid token';
-  }
+export const genereteRefreshJWT = (user: RequestUser) => {
   if (!refreshKey) {
     return 'Error, unable to issue a valid token';
   }
-  return jwt.sign(req.user, refreshKey )
+  return jwt.sign(user, refreshKey);
 }
 
 exports.modules = {

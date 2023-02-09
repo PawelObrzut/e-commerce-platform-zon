@@ -28,8 +28,8 @@ router.get('/', authenticateToken_1.default, (req, res) => __awaiter(void 0, voi
 }));
 router.post('/login', passport_1.default.authenticate('login'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    const accessToken = (0, utils_1.generateAccessJWT)(req);
-    const refreshToken = (0, utils_1.genereteRefreshJWT)(req);
+    const accessToken = (0, utils_1.generateAccessJWT)(req.user);
+    const refreshToken = (0, utils_1.genereteRefreshJWT)(req.user);
     refreshTokens.push(refreshToken);
     return res.json({
         accessToken: accessToken,
@@ -49,13 +49,10 @@ router.post('/refreshToken', (req, res, next) => {
         return res.status(500).json({ message: 'Cannot refresh Token' });
     }
     jsonwebtoken_1.default.verify(refreshToken, refreshKey, (error, user) => {
-        console.log('Step2 - user: ', user);
         if (error) {
             return res.sendStatus(403);
         }
-        const accessToken = (0, utils_1.generateAccessJWT)(req);
-        console.log(req.user);
-        console.log('Step3 - new accessToken: ', accessToken);
+        const accessToken = (0, utils_1.generateAccessJWT)(user);
         return res.json({ accessToken: accessToken });
     });
 });

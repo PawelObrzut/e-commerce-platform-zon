@@ -17,8 +17,8 @@ router.get('/', authenticateToken, async (req: Request, res: Response) => {
 })
 
 router.post('/login', passport.authenticate('login'), async (req: RequestUser, res: Response) => {
-  const accessToken = generateAccessJWT(req);
-  const refreshToken = genereteRefreshJWT(req);
+  const accessToken = generateAccessJWT(req.user as RequestUser);
+  const refreshToken = genereteRefreshJWT(req.user as RequestUser);
   refreshTokens.push(refreshToken);
 
   return res.json({ 
@@ -40,13 +40,10 @@ router.post('/refreshToken', (req: Request, res: Response, next: NextFunction) =
     return res.status(500).json({ message: 'Cannot refresh Token' })
   }
   jwt.verify(refreshToken, refreshKey, (error: any, user: any ) => {
-    console.log('Step2 - user: ', user)
     if (error) {
       return res.sendStatus(403)
     }
-    const accessToken = generateAccessJWT(req)
-    console.log(req.user);
-    console.log('Step3 - new accessToken: ', accessToken);
+    const accessToken = generateAccessJWT(user)
     return res.json({ accessToken: accessToken});
   })
 })

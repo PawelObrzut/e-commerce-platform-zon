@@ -23,24 +23,18 @@ const findUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* (
     return usersCollection.data.find((user) => user.email === email);
 });
 exports.findUserByEmail = findUserByEmail;
-const generateAccessJWT = (req) => {
-    if (!req.user) {
-        return 'Error, unable to issue a valid token';
-    }
+const generateAccessJWT = (user) => {
     if (!privateKey) {
         return 'Error, unable to issue a valid token';
     }
-    return jsonwebtoken_1.default.sign({ userid: req.user.id, mail: req.user.email }, privateKey, { expiresIn: '15m' });
+    return jsonwebtoken_1.default.sign(user, privateKey, { expiresIn: '15m' });
 };
 exports.generateAccessJWT = generateAccessJWT;
-const genereteRefreshJWT = (req) => {
-    if (!req.user) {
-        return 'Error, unable to issue a valid token';
-    }
+const genereteRefreshJWT = (user) => {
     if (!refreshKey) {
         return 'Error, unable to issue a valid token';
     }
-    return jsonwebtoken_1.default.sign(req.user, refreshKey);
+    return jsonwebtoken_1.default.sign(user, refreshKey);
 };
 exports.genereteRefreshJWT = genereteRefreshJWT;
 exports.modules = {
