@@ -20,9 +20,10 @@ passport.use(
             return done(null, false);
           }
           try {
-            if (user.password === password || await bcrypt.compare(password, user.password)){
+            if (user.password === password || await bcrypt.compareSync(password, user.password)){
               return done(null, user)
             }
+
             return done(null, false);
           } catch (error) {
             return done(error);

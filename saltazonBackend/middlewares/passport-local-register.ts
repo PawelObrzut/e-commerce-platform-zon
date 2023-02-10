@@ -19,16 +19,16 @@ passport.use(
         }
 
         await fetch('http://localhost:8000/api/user/',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            email: email,
-            password: await bcrypt.hash(password, 10),
-            role: req.body.role,
-            storeId: req.body.storeId || null
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              email: email,
+              password: bcrypt.hashSync(password, 10),
+              role: req.body.role,
+              storeId: req.body.storeId || null
+            })
           })
-        })
           .then(response => response.json())
           .then(data => data);
 
