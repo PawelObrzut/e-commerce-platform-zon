@@ -16,7 +16,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         console.log('Connected to the SQLite database.');
         const users = GetUsersAsJson();
         db.run(`create table UserData (
-                id INT,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 email VARCHAR(50),
                 password VARCHAR(50),
                 role VARCHAR(11),
@@ -28,9 +28,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     console.log('Already User-table there');
                 } else {
                     // Table just created, creating some rows
-                    const insert = 'INSERT INTO UserData (id, email, password, role, storeId) VALUES (?,?,?,?,?)';
+                    const insert = 'INSERT INTO UserData (email, password, role, storeId) VALUES (?,?,?,?)';
                     users.map(newUser => {
-                        db.run(insert, [newUser.id, newUser.email, newUser.password, newUser.role, newUser.uniqueStoreId]);
+                        db.run(insert, [newUser.email, newUser.password, newUser.role, newUser.uniqueStoreId]);
                     })
                     console.log(`${users.length} Users created`);
                 }
@@ -55,13 +55,13 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             });
         const products = GetProductsAsJson();
         db.run(`create table ProductData (
-                    id INT, 
-                    title VARCHAR(50), 
-                    description TEXT, 
+                    id INT,
+                    title VARCHAR(50),
+                    description TEXT,
                     imageUrl VARCHAR(50),
-                    storeId INT, 
-                    price VARCHAR(50), 
-                    quantity INT, 
+                    storeId INT,
+                    price VARCHAR(50),
+                    quantity INT,
                     category VARCHAR(50));`,
             (err) => {
                 if (err) {

@@ -3,8 +3,6 @@ import express from "express";
 
 import db from "./database.js";
 
-import md5 from "md5";
-
 import bodyParser from "body-parser";
 
 const app = express();
@@ -67,8 +65,8 @@ app.patch("/api/user/:id", (req, res, next) => {
         storeId: req.body.storeId
     }
     db.run(
-        `UPDATE UserData set 
-           email = COALESCE(?,email), 
+        `UPDATE UserData set
+           email = COALESCE(?,email),
            password = COALESCE(?,password)
            role = COALESCE(?,role)
            storeId = COALESCE(?,storeId)
@@ -115,12 +113,12 @@ app.post("/api/user/", (req, res, next) => {
         return;
     }
     const data = {
-        name: req.body.name,
         email: req.body.email,
-        password : md5(req.body.password)
+        password : req.body.password,
+        role: req.body.role
     }
-    const sql ='INSERT INTO UserData (name, email, password) VALUES (?,?,?)'
-    const params =[data.name, data.email, data.password]
+    const sql ='INSERT INTO UserData (email, password, role) VALUES (?,?,?)'
+    const params = [data.email, data.password, data.role]
     db.run(sql, params, function (err, result) {
         if (err){
             res.status(400).json({"error": err.message})
