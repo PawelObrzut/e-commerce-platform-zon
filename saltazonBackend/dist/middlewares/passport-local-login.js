@@ -39,7 +39,10 @@ const PassportLocal = __importStar(require("passport-local"));
 const passport_1 = __importDefault(require("passport"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const utils_1 = require("../utils/utils");
-passport_1.default.serializeUser((user, done) => done(null, user));
+passport_1.default.serializeUser((user, done) => {
+    delete user.password;
+    return done(null, user);
+});
 passport_1.default.deserializeUser((user, done) => done(null, user));
 passport_1.default.use('login', new PassportLocal.Strategy({
     usernameField: 'email',
@@ -47,12 +50,14 @@ passport_1.default.use('login', new PassportLocal.Strategy({
     try {
         const user = yield (0, utils_1.findUserByEmail)(email);
         if (!user) {
+            console.log('User ist nicht da');
             return done(null, false);
         }
         try {
             if (user.password === password || (yield bcrypt_1.default.compareSync(password, user.password))) {
                 return done(null, user);
             }
+            console.log('Password Incorrect');
             return done(null, false);
         }
         catch (error) {

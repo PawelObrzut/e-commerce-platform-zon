@@ -5,6 +5,8 @@ dotenv.config();
 const privateKey = process.env.ACCESS_TOKEN_SECRET;
 const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 
+export const expirationTime = 5
+
 export const findUserByEmail = async (email: string): Promise<InterfaceUser | undefined> => {
   const usersCollection = await fetch('http://localhost:8000/api/user/', {method: 'GET'}).then(response => response.json());
   return usersCollection.data.find((user: InterfaceUser) => user.email === email);
@@ -17,7 +19,7 @@ export const generateAccessJWT = (user: RequestUser) => {
   return jwt.sign(
     user,
     privateKey,
-    { expiresIn: '15m' } 
+    { expiresIn: `${expirationTime}m` } 
   )
 }
 
@@ -31,5 +33,6 @@ export const genereteRefreshJWT = (user: RequestUser) => {
 exports.modules = {
   findUserByEmail,
   generateAccessJWT,
-  genereteRefreshJWT
+  genereteRefreshJWT,
+  expirationTime
 };

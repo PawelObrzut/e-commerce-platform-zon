@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { RequestUser } from '../types/types';
-import { generateAccessJWT, genereteRefreshJWT } from '../utils/utils';
+import { generateAccessJWT, genereteRefreshJWT, expirationTime } from '../utils/utils';
 import dotenv from 'dotenv';
 dotenv.config();
 import passport from 'passport';
@@ -24,6 +24,7 @@ router.post('/login', passport.authenticate('login'), async (req: RequestUser, r
   return res.json({ 
     accessToken: accessToken,
     refreshToken: refreshToken,
+    expiresIn: expirationTime,
     email: req.user?.email
   });
 })

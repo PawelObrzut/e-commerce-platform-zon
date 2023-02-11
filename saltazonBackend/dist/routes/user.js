@@ -34,6 +34,7 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
     return res.json({
         accessToken: accessToken,
         refreshToken: refreshToken,
+        expiresIn: utils_1.expirationTime,
         email: (_a = req.user) === null || _a === void 0 ? void 0 : _a.email
     });
 }));

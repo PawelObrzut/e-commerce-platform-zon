@@ -4,7 +4,10 @@ import bcrypt from 'bcrypt';
 import { InterfaceUser } from '../types/types';
 import { findUserByEmail } from '../utils/utils';
 
-passport.serializeUser((user, done) => done(null, user));
+passport.serializeUser((user: any, done) => {
+  delete user.password;
+  return done(null, user)
+});
 passport.deserializeUser((user: InterfaceUser, done) => done(null, user));
  
 passport.use(
@@ -17,13 +20,14 @@ passport.use(
       try {
         const user = await findUserByEmail(email);
           if (!user) {
+            console.log('User ist nicht da')
             return done(null, false);
           }
           try {
             if (user.password === password || await bcrypt.compareSync(password, user.password)){
               return done(null, user)
             }
-
+            console.log('Password Incorrect')
             return done(null, false);
           } catch (error) {
             return done(error);
