@@ -1,3 +1,11 @@
 Type POST, Date [10/Feb/2023:22:17:52 +0000], StatusCode 200
 Type POST, Date [2023-02-10T22:24:50.643Z], StatusCode 203
 Type POST, Date [Fri, 10 Feb 2023 22:25:24 GMT], StatusCode 200
+Type POST, Date [2023-02-12T22:57:24+01:00], StatusCode 401
+Type POST, Date [+01:00], StatusCode 401
+Type POST, Date [2023-02-12 23:01 +0100], StatusCode 200
+Type POST, Date [2023-02-12 23:05 +0100], StatusCode 401
+Type POST, Date [2023-02-12 23:05 +0100], StatusCode 401
+Type POST, Date [2023-02-12 23:10 +0100], StatusCode 200
+Type POST, Date [2023-02-12 23:11 +0100], StatusCode 200
+Type POST, Date [2023-02-12 23:14 +0100], StatusCode 200
