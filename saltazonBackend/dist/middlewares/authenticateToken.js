@@ -6,17 +6,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-const privateKey = process.env.ACCESS_TOKEN_SECRET;
+const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
-    if (!privateKey) {
+    if (!refreshKey) {
         return res.sendStatus(500);
     }
     if (!authHeader) {
         return res.sendStatus(401);
     }
     const reqToken = authHeader.split(' ')[1];
-    jsonwebtoken_1.default.verify(reqToken, privateKey, (error, decoded) => {
+    jsonwebtoken_1.default.verify(reqToken, refreshKey, (error, decoded) => {
         if (error) {
             return res.sendStatus(403);
         }

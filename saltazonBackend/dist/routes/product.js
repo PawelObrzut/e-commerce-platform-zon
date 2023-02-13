@@ -13,9 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const authenticateToken_1 = __importDefault(require("../middlewares/authenticateToken"));
 const router = express_1.default.Router();
-router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const productsCollection = yield fetch(`http://localhost:8000/api/product/`, { method: 'GET' }).then(response => response.json());
-    return res.send(productsCollection);
+    return res.send(productsCollection.data);
 }));
 exports.default = router;

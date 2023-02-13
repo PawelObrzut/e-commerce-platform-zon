@@ -22,7 +22,7 @@ router.post('/login', passport.authenticate('login'), async (req: RequestUser, r
   refreshTokens.push(refreshToken);
 
   return res.json({ 
-    accessToken: accessToken,
+    // accessToken: accessToken,
     refreshToken: refreshToken,
     expiresIn: expirationTime,
     email: req.user?.email

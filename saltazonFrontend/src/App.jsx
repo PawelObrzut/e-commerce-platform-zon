@@ -45,26 +45,27 @@ function App() {
     const signIn = useSignIn();
 
     const handleLogIn = async (event) => {
-        event.preventDefault();
+      event.preventDefault();
 
-        const credentials = await fetch('http://localhost:8080/user/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email: email,
-                password: password
-              })
-            }).then(respond => respond.json())
-              .then(credentials => credentials)
-              .catch(error => console.log(error));
-
-          signIn({
-              token: credentials.accessToken,
-              expiresIn: 1,
-              tokenType: "Bearer",
-              authState: ({ email: credentials.email })
-          })
-        event.target.reset();
+      await fetch('http://localhost:8080/user/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
+      })
+      .then(respond => respond.json())
+      .then(credentials => {
+        signIn({
+          token: credentials.refreshToken,
+          expiresIn: credentials.expiresIn,
+          tokenType: "Bearer",
+          authState: ({ email: credentials.email })
+        })
+      })
+      .catch(error => error);
+      event.target.reset();
     }
 
     const handleSignUp = async (event) => {
@@ -86,59 +87,57 @@ function App() {
     }
 
     return (
-        <div className="App">
-        
-            <header className={"top_header"}>
-                <ProfileBar/>
-                <NavBar/>
-            </header>
-            <Routes>
-                <Route exact path='/create-new-user' 
-                  element={
-                    <NewUserForm 
-                      onSubmit={handleSignUp}
-                      setEmail={setEmail}
-                      setPassword={setPassword}
-                      setRole={setRole}
-                    />
-                  }
-                ></Route>
+      <div className="App">
+        <header className={"top_header"}>
+          <ProfileBar/>
+          <NavBar/>
+        </header>
+        <Routes>
+          <Route exact path='/create-new-user' 
+            element={
+              <NewUserForm 
+                onSubmit={handleSignUp}
+                setEmail={setEmail}
+                setPassword={setPassword}
+                setRole={setRole}
+              />
+            }
+        ></Route>
 
-                <Route exact path='/login'
-                  element={
-                    <LoginForm
-                      onSubmit={handleLogIn}
-                      setEmail={setEmail}
-                      setPassword={setPassword}
-                    />
-                  }
-                ></Route>
+        <Route exact path='/login'
+          element={
+            <LoginForm
+              onSubmit={handleLogIn}
+              setEmail={setEmail}
+              setPassword={setPassword}
+            />
+          }
+        ></Route>
 
-                <Route exact path='/'
-                  element={
-                    <RequireAuth loginPath={'/login'}>
-                      <ProductList 
-                        products={fakeProducts}
-                        addToCart={addToCart}
-                      />
-                    </RequireAuth>
-                  }
-                ></Route>
+        <Route exact path='/'
+          element={
+            <RequireAuth loginPath={'/login'}>
+              <ProductList 
+                products={fakeProducts}
+                addToCart={addToCart}
+              />
+            </RequireAuth>
+          }
+        ></Route>
 
-                <Route exact path='/cart'
-                  element={
-                    <Cart 
-                      products={currentCart} 
-                      removeFromCart={removeFromCart}
-                    />
-                  }
-                ></Route>
+        <Route exact path='/cart'
+          element={
+            <Cart 
+              products={currentCart} 
+              removeFromCart={removeFromCart}
+            />
+          }
+        ></Route>
 
-                <Route exact path='/admin' element={< AdminPage/>}></Route>
-                <Route exact path='/admin/super' element={< SuperAdminPage/>}></Route>
-            </Routes>
-            
-        </div>
+        <Route exact path='/admin' element={< AdminPage/>}></Route>
+        <Route exact path='/admin/super' element={< SuperAdminPage/>}></Route>
+        </Routes>
+      </div>
     )
 }
 

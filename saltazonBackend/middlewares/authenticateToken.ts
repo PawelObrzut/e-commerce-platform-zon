@@ -2,11 +2,11 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { Request, Response, NextFunction } from "express";
 dotenv.config();
-const privateKey = process.env.ACCESS_TOKEN_SECRET;
+const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 
 const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers['authorization'];
-  if (!privateKey) {
+  if (!refreshKey) {
     return res.sendStatus(500)
   }
   if (!authHeader) {
@@ -14,7 +14,7 @@ const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
   }
 
   const reqToken = authHeader.split(' ')[1]
-  jwt.verify(reqToken, privateKey, (error, decoded) => {
+  jwt.verify(reqToken, refreshKey, (error, decoded) => {
     if (error) {
       return res.sendStatus(403)
     }
