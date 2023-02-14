@@ -1,97 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
-
-:root {
-  --prussian-blue: #0B3142;
-  --old-rose: #B98389;
-  --gray: #7E8287;
-  --mint-green: #CFEBDF;
+.header {
+  display: flex;
+  border-bottom: 0.2rem solid #000;
+  justify-content: space-between;
+  padding: 1rem;
 }
 
-#root {
-    text-align: center;
-    width: 90%;
-    margin: 0 auto;
+.navigation--sections {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 0.2rem solid #000;
 }
 
-.App {
-    font-family: 'Special Elite', cursive;
+.navigation--sections li {
+  padding: 0.5rem;
 }
 
-.App h3 {
-    font-size: 2rem;
+.navigation--sections a {
+  text-decoration: none;
 }
 
-.top_header {
-    padding: 1rem;
-    border-style: solid;
-    border-radius: 1rem;
-    background-color: var(--old-rose);
-    color: var(--mint-green);
-    border-color: var(--prussian-blue);
-    border-width: 0.25rem;
+.navigation--sections a:hover {
+  text-decoration: underline;
 }
 
-.navbar ul {
-    display: flex;
-    justify-content:space-around;
-    list-style: none;
-}
-
-.nav_button {
-    color: var(--prussian-blue);
-}
-
-.nav_button:hover {
-    text-decoration: underline;
-    color: var(--prussian-blue);
-    
-}
-
-.product_list {
-    margin: auto;
-}
-
-.login_info {
-    display: block;
-    margin: auto;
-    font-size: 2.5rem;
-}
-
-.categorySorter{
-    height: 50px;
-    margin: auto;
-    border-style: solid;
-    border-color: #242424;
-}
-
-.create_user_form,
-.login_form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    width: 23%;
-    margin: 0 auto;
-}
-
-.login_form label,
-.create_user_form label {
-    width: 150px;
-    padding-right: 10px;
-    text-align: right;
-    font-weight: bold;
-}
-
-.login_form input,
-.create_user_form input,
-.create_user_form select {
-    width: 200px;
-    height: 25px;
-    padding-left: 10px;
-}
-
-.login_form .login_form_submit,
-.create_user_form .create_user_form_submit {
-    margin-top: 20px;
-    width: 150px;
+.footer {
+  text-align: center;
 }
