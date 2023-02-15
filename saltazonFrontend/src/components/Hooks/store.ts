@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface ProductInterface {
+export interface ProductInterface {
   id: number,
   title: string,
   description: string,
@@ -89,7 +89,6 @@ const useStore = create<Store>(set => ({
       });
       const products = await response.json();
       set(state => ({ ...state, products: products }))
-      console.log(products)
     } catch (error) {
       console.error(error)
     }
