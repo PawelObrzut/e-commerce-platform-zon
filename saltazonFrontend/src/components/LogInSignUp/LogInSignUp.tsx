@@ -1,7 +1,10 @@
 import './LogInSignUp.css';
 import { useState } from 'react';
+import useStore from '../Hooks/store';
 
 const LogInSignUp = () => {
+  const store = useStore();
+
   const [btnState, setBtnState] = useState(false);
 
   const handleClickButton = () => {
@@ -38,9 +41,9 @@ const LogInSignUp = () => {
         <div className={`frontbox ${moving}`}>
           <div className={`login ${logInHide}`}>
             <h2>LOG IN</h2>
-            <form>
-              <input placeholder={"email"} />
-              <input type="password" placeholder={"password"} />
+            <form onSubmit={store.handleLogIn}>
+              <input onChange={(event) => store.setEmail(event.target.value)} placeholder={"email"} />
+              <input onChange={(event) => store.setPassword(event.target.value)} type="password" placeholder={"password"} />
               <input className="submit--form" type={"submit"} value="LogIn" />
             </form>
           </div>

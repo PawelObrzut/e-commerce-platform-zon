@@ -74,6 +74,15 @@
   margin-top: 1rem;
   cursor: pointer;
   font-family: 'Special Elite', cursive;
+  transition: 0.2s;
+}
+
+.loginMsg button:hover,
+.signupMsg button:hover {
+  color: #35B729;
+  border-color: #35B729;
+  background-color: #e8e6e6;
+  transition: 0.2s;
 }
 
 .login, 
