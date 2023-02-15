@@ -50,11 +50,11 @@ const LogInSignUp = () => {
 
           <div className={`signup ${signUpHide}`}>
             <h2>SIGN UP</h2>
-              <form>
-                <input placeholder={"email"} />
-                <input placeholder={"password"} />
+              <form onSubmit={store.handleSignUp}>
+                <input onChange={(event) => store.setEmail(event.target.value)} placeholder={"email"} />
+                <input onChange={(event) => store.setPassword(event.target.value)} type="password" placeholder={"password"} />
                 <input placeholder={"confirm password"} />
-                <select className="form--select" placeholder={"user"} >
+                <select onChange={(event) => store.setRole(event.target.value)} className="form--select" placeholder={"user"} >
                   <option value={"user"}>User</option>
                   <option value={"admin"}>Admin</option>
                 </select>
