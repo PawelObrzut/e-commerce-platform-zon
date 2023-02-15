@@ -2,7 +2,11 @@
   display: flex;
   border-bottom: 0.2rem solid #000;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 1rem 11rem;
+  color: #fff;
+  background-image: url('./images/vadim-sherbakov-tCICLJ5ktBE-unsplash.jpg');
+  background-position: top;
+  background-size: cover;
 }
 
 .navigation--sections {

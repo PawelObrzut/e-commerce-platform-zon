@@ -1,24 +1,24 @@
+import './ProductList.css'
+import Product from './subComponents/Product/Product'
+import useStore from '../Hooks/store';
+import { useEffect } from 'react';
+
 const ProductList = () => {
+  const store = useStore();
+
+  useEffect(() => {
+    store.fetchProducts();
+  },[])
+
   return (
-    <div>
-      <ul>
-        <li>
-          Item
-        </li>
-        <li>
-          Item
-        </li>
-        <li>
-          Item
-        </li>
-        <li>
-          Item
-        </li>
-        <li>
-          Item
-        </li>
-      </ul>
-    </div>
+    <main className="products--container">
+      <Product />
+      <Product />
+      <Product />
+      <Product />
+      <Product />
+      <Product />
+    </main>
   )
 }
 
