@@ -1,10 +1,10 @@
-import useStore from '../Hooks/store';
+import useStore from '../../../Hooks/store';
 
 const SignUp = () => {
   const store = useStore();
 
   return (
-    <div className="signup">
+    <div className="frontbox--content">
       <h2>SIGN UP</h2>
       <form onSubmit={store.handleSignUp}>
         <input onChange={(event) => store.setEmail(event.target.value)} placeholder={"email"} />
