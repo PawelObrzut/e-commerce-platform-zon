@@ -19,7 +19,7 @@ const SignUp = () => {
   })
 
   const store = useStore(); 
-  const { register, handleSubmit, reset } = useForm<SignUpFormInterface>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<SignUpFormInterface>({
     resolver: yupResolver(schema)
   });
 
@@ -32,9 +32,26 @@ const SignUp = () => {
     <div className="frontbox--content">
       <h2>SIGN UP</h2>
       <form onSubmit={handleSubmit(submitSignUp)}>
-        <input placeholder={"email"} {...register("email")}/>
-        <input type="password" placeholder={"password"} {...register("password")} />
-        <input type="password" placeholder={"confirm password"} {...register("confirmPassword")} />
+        <input 
+          placeholder={"email"} 
+          {...register("email")}
+          className={`${errors.email ? 'invalid': null}`}
+        />
+
+        <input 
+          type="password" 
+          placeholder={"password"} 
+          {...register("password")} 
+          className={`${errors.password ? 'invalid': null}`}
+        />
+
+        <input 
+          type="password" 
+          placeholder={"confirm password"} 
+          {...register("confirmPassword")} 
+          className={`${errors.confirmPassword ? 'invalid': null}`}
+        />
+        
         <select className="form--select" placeholder={"user"} {...register("role")}>
           <option value={"user"}>User</option>
           <option value={"admin"}>Admin</option>

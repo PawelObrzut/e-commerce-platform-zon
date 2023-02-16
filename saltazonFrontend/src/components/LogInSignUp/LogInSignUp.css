@@ -143,3 +143,9 @@ input[type="submit"]:hover {
 .hide{
   display: none;
 }
+
+.invalid:focus {
+  outline: solid red;
+  border-radius: 0.2rem;
+  color: red;
+}

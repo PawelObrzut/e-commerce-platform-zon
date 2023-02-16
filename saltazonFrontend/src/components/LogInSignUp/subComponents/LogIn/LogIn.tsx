@@ -15,7 +15,7 @@ const LogIn = () => {
   })
 
   const store = useStore();
-  const { register, handleSubmit, reset } = useForm<LogInFormInterface>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<LogInFormInterface>({
     resolver: yupResolver(schema)
   });
 
@@ -28,9 +28,23 @@ const LogIn = () => {
     <div className="frontbox--content">
       <h2>LOG IN</h2>
       <form onSubmit={handleSubmit(sumbitLogIn)}>
-        <input placeholder={"email"} {...register("email")} />
-        <input type="password" placeholder={"password"} {...register("password")} />
-        <input className="submit--form" type={"submit"} value="LogIn" />
+        <input 
+          placeholder={"email"} 
+          {...register("email")} 
+          className={`${errors.email ? 'invalid': null}`}
+        />
+
+        <input 
+          type="password" placeholder={"password"} 
+          {...register("password")} 
+          className={`${errors.password ? 'invalid': null}`}
+        />
+        
+        <input 
+          className="submit--form" 
+          type={"submit"} 
+          value="LogIn" 
+        />
       </form>
     </div>
   );

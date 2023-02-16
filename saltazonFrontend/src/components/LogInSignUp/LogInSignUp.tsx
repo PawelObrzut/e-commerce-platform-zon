@@ -17,14 +17,14 @@ const LogInSignUp = () => {
           <BackboxContent
             handleClickButton={handleClickButton}
             title="Don't have an account?"
-            paragraphText="Sign up to browse through saltazon"
+            paragraphText="Sign up to browse through saltazon."
             buttonText="Sign up"
           />
           <BackboxContent
             handleClickButton={handleClickButton}
-            title="Don't have an account?"
-            paragraphText="Sign up to browse through saltazon"
-            buttonText="Sign up"
+            title="Have an account?"
+            paragraphText="Log in to see all our collections."
+            buttonText="Log in"
           />
         </div>
 
