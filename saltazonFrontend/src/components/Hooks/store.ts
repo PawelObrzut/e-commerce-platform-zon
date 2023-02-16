@@ -22,6 +22,8 @@ type Store = {
   handleSignUp: (event: React.FormEvent<HTMLFormElement>) => Promise<void>,
   products: ProductInterface[],
   fetchProducts: () => Promise<void>,
+  logIn: (email: string, password: string) => Promise<void>,
+  signUp: (email: string, password: string, role: string) => Promise<void>,
 }
 
 const useStore = create<Store>(set => ({
@@ -92,7 +94,43 @@ const useStore = create<Store>(set => ({
     } catch (error) {
       console.error(error)
     }
-  }
+  },
+
+  logIn: async (email, password) => {
+    try {
+      const response = await fetch('http://localhost:8080/user/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      });
+      const credentials = await response.json();
+      console.log(credentials);
+
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  signUp: async (email, password, role) => {
+    try {
+      const response = await fetch('http://localhost:8080/user/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            email,
+            password,
+            role,
+            storeId: null
+        })
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error(error)
+    }
+  },
 }))
 
 export default useStore;
