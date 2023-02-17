@@ -5,7 +5,9 @@ import LogInSignUp from './components/LogInSignUp/LogInSignUp';
 import Navigation from './components/Navigation/Navigation';
 import Footer from './components/Footer/Footer';
 import ProductList from './components/ProductList/ProductList';
+import Cart from './components/Cart/Cart';
 import PrivateRoutes from './components/utils/PrivateRoutes';
+
 
 function App() {
   return (
@@ -19,10 +21,13 @@ function App() {
         ></Route>
 
         <Route element={<PrivateRoutes />} >
-          <Route element={<ProductList />} path='/' ></Route>
+          <Route element={<ProductList />} path='/'></Route>
         </Route>
 
-        
+        <Route 
+          path='/cart' 
+          element={<Cart />}
+        ></Route>
       </Routes>
       <Footer />
     </>

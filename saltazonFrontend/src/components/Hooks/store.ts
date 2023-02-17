@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import Cookies from 'js-cookie';
 
 export interface ProductInterface {
   id: number,
@@ -12,10 +13,6 @@ export interface ProductInterface {
 }
 
 type Store = {
-  token: string,
-  expiresIn: number,
-  authenticated: boolean,
-  userEmail: string,
   products: ProductInterface[],
   fetchProducts: () => Promise<void>,
   logIn: (email: string, password: string) => Promise<void>,
@@ -24,20 +21,15 @@ type Store = {
 }
 
 const useStore = create<Store>(set => ({
-  token: '',
-  expiresIn: 0,
-  authenticated: false,
-  userEmail: '',
-  updateToken: (token, expiresIn) => set(state => ({ ...state, token, expiresIn })),
-
   products: [] as ProductInterface[],
   fetchProducts: async () => {
     try {
+      const token = Cookies.get('token');
       const response = await fetch('http://localhost:8080/product', {
         method: 'GET',
         headers: { 
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTA2LCJlbWFpbCI6ImJhYnlKQHdha2FuZGEuY29tIiwicm9sZSI6ImFkbWluIiwic3RvcmVJZCI6bnVsbCwiaWF0IjoxNjc2NDcyMjkzfQ.2-7xRp5aZgnScCxvdXZ5DPPprKGjWAJ_ipHPRYq5TI8'
+          'Authorization': `Bearer ${token}`
         }
       });
       const products = await response.json();
@@ -46,7 +38,6 @@ const useStore = create<Store>(set => ({
       console.error(error)
     }
   },
-
   logIn: async (email, password) => {
     try {
       const response = await fetch('http://localhost:8080/user/login', {
@@ -58,18 +49,11 @@ const useStore = create<Store>(set => ({
         })
       });
       const credentials = await response.json();
-      console.log(credentials);
-      set(state => ({ 
-        ...state, 
-        authenticated: true,
-        token: credentials.refreshToken,
-        expiresIn: credentials.expiresIn,
-        userEmail: credentials.email
-      }));
-
-      setTimeout(() => {
-        window.location.href = '/';
-      }, 1000);
+      const expires = new Date();
+      expires.setTime(expires.getTime() + credentials.expiresIn * 60 * 60 * 1000);
+      Cookies.set('token', credentials.refreshToken, { expires });
+      Cookies.set('email', email, { expires });
+      window.location.href = '/';
     } catch (error) {
       console.error(error);
     }
@@ -92,6 +76,7 @@ const useStore = create<Store>(set => ({
       console.error(error)
     }
   },
+  updateToken: (token, expiresIn) => set(state => ({ ...state, token, expiresIn })),
 }))
 
 export default useStore;

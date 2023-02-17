@@ -1,11 +1,11 @@
-import useStore from '../Hooks/store';
 import { Outlet, Navigate } from 'react-router-dom'
+import Cookies from 'js-cookie';
 
 const PrivateRoutes = () => {
-    const store = useStore();
+    const token = Cookies.get('token');
 
     return(
-        store.authenticated ? <Outlet/> : <Navigate to="/login" />
+        token ? <Outlet/> : <Navigate to="/login" />
     )
 }
 
