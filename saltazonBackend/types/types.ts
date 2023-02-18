@@ -15,3 +15,23 @@ export interface RequestUser extends Request {
     password?: string
   }
 }
+
+export interface ProductInterface {
+  id: number,
+  title: string,
+  description: string,
+  imageUrl: string,
+  storeId: number,
+  price: string,
+  quantity: number,
+  category: string
+}
+
+export interface PaginatedData {
+  limit?: number,
+  page?: number,
+  next?: number,
+  previous?: number,
+  count?: number,
+  responseData: ProductInterface[]
+}
