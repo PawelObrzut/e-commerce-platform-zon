@@ -14,18 +14,30 @@ export interface ProductInterface {
 
 type Store = {
   products: ProductInterface[],
-  fetchProducts: () => Promise<void>,
+  previousPage: number | undefined,
+  currentPage: number | undefined,
+  nextPage: number | undefined,
+  numberOfProducts: number | undefined,
+  limit: number | undefined,
+  fetchProducts: (page: string) => Promise<void>,
   logIn: (email: string, password: string) => Promise<void>,
   signUp: (email: string, password: string, role: string) => Promise<void>,
   updateToken: (token: string, expiresIn: number) => void,
+  handlePreviousPage: () => void,
+  handleNextPage: () => void
 }
 
 const useStore = create<Store>(set => ({
   products: [] as ProductInterface[],
-  fetchProducts: async () => {
+  previousPage: undefined,
+  currentPage: undefined,
+  nextPage: undefined,
+  numberOfProducts: undefined,
+  limit: undefined,
+  fetchProducts: async (page) => {
     try {
       const token = Cookies.get('token');
-      const response = await fetch('http://localhost:8080/product', {
+      const response = await fetch(`http://localhost:8080/product?page=${page}&limit=12`, {
         method: 'GET',
         headers: { 
           'Content-Type': 'application/json',
@@ -33,7 +45,15 @@ const useStore = create<Store>(set => ({
         }
       });
       const products = await response.json();
-      set(state => ({ ...state, products: products }))
+      set(state => ({
+        ...state,
+        products: products.responseData,
+        previousPage: products.previous,
+        nextPage: products.next,
+        numberOfProducts: products.count,
+        limit: products.limit,
+        currentPage: products.page
+      }))
     } catch (error) {
       console.error(error)
     }
@@ -77,6 +97,19 @@ const useStore = create<Store>(set => ({
     }
   },
   updateToken: (token, expiresIn) => set(state => ({ ...state, token, expiresIn })),
+
+  handlePreviousPage: () => {
+    const prev = useStore.getState().previousPage;
+    if (prev) {
+      useStore.getState().fetchProducts(prev.toString());
+    }
+  },
+  handleNextPage: () => {
+    const next = useStore.getState().nextPage;
+    if (next) {
+      useStore.getState().fetchProducts(next.toString());
+    }
+  }
 }))
 
 export default useStore;
