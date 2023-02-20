@@ -7,7 +7,7 @@ import Footer from './components/Footer/Footer';
 import ProductList from './components/ProductList/ProductList';
 import Cart from './components/Cart/Cart';
 import PrivateRoutes from './components/utils/PrivateRoutes';
-
+import ProductPage from './components/ProductPage/ProductPage';
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
 
         <Route element={<PrivateRoutes />} >
           <Route element={<ProductList />} path='/'></Route>
+          <Route path="/:id" element={<ProductPage />} />
         </Route>
 
         <Route 

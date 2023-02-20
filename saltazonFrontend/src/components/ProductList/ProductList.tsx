@@ -9,11 +9,13 @@ const ProductList = () => {
 
   useEffect(() => {
     store.fetchProducts('1');
-    console.log('once')
   }, []);
 
   return (
     <>
+      <section className="products--search">
+        <input className="products--search__input" type="text" placeholder="Search..."></input>
+      </section>
       <main className="products--container">
         {
           store.products.map((product) => (

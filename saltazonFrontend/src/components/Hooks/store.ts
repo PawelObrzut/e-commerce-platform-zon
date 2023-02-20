@@ -12,7 +12,13 @@ export interface ProductInterface {
   category: string
 }
 
+interface CartItem {
+  id: number,
+  quantity: number
+}
+
 type Store = {
+  cart: CartItem[],
   products: ProductInterface[],
   previousPage: number | undefined,
   currentPage: number | undefined,
@@ -24,10 +30,14 @@ type Store = {
   signUp: (email: string, password: string, role: string) => Promise<void>,
   updateToken: (token: string, expiresIn: number) => void,
   handlePreviousPage: () => void,
-  handleNextPage: () => void
+  handleNextPage: () => void,
+  product: ProductInterface,
+  setProduct: (id: number) => void,
+  addToCart: (id: number) => void
 }
 
 const useStore = create<Store>(set => ({
+  cart: [] as CartItem[],
   products: [] as ProductInterface[],
   previousPage: undefined,
   currentPage: undefined,
@@ -109,6 +119,38 @@ const useStore = create<Store>(set => ({
     if (next) {
       useStore.getState().fetchProducts(next.toString());
     }
+  },
+
+  product: {} as ProductInterface,
+  setProduct: (id) => {
+    const product = useStore.getState().products.find(product => product.id === id);
+    if (product) {
+      set(state => ({
+        ...state,
+        product
+      }));
+    }
+  },
+  
+  addToCart: (id) => {
+    const cartItem = useStore.getState().cart.find(product=> product.id === id);
+    if (cartItem === undefined) {
+      set(state => ({
+        ...state,
+        cart: [...state.cart, { id, quantity: 1 }]
+      }))
+    } else {
+      set(state => ({
+        ...state,
+        cart: state.cart.map(item => {
+          if (item.id === id) {
+            return { ...item, quantity: item.quantity + 1 };
+          }
+          return item;
+        })
+      }))
+    }
+    console.log(useStore.getState().cart);
   }
 }))
 

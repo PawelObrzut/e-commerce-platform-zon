@@ -1,0 +1,26 @@
+.product--page {
+
+  margin: 0 auto;
+  padding: 5rem 0;
+  display: flex;
+  background-color: #ddd;
+}
+
+.product--page__img {
+  width: 50%;
+  padding-left: 3rem;
+}
+
+.product--page__img img {
+  width: 100%;
+}
+
+.product--page__article {
+  width: 48%;
+  padding-left: 2rem;
+}
+
+.product--page__buy {
+  width: 10rem;
+  height: 3rem;
+}

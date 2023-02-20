@@ -1,0 +1,7 @@
+.cart {
+  height: 40vh;
+  width: 100%;
+  border: solid 1px red;
+  background-color: #ddd;
+  text-align: center;
+}

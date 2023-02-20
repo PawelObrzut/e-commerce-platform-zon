@@ -1,21 +1,25 @@
 import './Product.css';
-import { ProductInterface } from '../../../Hooks/store';
+import useStore, { ProductInterface } from '../../../Hooks/store';
+import { Link } from 'react-router-dom';
 
 const Product = ({ id, title, description, imageUrl, storeId, price, quantity, category}: ProductInterface) => {
+  const store = useStore();
+  
   return (
-    <article className="product">
-      <img className="product--photo__img" src={imageUrl} alt={title} />
-        <div className="product--cathegory">
-          <span>{category}</span>
-        </div>
-        <h3 className="product--title">{title}</h3>
-        <p className="product--description">{description}</p>
-        <div className="product--footer">
-          <div className="product--price"><span>{price}</span></div>
-          <div className="product--quantity"><span>{quantity}</span></div>
-          <div className="product--addToBasket"><span>Add to basket</span></div>
-        </div>
-    </article>
+    <Link to={`/${id}`} style={{ textDecoration: 'none' }} onClick={() => store.setProduct(id)}>
+      <article className="product">
+        <img className="product--photo__img" src={imageUrl} alt={title} />
+          <div className="product--cathegory">
+            <span>{category}</span>
+          </div>
+          <h3 className="product--title">{title}</h3>
+          <p className="product--description">{description}</p>
+          <div className="product--footer">
+            <div className="product--price"><span>Price: {price}</span></div>
+            <div className="product--quantity"><span>In stock: {quantity}</span></div>
+          </div>
+      </article>
+    </Link>
   )
 }
 

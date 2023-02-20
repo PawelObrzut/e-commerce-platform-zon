@@ -1,0 +1,22 @@
+.footer {
+  height: 13vh;
+  background-image: url('../../images/vadim-sherbakov-tCICLJ5ktBE-unsplash.jpg');
+  background-position: bottom;
+  background-size: cover;
+  padding: 2rem;
+}
+
+.footer--links a {
+  color: rgb(180, 180, 180);
+  padding: 0.2rem 1rem;
+  text-decoration: none;
+  border-right: solid 0.15rem #3e3e3e;
+}
+
+.footer--links a:hover {
+  text-decoration: underline;
+}
+
+.footer--links a:last-child {
+  border-right: none;
+}

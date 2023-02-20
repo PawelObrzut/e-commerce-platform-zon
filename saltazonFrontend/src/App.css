@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .header {
   display: flex;
   border-bottom: 0.2rem solid #000;
@@ -15,7 +19,7 @@
   margin: 0;
   display: flex;
   justify-content: space-around;
-  border-bottom: 0.2rem solid #000;
+
 }
 
 .navigation--sections li {
@@ -24,10 +28,6 @@
 
 .navigation--sections a {
   text-decoration: none;
-}
-
-.navigation--sections a:hover {
-  text-decoration: underline;
 }
 
 .footer {
