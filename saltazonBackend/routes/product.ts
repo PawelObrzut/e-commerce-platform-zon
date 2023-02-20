@@ -1,4 +1,5 @@
-import express, { Request, Response } from 'express';
+import express, { Request } from 'express';
+import { Response } from 'express-serve-static-core';
 import paginate from '../middlewares/paginate';
 import authenticateToken from '../middlewares/authenticateToken';
 const router = express.Router();

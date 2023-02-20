@@ -33,5 +33,9 @@ export interface PaginatedData {
   next?: number,
   previous?: number,
   count?: number,
-  responseData: ProductInterface[]
+  responseData?: ProductInterface[]
+}
+
+export interface ResponseWithData extends Response {
+  respondWithData?: PaginatedData
 }

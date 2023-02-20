@@ -1,11 +1,8 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, NextFunction } from "express";
+import { Response } from 'express-serve-static-core';
 import { PaginatedData } from '../types/types';
 
-interface ResponseWithData extends Response {
-  respondWithData?: PaginatedData
-}
-
-const paginate = async (req: Request, res: ResponseWithData, next: NextFunction) => {
+const paginate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { page = '1', limit = '10' } = req.query;
     const startIndex = (+page - 1) * +limit;
