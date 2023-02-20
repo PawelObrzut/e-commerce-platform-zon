@@ -152,6 +152,7 @@ const useStore = create<Store>(set => ({
     const cart = localStorage.getItem('cart');
     if (cart) {
       const cartLocalStorage: CartItem[] = JSON.parse(cart);
+      
       const updatedCart = cartLocalStorage.filter(item => item.id !== id);
       localStorage.setItem('cart', JSON.stringify(updatedCart));
     }

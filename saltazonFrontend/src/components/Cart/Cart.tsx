@@ -6,10 +6,16 @@ const Cart = () => {
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart') || '[]'));
 
   const removeFromCart = (id: number) => {
-    const updatedCart = cart.filter((item: CartItem) => item.id !== id);
+    const updatedCart = cart.map((item: CartItem) => {
+      if (item.id === id) {
+        return { ...item, quantity: item.quantity - 1 };
+      }
+      return item;
+    }).filter((item: CartItem) => item.quantity > 0);
+
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     setCart(updatedCart);
-  }
+  };
 
   return (
     <section className="cart">
