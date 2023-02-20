@@ -12,13 +12,13 @@ export interface ProductInterface {
   category: string
 }
 
-interface CartItem {
+export interface CartItem {
   id: number,
   quantity: number
 }
 
 type Store = {
-  cart: CartItem[],
+
   products: ProductInterface[],
   previousPage: number | undefined,
   currentPage: number | undefined,
@@ -33,11 +33,12 @@ type Store = {
   handleNextPage: () => void,
   product: ProductInterface,
   setProduct: (id: number) => void,
-  addToCart: (id: number) => void
+  addToCart: (id: number) => void,
+  removeFromCart: (id: number) => void
 }
 
 const useStore = create<Store>(set => ({
-  cart: [] as CartItem[],
+
   products: [] as ProductInterface[],
   previousPage: undefined,
   currentPage: undefined,
@@ -132,26 +133,32 @@ const useStore = create<Store>(set => ({
     }
   },
   
-  addToCart: (id) => {
-    const cartItem = useStore.getState().cart.find(product=> product.id === id);
+  addToCart: (id: number) => {
+    const cart = localStorage.getItem('cart');
+    const cartLocalStorage: CartItem[] = cart ? JSON.parse(cart) : [];
+  
+    const cartItem = cartLocalStorage.find(item => item.id === id);
     if (cartItem === undefined) {
-      set(state => ({
-        ...state,
-        cart: [...state.cart, { id, quantity: 1 }]
-      }))
+      cartLocalStorage.push({ id, quantity: 1 });
     } else {
-      set(state => ({
-        ...state,
-        cart: state.cart.map(item => {
-          if (item.id === id) {
-            return { ...item, quantity: item.quantity + 1 };
-          }
-          return item;
-        })
-      }))
+      cartItem.quantity += 1;
     }
-    console.log(useStore.getState().cart);
-  }
+
+    const updatedCartData = JSON.stringify(cartLocalStorage);
+    localStorage.setItem('cart', updatedCartData);
+  },
+
+  removeFromCart: (id: number) => {
+    const cart = localStorage.getItem('cart');
+    if (cart) {
+      const cartLocalStorage: CartItem[] = JSON.parse(cart);
+      const updatedCart = cartLocalStorage.filter(item => item.id !== id);
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+    }
+  },
+
+
+  
 }))
 
 export default useStore;
