@@ -1,8 +1,10 @@
 import './ProductPage.css';
 import useStore from '../Hooks/store';
+import { useShoppingCart } from '../Hooks/ShopptingCartContext';
 
 const ProductPage = () => {
   const store = useStore();
+  const { addToCart } = useShoppingCart();
 
   return (
     <article className="product--page">
@@ -16,7 +18,7 @@ const ProductPage = () => {
         <p>Price: {store.product.price}</p>
         <p>Quantity: {store.product.quantity}</p>
 
-        <button className="product--page__buy" onClick={() => store.addToCart(store.product.id)}>Add To Basket</button>
+        <button className="product--page__buy" onClick={() => addToCart(store.product.id)}>Add To Cart</button>
       </div>
     </article>
   )

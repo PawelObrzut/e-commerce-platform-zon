@@ -25,10 +25,12 @@ function App() {
           <Route path="/:id" element={<ProductPage />} />
         </Route>
 
-        <Route 
-          path='/cart' 
-          element={<Cart />}
-        ></Route>
+        <Route element={<PrivateRoutes />} >
+          <Route 
+            path='/cart' 
+            element={<Cart />}
+          ></Route>
+        </Route>
       </Routes>
       <Footer />
     </>

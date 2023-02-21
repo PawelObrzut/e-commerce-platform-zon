@@ -18,7 +18,6 @@ export interface CartItem {
 }
 
 type Store = {
-
   products: ProductInterface[],
   previousPage: number | undefined,
   currentPage: number | undefined,
@@ -34,11 +33,9 @@ type Store = {
   product: ProductInterface,
   setProduct: (id: number) => void,
   addToCart: (id: number) => void,
-  removeFromCart: (id: number) => void
 }
 
 const useStore = create<Store>(set => ({
-
   products: [] as ProductInterface[],
   previousPage: undefined,
   currentPage: undefined,
@@ -132,7 +129,7 @@ const useStore = create<Store>(set => ({
       }));
     }
   },
-  
+
   addToCart: (id: number) => {
     const cart = localStorage.getItem('cart');
     const cartLocalStorage: CartItem[] = cart ? JSON.parse(cart) : [];
@@ -143,23 +140,10 @@ const useStore = create<Store>(set => ({
     } else {
       cartItem.quantity += 1;
     }
-
     const updatedCartData = JSON.stringify(cartLocalStorage);
     localStorage.setItem('cart', updatedCartData);
-  },
+  }
 
-  removeFromCart: (id: number) => {
-    const cart = localStorage.getItem('cart');
-    if (cart) {
-      const cartLocalStorage: CartItem[] = JSON.parse(cart);
-      
-      const updatedCart = cartLocalStorage.filter(item => item.id !== id);
-      localStorage.setItem('cart', JSON.stringify(updatedCart));
-    }
-  },
-
-
-  
 }))
 
 export default useStore;
