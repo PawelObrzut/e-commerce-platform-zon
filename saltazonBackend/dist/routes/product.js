@@ -17,7 +17,17 @@ const paginate_1 = __importDefault(require("../middlewares/paginate"));
 const authenticateToken_1 = __importDefault(require("../middlewares/authenticateToken"));
 const router = express_1.default.Router();
 router.get('/', authenticateToken_1.default, paginate_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(res.respondWithData);
     return res.status(200).json(res.respondWithData);
+}));
+router.get('/:id', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const product = yield (yield fetch(`http://localhost:8000/api/product/${req.params.id}`)).json();
+        if (product) {
+            return res.status(200).json(product.data);
+        }
+    }
+    catch (error) {
+        return res.status(500).send();
+    }
 }));
 exports.default = router;
