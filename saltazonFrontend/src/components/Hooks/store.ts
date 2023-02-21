@@ -32,7 +32,6 @@ type Store = {
   handleNextPage: () => void,
   product: ProductInterface,
   setProduct: (id: number) => void,
-  addToCart: (id: number) => void,
 }
 
 const useStore = create<Store>(set => ({
@@ -129,20 +128,6 @@ const useStore = create<Store>(set => ({
       }));
     }
   },
-
-  addToCart: (id: number) => {
-    const cart = localStorage.getItem('cart');
-    const cartLocalStorage: CartItem[] = cart ? JSON.parse(cart) : [];
-  
-    const cartItem = cartLocalStorage.find(item => item.id === id);
-    if (cartItem === undefined) {
-      cartLocalStorage.push({ id, quantity: 1 });
-    } else {
-      cartItem.quantity += 1;
-    }
-    const updatedCartData = JSON.stringify(cartLocalStorage);
-    localStorage.setItem('cart', updatedCartData);
-  }
 
 }))
 

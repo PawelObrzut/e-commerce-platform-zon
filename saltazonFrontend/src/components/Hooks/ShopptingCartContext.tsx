@@ -23,7 +23,7 @@ export const ShoppingCartProvider = ({ children }: CartProviderProps) => {
   const addToCart = (id: number) => {
     setCartItems(items => {
       if (items.find(item => item.id === id) === undefined) {
-        return [...items, { id, quantity: 1 }];
+        return [...items, { id, quantity: 1}];
       }
       return items.map(item => {
         if (item.id === id) {
