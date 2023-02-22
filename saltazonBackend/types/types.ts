@@ -12,7 +12,9 @@ export interface RequestUser extends Request {
   user?: {
     id?: number,
     email?: string,
-    password?: string
+    password?: string,
+    role?: string,
+    storeId?: number | null
   }
 }
 

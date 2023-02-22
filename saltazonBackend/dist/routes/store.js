@@ -13,33 +13,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const paginate_1 = __importDefault(require("../middlewares/paginate"));
 const authenticateToken_1 = __importDefault(require("../middlewares/authenticateToken"));
 const router = express_1.default.Router();
-router.get('/', authenticateToken_1.default, paginate_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    return res.status(200).json(res.respondWithData);
+router.get('/', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    return res.status(200).json({ message: "don't try, do!" });
 }));
 router.get('/:id', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const product = yield (yield fetch(`http://localhost:8000/api/product/${req.params.id}`)).json();
-        if (product) {
-            return res.status(200).json(product.data);
+        const storeResponse = yield fetch(`http://localhost:8000/api/store/${req.params.id}`);
+        const storeData = yield storeResponse.json();
+        const productResponse = yield fetch('http://localhost:8000/api/product');
+        const productData = yield productResponse.json();
+        const filteredProducts = productData.data.filter((product) => product.storeId === parseInt(req.params.id));
+        if (storeData && filteredProducts) {
+            return res.status(200).json({
+                store: storeData.data.name,
+                products: filteredProducts,
+            });
         }
-    }
-    catch (error) {
-        return res.status(500).send();
-    }
-}));
-router.delete('/:id', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        fetch(`http://localhost:8000/api/product/${req.params.id}`, {
-            method: 'DELETE'
-        })
-            .then(response => response.json())
-            .then(data => {
-            console.log(data);
-        });
-        return res.status(204).send();
     }
     catch (error) {
         return res.status(500).send();

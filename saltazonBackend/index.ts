@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import userRouter from './routes/user';
 import productRouter from './routes/product';
+import storeRouter from './routes/store';
 import passport from 'passport';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -24,6 +25,7 @@ morgan.token('date', () =>  moment().tz('Europe/Stockholm').format('YYYY-MM-DD H
 app.use(morgan('Type :method, Date [:date[Europe/Stockholm]], StatusCode :status', { stream: accessLogStream }));
 app.use('/user', userRouter);
 app.use('/product', productRouter);
+app.use('/store', storeRouter);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Index');

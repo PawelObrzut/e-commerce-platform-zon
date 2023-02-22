@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const user_1 = __importDefault(require("./routes/user"));
 const product_1 = __importDefault(require("./routes/product"));
+const store_1 = __importDefault(require("./routes/store"));
 const passport_1 = __importDefault(require("passport"));
 const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
@@ -26,6 +27,7 @@ morgan_1.default.token('date', () => (0, moment_timezone_1.default)().tz('Europe
 app.use((0, morgan_1.default)('Type :method, Date [:date[Europe/Stockholm]], StatusCode :status', { stream: accessLogStream }));
 app.use('/user', user_1.default);
 app.use('/product', product_1.default);
+app.use('/store', store_1.default);
 app.get('/', (req, res) => {
     res.send('Index');
 });

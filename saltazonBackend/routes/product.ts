@@ -19,4 +19,19 @@ router.get('/:id', authenticateToken, async (req: Request, res: Response) => {
   }
 })
 
+router.delete('/:id', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    fetch(`http://localhost:8000/api/product/${req.params.id}`,{
+      method: 'DELETE'
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+      })
+    return res.status(204).send()
+  } catch(error) {
+    return res.status(500).send();
+  }
+})
+
 export default router;
