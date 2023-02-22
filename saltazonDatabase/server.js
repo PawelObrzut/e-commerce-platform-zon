@@ -164,9 +164,21 @@ app.get("/api/product/:id", (req, res, next) => {
     });
 });
 
+app.delete("/api/product/:id", (req, res, next) => {
+    const sql = "DELETE FROM ProductData WHERE id = ?";
+    const params = [req.params.id];
+    db.run(sql, params, function (err, result) {
+            if (err){
+                res.status(400).json({"error": res.message})
+                return;
+            }
+            res.json({"message":"deleted"})
+        });
+})
+
 //get specific store by id
 app.get("/api/store/:id", (req, res, next) => {
-    const sql = "select * from StoreData where id = ?";
+    const sql = "select * from StoreData where uniqueStoreId = ?";
     const params = [req.params.id];
     db.get(sql, params, (err, row) => {
         if (err) {
