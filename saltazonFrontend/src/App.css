@@ -2,23 +2,6 @@
   box-sizing: border-box;
 }
 
-.header {
-  display: flex;
-  border-bottom: 0.2rem solid #000;
-  justify-content: space-between;
-  padding: 1rem 11rem;
-  color: #fff;
-  background-image: url('./images/vadim-sherbakov-tCICLJ5ktBE-unsplash.jpg');
-  background-position: top;
-  background-size: cover;
-}
-
-.logOut--btn {
-  height: 2rem;
-  width: 5rem;
-  cursor: pointer;
-}
-
 .navigation--sections {
   list-style: none;
   padding: 0;

@@ -80,6 +80,10 @@ const useStore = create<Store>(set => ({
       expires.setTime(expires.getTime() + credentials.expiresIn * 60 * 60 * 1000);
       Cookies.set('token', credentials.refreshToken, { expires });
       Cookies.set('email', email, { expires });
+      Cookies.set('role', credentials.role, { expires });
+      if (credentials.storeId) {
+        Cookies.set('storeId', credentials.storeId, { expires });
+      }
       window.location.href = '/';
     } catch (error) {
       console.error(error);

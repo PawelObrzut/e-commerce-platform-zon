@@ -8,6 +8,7 @@ import ProductList from './components/ProductList/ProductList';
 import Cart from './components/Cart/Cart';
 import PrivateRoutes from './components/utils/PrivateRoutes';
 import ProductPage from './components/ProductPage/ProductPage';
+import StorePage from './components/StorePage/StorePage';
 
 function App() {
   return (
@@ -31,6 +32,14 @@ function App() {
             element={<Cart />}
           ></Route>
         </Route>
+
+        <Route element={<PrivateRoutes />} >
+          <Route 
+            path='/store' 
+            element={<StorePage />}
+          ></Route>
+        </Route>
+
       </Routes>
       <Footer />
     </>
