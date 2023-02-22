@@ -13,6 +13,12 @@
   background-size: cover;
 }
 
+.logOut--btn {
+  height: 2rem;
+  width: 5rem;
+  cursor: pointer;
+}
+
 .navigation--sections {
   list-style: none;
   padding: 0;
