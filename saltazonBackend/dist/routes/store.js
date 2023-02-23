@@ -36,4 +36,30 @@ router.get('/:id', authenticateToken_1.default, (req, res) => __awaiter(void 0, 
         return res.status(500).send();
     }
 }));
+router.post('/:id/product', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
+    try {
+        fetch(`http://localhost:8000/api/product`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                title: req.body.title,
+                description: req.body.description,
+                imageUrl: req.body.imageUrl,
+                price: req.body.price,
+                quantity: req.body.quantity,
+                category: req.body.category,
+                storeId: req.body.storeId
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+            console.log(data);
+            return res.status(201).json({ message: 'new has been product created' });
+        });
+    }
+    catch (error) {
+        return res.status(500).send();
+    }
+}));
 exports.default = router;
