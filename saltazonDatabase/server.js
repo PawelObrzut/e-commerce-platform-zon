@@ -148,6 +148,57 @@ app.get("/api/product", (req, res, next) => {
     });
 });
 
+app.post("/api/product", (req, res, next) => {
+    const errors=[];
+    if (!req.body.title){
+        errors.push("No title specified");
+    }
+    if (!req.body.description){
+        errors.push("No description specified");
+    }
+    if (!req.body.imageUrl){
+        errors.push("No imageUrl specified");
+    }
+    if (!req.body.price){
+        errors.push("No price specified");
+    }
+    if (!req.body.quantity){
+        errors.push("No quantity specified");
+    }
+    if (!req.body.category){
+        errors.push("No category specified");
+    }
+    if (!req.body.storeId){
+        errors.push("No storeId specified");
+    }
+    if (errors.length){
+        res.status(400).json({"error":errors.join(",")});
+        return;
+    }
+    const data = {
+        title: req.body.title,
+        description : req.body.description,
+        imageUrl: req.body.imageUrl,
+        price: req.body.price,
+        quantity: req.body.quantity,
+        category: req.body.category,
+        storeId: req.body.storeId
+    }
+    const sql = "INSERT INTO ProductData (title, description, imageUrl, price, quantity, category, storeId) VALUES (?,?,?,?,?,?,?)"
+    const params = [data.title, data.description, data.imageUrl, data.price, data.quantity, data.category, data.storeId];
+    db.run(sql, params, function (err, result) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": data,
+            "id" : this.lastID
+        })
+    });
+})
+
 //Get specific product by id endpoint
 app.get("/api/product/:id", (req, res, next) => {
     const sql = "select * from ProductData where id = ?";
