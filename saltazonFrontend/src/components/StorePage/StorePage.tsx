@@ -58,7 +58,17 @@ const StorePage = () => {
   const { register, handleSubmit, reset } = useForm<AddProductInterface>()
 
   const handleSubmitNewProduct = ({title, description, imageUrl, price, quantity, category}: AddProductInterface) => {
-    console.log(title, description, imageUrl, price, quantity, category);
+    fetch(`http://localhost:8080/store/${storeId}/product`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        title, description, imageUrl, price, quantity, category, storeId
+      })
+    })
+      .then(() => getProducts(storeId, token))
     reset();
   }
 
