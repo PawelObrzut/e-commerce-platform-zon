@@ -27,19 +27,10 @@ router.get('/', authenticateToken_1.default, (req, res) => __awaiter(void 0, voi
     return res.send(usersCollection);
 }));
 router.post('/login', passport_1.default.authenticate('login'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c;
-    const accessToken = (0, utils_1.generateAccessJWT)(req.user);
+    // const accessToken = generateAccessJWT(req.user as RequestUser);
     const refreshToken = (0, utils_1.genereteRefreshJWT)(req.user);
     refreshTokens.push(refreshToken);
-    console.log(req.user);
-    return res.json({
-        // accessToken: accessToken,
-        refreshToken: refreshToken,
-        expiresIn: utils_1.expirationTime,
-        email: (_a = req.user) === null || _a === void 0 ? void 0 : _a.email,
-        role: (_b = req.user) === null || _b === void 0 ? void 0 : _b.role,
-        storeId: (_c = req.user) === null || _c === void 0 ? void 0 : _c.storeId
-    });
+    return res.cookie('credentials', refreshToken).send();
 }));
 router.post('/refreshToken', (req, res, next) => {
     const refreshToken = req.body.refreshToken;

@@ -17,20 +17,10 @@ router.get('/', authenticateToken, async (req: Request, res: Response) => {
 })
 
 router.post('/login', passport.authenticate('login'), async (req: RequestUser, res: Response) => {
-  const accessToken = generateAccessJWT(req.user as RequestUser);
+  // const accessToken = generateAccessJWT(req.user as RequestUser);
   const refreshToken = genereteRefreshJWT(req.user as RequestUser);
   refreshTokens.push(refreshToken);
-
-  console.log(req.user);
-
-  return res.json({ 
-    // accessToken: accessToken,
-    refreshToken: refreshToken,
-    expiresIn: expirationTime,
-    email: req.user?.email,
-    role: req.user?.role,
-    storeId: req.user?.storeId
-  });
+  return res.cookie('credentials', refreshToken).send();
 })
 
 router.post('/refreshToken', (req: Request, res: Response, next: NextFunction) => {
