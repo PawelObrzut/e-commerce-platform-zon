@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import Cookies from 'js-cookie';
+import { decodeJwt } from '../utils/decodeJWT'
 
 export interface ProductInterface {
   id: number,
@@ -43,7 +44,9 @@ const useStore = create<Store>(set => ({
   limit: undefined,
   fetchProducts: async (page) => {
     try {
-      const token = Cookies.get('token');
+      const token:any = Cookies.get('credentials');
+
+
       const response = await fetch(`http://localhost:8080/product?page=${page}&limit=12`, {
         method: 'GET',
         headers: { 
@@ -67,23 +70,33 @@ const useStore = create<Store>(set => ({
   },
   logIn: async (email, password) => {
     try {
-      const response = await fetch('http://localhost:8080/user/login', {
+      fetch('http://localhost:8080/user/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           email,
           password
+        }),
+        
+      })
+        .then(() => {
+          decodeJwt(document.cookie);
         })
-      });
-      const credentials = await response.json();
-      const expires = new Date();
-      expires.setTime(expires.getTime() + credentials.expiresIn * 60 * 60 * 1000);
-      Cookies.set('token', credentials.refreshToken, { expires });
-      Cookies.set('email', email, { expires });
-      Cookies.set('role', credentials.role, { expires });
-      if (credentials.storeId) {
-        Cookies.set('storeId', credentials.storeId, { expires });
-      }
+
+      // const expires = new Date();
+      // expires.setTime(expires.getTime() + credentials.expiresIn * 60 * 60 * 1000);
+      // Cookies.set('token', credentials.refreshToken, { expires });
+
+      // const decodeToken = decodeJwt(credentials.refreshToken);
+      // console.log('token is ::', decodeToken);
+
+      // Cookies.set('email', email, { expires });
+      // Cookies.set('role', credentials.role, { expires });
+
+      // if (credentials.storeId) {
+      //   Cookies.set('storeId', credentials.storeId, { expires });
+      // }
       window.location.href = '/';
     } catch (error) {
       console.error(error);

@@ -6,11 +6,11 @@ import { CartItem } from '../Hooks/store';
 
 const CartItemComponent = ({ id, quantity }: CartItem) => {
   const { removeFromCart, addToCart } = useShoppingCart();
-  const token = Cookies.get('token');
+  const token = Cookies.get('credentials');
   const [product, setProduct] = useState<ProductInterface>()
 
   useEffect(() => {
-    fetch(`http://localhost:8080/product/${id.toString()}`, {
+    fetch(`http://localhost:8080/product/${id}`, {
       method: 'GET',
       headers: { 
         'Content-Type': 'application/json',

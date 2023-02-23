@@ -15,6 +15,7 @@ const LogIn = () => {
   })
 
   const store = useStore();
+  
   const { register, handleSubmit, reset, formState: { errors } } = useForm<LogInFormInterface>({
     resolver: yupResolver(schema)
   });

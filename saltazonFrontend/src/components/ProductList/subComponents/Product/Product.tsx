@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 const Product = ({ id, title, description, imageUrl, storeId, price, quantity, category}: ProductInterface) => {
   const store = useStore();
+
+  // !! should have useEffect and on refresh always fetch for the product data.
   
   return (
     <Link to={`/${id}`} style={{ textDecoration: 'none' }} onClick={() => store.setProduct(id)}>

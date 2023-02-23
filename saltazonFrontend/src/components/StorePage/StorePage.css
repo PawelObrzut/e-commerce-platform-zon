@@ -5,11 +5,12 @@
 }
 
 .store--products {
-  margin: 0;
   list-style: none;
   width: 80%;
   margin: 0 auto;
+  margin-top: 1rem;
   padding: 0;
+  text-align: right;
 }
 
 .store--product__item {
@@ -33,5 +34,18 @@
 }
 
 .store--product__deleteBtn {
+  height: 4rem;
+}
+
+.store--addProduct input,
+.store--addProduct textarea,
+.store--addProduct select {
+  margin: 0.5rem auto;
+  width: 30%;
+  display: block;
+  height: 2rem;
+}
+
+.store--addProduct textarea {
   height: 4rem;
 }
