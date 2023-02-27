@@ -8,34 +8,37 @@ passport.use(
   new PassportLocal.Strategy(
     {
       usernameField: 'email',
-      passReqToCallback: true
-    }, 
+      passReqToCallback: true,
+    },
     async (req, email, password, done) => {
       try {
         const user = await findUserByEmail(email);
         if (user) {
-          console.log("user exists!")
+          console.log('user exists!');
           return done(null, false);
         }
 
-        await fetch('http://localhost:8000/api/user/',
+        await fetch(
+          'http://localhost:8000/api/user/',
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              email: email,
+            body: JSON.stringify({
+              email,
               password: bcrypt.hashSync(password, 10),
               role: req.body.role,
-              storeId: req.body.storeId || null
-            })
-          })
+              storeId: req.body.storeId || null,
+            }),
+          },
+        )
           .then(response => response.json())
           .then(data => data);
 
-        done(null, true)
+        done(null, true);
       } catch (error) {
-        done(error)
+        done(error);
       }
-    }
-  )
+      return (Error);
+    },
+  ),
 );
