@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useUser } from "../context/userContext";
 
 interface SignUpFormInterface {
   email: string,
@@ -11,6 +12,10 @@ interface SignUpFormInterface {
 }
 
 function NewUserForm() {
+  const {
+    signUp
+  } = useUser();
+  
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(4).required(),
@@ -23,7 +28,7 @@ function NewUserForm() {
   });
 
   const submitSignUp = ({ email, password, role }: SignUpFormInterface) => {
-    // ? to be implemented
+    signUp(email, password, role);
     reset();
   }
 

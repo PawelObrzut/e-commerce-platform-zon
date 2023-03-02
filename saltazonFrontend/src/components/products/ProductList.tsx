@@ -1,4 +1,4 @@
-import Product from './Product';
+import Product, { ProductInterface } from './Product';
 import '../../App.css';
 import CategorySorter from './CategorySorter';
 import React from 'react';
@@ -31,18 +31,30 @@ function ProductList({ products, addToCart }: any) {
   } else {
     sortedProducts = products;
   }
+
   return (
-        <>
-            <CategorySorter categories={['First Category', 'Second Category']} sorterFunction={sortSomething}/>
-            <section className={'product_list'}>{
-                sortedProducts
-                  ?.map((p: any) => (
-                            <Product key={p.id}
-                                     product={p}
-                                     addToCart={addToCart}/>))
-            }
-            </section>
-        </>);
+    <>
+      {/* <CategorySorter categories={['First Category', 'Second Category']} sorterFunction={sortSomething} /> */}
+      <main className='flex justify-between py-5'>
+        <aside className='w-1/5 h-full'>
+          <p className='pt-5 pl-5 pb-3'>Lots of filtering options</p>
+          <p className='pl-5 pb-3'>Lots of filtering options</p>
+          <p className='pl-5 pb-3'>Lots of filtering options</p>
+          <p className='pl-5 pb-3'>Lots of filtering options</p>
+          <p className='pl-5 pb-3'>Lots of filtering options</p>
+          <p className='pl-5 pb-3'>Lots of filtering options</p>
+          <hr />
+          <p className='pl-5 pb-3'>more options</p>
+          <p className='pl-5 pb-3'>more options</p>
+          <p className='pl-5 pb-3'>more options</p>
+        </aside>
+        <section className='w-4/5 grid grid-cols-4 gap-1 px-5'>{
+          sortedProducts.map((product: ProductInterface) => (
+            <Product key={product.id} {...product} />))
+        }
+        </section>
+      </main>
+    </>);
 }
 
 export default ProductList;

@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useUser } from "../context/userContext";
 
 interface LogInFormInterface {
   email: string,
@@ -9,6 +10,10 @@ interface LogInFormInterface {
 }
 
 function LoginForm() {
+  const {
+    logIn
+  } = useUser();
+
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(4).required(),
@@ -19,7 +24,7 @@ function LoginForm() {
   });
 
   const sumbitLogIn = ({email, password }: LogInFormInterface) => {
-    // ? to be implemented
+    logIn(email, password);
     reset();
   }
 

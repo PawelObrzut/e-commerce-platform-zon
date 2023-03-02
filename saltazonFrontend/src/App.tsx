@@ -1,21 +1,21 @@
 /* eslint-disable no-tabs */
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
+	BrowserRouter as Router,
+	Routes,
+	Route,
 } from 'react-router-dom';
 
 import React from 'react';
 import NavBar from './components/Navbar/Navbar';
 import Cart from './components/checkout/Cart';
 import AdminPage from './admin/AdminPage';
-import ProfileBar from './components/ProfileBar';
-import ProductList from './components/products/ProductList';
-import LoginForm from './components/Login/LoginForm';
+import ProductList from './components/Products/ProductList';
 import NewUserForm from './components/Login/NewUserForm';
 import SuperAdminPage from './admin/SuperAdminPage';
 import Carousel from './components/Carousel/Carousel';
 import Card from './components/Card/Card';
+import { fakeProducts } from '../src/fakedata/fakedata';
+
 
 import electronics from '../src/images/t_electronics.png';
 import youth from '../src/images/t_youth.png';
@@ -28,23 +28,23 @@ import easyReturn from '../src/images/t_return.png';
 import Login from './components/Login/Login';
 
 function addToCart() {
-  // add item to the current Cart
+	// add item to the current Cart
 }
 
 function removeFromCart() {
-  // remove item from the current Cart
+	// remove item from the current Cart
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getCurrentCart() {
-  // return fakecart;
-  // update to get from localstorage
+	// return fakecart;
+	// update to get from localstorage
 }
 
 function App() {
-  // const [currentCart, setCurrentCart] = useState(getCurrentCart());
+	// const [currentCart, setCurrentCart] = useState(getCurrentCart());
 
-  return (
+	return (
 		<div className="bg-[#e6e6e6]">
 			<Router>
 				<header>
@@ -54,18 +54,17 @@ function App() {
 
 				<Routes>
 					<Route path='/create-new-user' element={< NewUserForm />}></Route>
-					<Route 
+					<Route
 						path='/login'
 						element={
-							<Login />
+							<div className='bg-gradient-to-r from-[#fcf2d4] to-[#f0d0ac]'>
+								<Login />
+							</div>
 						}
 					></Route>
 					<Route
 						path='/'
 						element={
-							// <ProductList
-							// 	// products={fakeProducts}
-							// 	addToCart={addToCart} />
 							<>
 								<Carousel />
 								<main className='grid grid-cols-3 gap-5 -mt-36 mx-auto w-[98%] z-10 relative lg:grid-cols-4 pb-5'>
@@ -78,15 +77,20 @@ function App() {
 									<Card title="Apple " img={<img src={apple} alt="things" />} linkTitle="Shop now" />
 									<Card title="Easy Return  " img={<img src={easyReturn} alt="return" />} linkTitle="Learn more" />
 								</main>
-								<div onClick={() => {window.scrollTo(0, 0)}} className='text-sm text-white text-center bg-gray-700 w-full p-4 cursor-pointer hover:bg-gray-600'>Back to top</div>
-								<footer className='w-full bg-gray-800 text-center text-white text-xl p-32'>
-									To Be Implemented
-								</footer>
-								<div className='w-full bg-gray-900 text-center text-white text-xl p-20'>
-									
-								</div>
 							</>
-							}
+						}
+					></Route>
+
+					<Route
+						path='/productList'
+						element={
+							<div className='bg-gray-50'>
+								<ProductList
+									products={fakeProducts}
+									addToCart={addToCart}
+								/>
+							</div>
+						}
 					></Route>
 					<Route
 						path='/cart'
@@ -99,9 +103,16 @@ function App() {
 					<Route path='/admin' element={< AdminPage />}></Route>
 					<Route path='/admin/super' element={< SuperAdminPage />}></Route>
 				</Routes>
+				<div onClick={() => { window.scrollTo(0, 0) }} className='text-sm text-white text-center bg-gray-700 w-full p-4 cursor-pointer hover:bg-gray-600'>Back to top</div>
+				<footer className='w-full bg-gray-800 text-center text-white text-xl p-32'>
+					To Be Implemented
+				</footer>
+				<div className='w-full bg-gray-900 text-center text-white text-xl p-20'>
+
+				</div>
 			</Router>
 		</div>
-  );
+	);
 }
 
 export default App;
