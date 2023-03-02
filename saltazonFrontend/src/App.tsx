@@ -25,6 +25,7 @@ import books from '../src/images/t_books.png';
 import shoes from '../src/images/t_shoes.png';
 import deals from '../src/images/t_deals.png';
 import easyReturn from '../src/images/t_return.png';
+import Login from './components/Login/Login';
 
 function addToCart() {
   // add item to the current Cart
@@ -56,10 +57,7 @@ function App() {
 					<Route 
 						path='/login'
 						element={
-							<>
-								<LoginForm />
-								<NewUserForm />
-							</>
+							<Login />
 						}
 					></Route>
 					<Route
