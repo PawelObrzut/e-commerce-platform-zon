@@ -16,7 +16,6 @@ import Carousel from './components/Carousel/Carousel';
 import Card from './components/Card/Card';
 import { fakeProducts } from '../src/fakedata/fakedata';
 
-
 import electronics from '../src/images/t_electronics.png';
 import youth from '../src/images/t_youth.png';
 import apple from '../src/images/t_apple.png';
@@ -86,7 +85,7 @@ function App() {
 						element={
 							<div className='bg-gray-50'>
 								<ProductList
-									products={fakeProducts}
+									// products={fakeProducts}
 									addToCart={addToCart}
 								/>
 							</div>

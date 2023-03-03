@@ -1,16 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-export interface ProductInterface {
-	id: number,
-	title: string,
-	description: string,
-	imageUrl: string,
-	quantity: number,
-	price: string,
-	category: string,
-	storeId: 5,
-}
+import { ProductInterface } from '../../types';
 
 function Product(product: ProductInterface, addToCart: (id: number) => void) {
 	return (

@@ -1,23 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-const useFetch = (url: string) => {
-  const [data, setData] = useState();
-  const [errorStatus, setErrorStatus] = useState();
+interface FetchData {
+  data: any | null;
+  isLoading: boolean;
+  error: string | null;
+}
+
+const useFetch = (url: string, page: number, options?: any): FetchData => {
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(url).then(response => {
-      if (!response.ok) {
-        throw(response.status);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${url}?page=${page}&limit=12`, options);
+        const json = await response.json();
+        setData(json.responseData);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        setError(error.message);
       }
-      return response.json();
-    }).then(data => {
-      setData(data);
-    }).catch((error) => {
-      setErrorStatus(error)
-    })
-  }, []);
+    };
 
-  return [data, errorStatus];
-}
+    fetchData();
+  }, [url, options]);
+
+  return { data, isLoading, error };
+};
 
 export default useFetch;

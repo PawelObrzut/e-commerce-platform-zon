@@ -33,7 +33,7 @@ const Header = () => {
       <Link to="/login" className='inline-flex'><span className='mr-1'>Login</span><RiLoginBoxLine className='text-2xl'/></Link>
     </div>
     <div className='text-white self-center inline-flex cursor-pointer mr-16 relative hover:text-orange-500 group'>
-      <span className='mr-1'>Cart</span><BsCart2 className='text-2xl'/><span className='text-orange-500 group-hover:text-white bg-black text-lg h-5 absolute bottom-2.5 right-1.5'>6</span>
+      <span className='mr-1'>Cart</span><BsCart2 className='text-2xl'/><span className='text-orange-500 group-hover:text-white bg-black text-lg h-5 absolute bottom-2.5 right-1.5'>0</span>
     </div>
   </header>
   );
