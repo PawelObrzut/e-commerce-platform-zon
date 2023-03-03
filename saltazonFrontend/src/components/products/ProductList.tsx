@@ -1,10 +1,8 @@
+import React from 'react';
 import Product from './Product';
-import '../../App.css';
-import CategorySorter from './CategorySorter';
-import React, { useEffect, useState } from 'react';
-import { ProductInterface } from '../../types';
 import useFetch from '../hooks/useFetch';
-import Cookies from 'js-cookie';
+import CategorySorter from './CategorySorter';
+import { ProductInterface } from '../../types';
 
 const sorted = false;
 
@@ -27,22 +25,9 @@ function sortSomething(category: any) {
   console.log(`sorting things would be cool${category}`);
 }
 
-function ProductList({ addToCart }: any) {
-  const { data: products, isLoading, error } = useFetch('http://localhost:8080/product', 1, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + Cookies.get('credentials')
-    }
-  });
-
-  let sortedProducts;
-  if (sorted) {
-    sortedProducts = sortByCategory(products);
-  } else {
-    sortedProducts = products;
-  }
-
+function ProductList() {
+  const { data: products, isLoading, error } = useFetch('http://localhost:8080/product?page=1&limit=12');
+  
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -51,12 +36,19 @@ function ProductList({ addToCart }: any) {
     return <p>{error}</p>;
   }
 
+  let sortedProducts;
+  if (sorted) {
+    sortedProducts = sortByCategory(products);
+  } else {
+    sortedProducts = products;
+  }
+
   return (
     <>
       {/* <CategorySorter categories={['First Category', 'Second Category']} sorterFunction={sortSomething} /> */}
       <main className='flex justify-between py-5'>
-        <aside className='w-1/5 h-full bg-slate-400'>
-          <span>any content</span>
+        <aside className='w-1/5 h-96 ml-2 border border-gray-200'>
+          
         </aside>
         <section className='w-4/5 grid grid-cols-4 gap-1 px-5'>
         {

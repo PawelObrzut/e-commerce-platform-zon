@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 
 interface FetchData {
@@ -6,7 +7,7 @@ interface FetchData {
   error: string | null;
 }
 
-const useFetch = (url: string, page: number, options?: any): FetchData => {
+const useFetch = (url: string): FetchData => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,18 +15,23 @@ const useFetch = (url: string, page: number, options?: any): FetchData => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${url}?page=${page}&limit=12`, options);
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + Cookies.get('credentials')
+          }
+        });
         const json = await response.json();
-        setData(json.responseData);
+        json.responseData && setData(json.responseData);
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
         setError(error.message);
       }
     };
-
     fetchData();
-  }, [url, options]);
+  }, [url]);
 
   return { data, isLoading, error };
 };
