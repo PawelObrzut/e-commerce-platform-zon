@@ -26,7 +26,7 @@ function sortSomething(category: any) {
 }
 
 function ProductList() {
-  const { data: products, isLoading, error } = useFetch('http://localhost:8080/product?page=1&limit=12');
+  const { data: products, isLoading, error } = useFetch<ProductInterface[]>('http://localhost:8080/product?page=1&limit=12');
   
   if (isLoading) {
     return <p>Loading...</p>;

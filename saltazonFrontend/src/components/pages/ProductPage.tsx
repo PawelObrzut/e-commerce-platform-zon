@@ -8,7 +8,7 @@ import PriceTag from '../products/PriceTag';
 const ProductPage = () => {
   const navigate = useNavigate();
   const { id: productId } = useParams();
-  const { data: product, isLoading, error } = useFetch(`http://localhost:8080/product/${productId}`);
+  const { data: product, isLoading, error } = useFetch<ProductInterface>(`http://localhost:8080/product/${productId}`);
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -38,13 +38,13 @@ const ProductPage = () => {
             <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, maiores? Ipsam officiis tempora minima cumque sit rerum ipsa nesciunt, ipsum doloremque, accusamus id delectus enim libero quae magni earum harum!</li>
           </ul>
         </article>
-        <aside className='border rounded border-gray-300 p-5'>
+        <aside className='border rounded border-gray-300 p-5 h-3/4'>
           <PriceTag product={product} />
           <p className='text-xs text-gray-500'>No Import Fees Deposit & $15.00 Shipping to Sweden</p>
           {product.quantity > 0 && <p className='text-md text-green-600 py-3'>In Stock</p>}
-          <form action="" className='text-sm border rounded-l-full rounded-r-full px-2 w-2/3 bg-gray-100'>
+          <form action="" className='text-xs text-center border rounded-l-full rounded-r-full w-2/5 bg-gray-100'>
             <label htmlFor="Qty">Qty:</label>
-            <select name="quantity" id="Qty" className='bg-gray-100'>
+            <select name="quantity" id="Qty" className='bg-gray-100 pl-2'>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>

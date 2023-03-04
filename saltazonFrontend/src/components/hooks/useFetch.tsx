@@ -1,14 +1,14 @@
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 
-interface FetchData {
-  data: any | null;
+interface FetchData<T> {
+  data?: T;
   isLoading: boolean;
   error: string | null;
 }
 
-const useFetch = (url: string): FetchData => {
-  const [data, setData] = useState(null);
+const useFetch = <T = unknown>(url: string): FetchData<T> => {
+  const [data, setData] = useState<T | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 

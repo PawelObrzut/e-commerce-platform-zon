@@ -1,3 +1,4 @@
+import React from 'react';
 import './Cart.css';
 
 function CartItem({ product, removeFromCart }: any) {
