@@ -57,7 +57,12 @@ const ProductPage = () => {
               <option value="10">10</option>
             </select>
           </form>
-          <button className='my-5 text-sm text-center bg-yellow-300 rounded-l-full rounded-r-full w-full p-1 hover:bg-yellow-400'>Add to Cart</button>
+          <button 
+            className='my-5 text-sm text-center bg-yellow-300 rounded-l-full rounded-r-full w-full p-1 hover:bg-yellow-400'
+            onClick={() => console.log('Add to cart')}
+          >
+            Add to Cart
+          </button>
         </aside>
       </section>
     </main>

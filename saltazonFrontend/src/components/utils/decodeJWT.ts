@@ -1,5 +1,5 @@
 export const decodeJwt = (token: string) => {
-  console.log({token})
+  // console.log({token})
   var base64Payload = token.split(".")[1];
   if (base64Payload) {
     var base64 = decodeURIComponent(atob(base64Payload).split('').map(c => {

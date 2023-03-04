@@ -1,9 +1,10 @@
 import React, {
-  createContext, useContext, ReactNode, useState,
+  createContext, useContext, ReactNode, useState, useEffect,
 } from 'react';
 import { decodeJwt } from '../utils/decodeJWT';
 
 interface UserInterface {
+  id: number,
   email: string,
   role: string,
   storeId?: number
@@ -26,6 +27,12 @@ interface UserProviderInterface {
 export const UserProvider = ({ children }: UserProviderInterface) => {
   const [user, setUser] = useState<UserInterface>({} as UserInterface);
 
+  useEffect(() => {
+    if (document.cookie) {
+      setUser((decodeJwt(document.cookie)))
+    }
+  }, [location.href])
+
   const logIn = (email: string, password: string) => {
     fetch('http://localhost:8080/user/login', {
       method: 'POST',
@@ -36,7 +43,8 @@ export const UserProvider = ({ children }: UserProviderInterface) => {
         password
       })
     }).then(() => {
-      decodeJwt(document.cookie);
+      document.cookie;
+      setUser((decodeJwt(document.cookie)))
       window.location.href = '/productList';
     });
   };
