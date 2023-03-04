@@ -34,10 +34,10 @@ const Carousel = () => {
           </div>
         ))}
       </div>
-      <div onClick={prevSlide} className="cursor-pointer absolute top-0 left-0 hover:border-2 hover:border-[#358093] rounded m-1 w-20 h-60">
+      <div onClick={prevSlide} className="cursor-pointer absolute top-0 left-0 border-2 hover:border-[#358093] border-transparent rounded m-1 w-20 h-60">
         <GrPrevious size={30} className="absolute top-[38%] left-5" />
       </div>
-      <div onClick={nextSlide}  className="cursor-pointer absolute top-0 right-0 hover:border-2 hover:border-[#358093] rounded m-1 w-20 h-60">
+      <div onClick={nextSlide}  className="cursor-pointer absolute top-0 right-0 border-2 hover:border-[#358093] border-transparent rounded m-1 w-20 h-60">
         <GrNext size={30} className="absolute top-[38%] right-5" />
       </div>
     </div>

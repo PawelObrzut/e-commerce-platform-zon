@@ -14,10 +14,10 @@ const Menu = ({ isOpen }) => {
     <>
       <aside className={`fixed z-50 top-0 left-0 w-screen h-screen ${isOpen ? 'visible': 'invisible'}`}>
         <section className={`overflow-scroll w-80 h-full absolute left-0 top-0 text-white bg-white z-10 ${isOpen ? 'translate-x-0' : '-translate-x-full'} ease-in-out duration-500`}>
-          <div className='h-14 pl-10 bg-gray-800 flex items-center'>
+          <Link to="/login" className='h-14 pl-10 bg-gray-800 flex items-center'>
             <FaUserCircle className='text-3xl' />
             <h1 className='text-xl inline-flex pl-3'>Welcome, LogIn</h1>  
-          </div>
+          </Link>
 
           <div className=''>
             <h2 className='text-black px-10 pt-5 text-lg font-semibold'>Programs & Features</h2>

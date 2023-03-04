@@ -37,26 +37,26 @@ const Header = () => {
         </button>
       </div>
 
-      <div className='text-white cursor-pointer h-14 self-center p-5 hover:border-white border border-transparent flex'>
-        {user.email ?
-          <div onClick={handleLogOut} className='self-center text-sm flex'>
-            <span>
-              Hello, <br /> {user.email} 
-            </span>
-            <span className='pl-3'>
-              <RiLogoutBoxLine className='text-2xl' /> Logout
-            </span>
-          </div>
-          :
-          <Link to="/login" className='self-center inline-flex'>Login <RiLoginBoxLine className='text-2xl' /></Link>
-          // <Link to="/login" className='inline-flex cursor-pointer'><span className='mr-1'>Login</span><RiLoginBoxLine className='text-2xl' /></Link>
-        }
-      </div>
-      <div className='text-white h-14 self-center p-5 inline-flex cursor-pointer relative hover:border-white border border-transparent'>
+      {
+        user.email ?
+        <div onClick={handleLogOut} className='cursor-pointer p-1 text-white self-center text-sm flex hover:border-white border border-transparent'>
+          <span>
+            Hello, <br />
+            {user.email} 
+          </span>
+          <span className='pl-3'>
+            <RiLogoutBoxLine className='text-2xl' /> Logout
+          </span>
+        </div>
+        :
+        <Link to="/login" className='h-14  p-4 text-white self-center inline-flex hover:border-white border border-transparent'>Login <RiLoginBoxLine className='text-2xl' /></Link>
+      }
+
+      <Link to="/cart" className='text-white h-14 self-center p-5 inline-flex relative hover:border-white border border-transparent'>
         <span className='mr-1 self-center'>Cart</span>
         <BsCart2 className='text-2xl self-center' />
         <span className='text-orange-500 bg-black text-lg h-5 absolute top-2 right-6'>0</span>
-      </div>
+      </Link>
     </header>
   );
 };

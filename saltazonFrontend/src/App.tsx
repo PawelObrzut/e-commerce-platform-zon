@@ -14,6 +14,7 @@ import ProductPage from './components/pages/ProductPage';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import ProductListPage from './components/pages/ProductListPage';
+import { fakecart as currentCart } from '../src/fakedata/fakecart';
 
 function addToCart() {
 	// add item to the current Cart
@@ -47,7 +48,7 @@ function App() {
 					<Route path='/productList/:id' element={ <ProductPage /> }></Route>
 
 					<Route path='/cart'	element={	<Cart
-								// products={currentCart}
+								products={currentCart}
 								removeFromCart={removeFromCart} /> }></Route>
 
 					<Route path='/admin' element={< AdminPage />}></Route>

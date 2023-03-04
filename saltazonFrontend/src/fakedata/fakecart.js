@@ -4,7 +4,7 @@ export const fakecart = [{
   title: 'Harry potter',
   description: 'a cool description',
   imageUrl: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
-  price: 109.4,
+  price: '109.4',
 },
 {
   amount: 3,
@@ -12,7 +12,7 @@ export const fakecart = [{
   title: 'RTX 4090 Graphics Card',
   description: 'a cool description',
   imageUrl: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
-  price: 9999.9,
+  price: '9999.9',
 },
 {
   amount: 1,
@@ -20,5 +20,5 @@ export const fakecart = [{
   title: 'Volvo V70',
   description: 'a cool description',
   imageUrl: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
-  price: 100000.1,
+  price: '100000.1',
 }];
