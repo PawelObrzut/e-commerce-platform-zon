@@ -16,20 +16,6 @@ import LoginPage from './components/pages/LoginPage';
 import ProductListPage from './components/pages/ProductListPage';
 import { fakecart as currentCart } from '../src/fakedata/fakecart';
 
-function addToCart() {
-	// add item to the current Cart
-}
-
-function removeFromCart() {
-	// remove item from the current Cart
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getCurrentCart() {
-	// return fakecart;
-	// update to get from localstorage
-}
-
 function App() {
 	// const [currentCart, setCurrentCart] = useState(getCurrentCart());
 
@@ -49,7 +35,7 @@ function App() {
 
 					<Route path='/cart'	element={	<Cart
 								products={currentCart}
-								removeFromCart={removeFromCart} /> }></Route>
+								/> }></Route>
 
 					<Route path='/admin' element={< AdminPage />}></Route>
 					<Route path='/admin/super' element={< SuperAdminPage />}></Route>

@@ -6,5 +6,5 @@ export interface ProductInterface {
 	quantity: number,
 	price: string,
 	category: string,
-	storeId: 5,
+	storeId: number,
 }

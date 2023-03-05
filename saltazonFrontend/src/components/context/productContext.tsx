@@ -1,12 +1,9 @@
 import React, {
   createContext, useContext, ReactNode, useState,
 } from 'react';
-import useFetch from '../hooks/useFetch';
-import { ProductInterface } from '../../types';
 
 interface ProductContextInterface {
   categories: string[],
-
 }
 
 const ProductContext = createContext({} as ProductContextInterface);

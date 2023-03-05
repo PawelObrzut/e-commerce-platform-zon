@@ -4,10 +4,12 @@ import { BsCart2 } from 'react-icons/bs';
 import { RiLoginBoxLine, RiLogoutBoxLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.png';
+import { useCart } from '../context/cartContext';
 import { useProduct } from '../context/productContext';
 import { useUser } from '../context/userContext';
 
 const Header = () => {
+  const { cartQuantity } = useCart();
   const { categories } = useProduct();
   const { user } = useUser();
   const handleLogOut = () => {
@@ -55,7 +57,7 @@ const Header = () => {
       <Link to="/cart" className='text-white h-14 self-center p-5 inline-flex relative hover:border-white border border-transparent'>
         <span className='mr-1 self-center'>Cart</span>
         <BsCart2 className='text-2xl self-center' />
-        <span className='text-orange-500 bg-black text-lg h-5 absolute top-2 right-6'>0</span>
+        <span className='text-orange-500 bg-black text-lg h-5 absolute top-2 right-6'>{cartQuantity}</span>
       </Link>
     </header>
   );

@@ -4,8 +4,10 @@ import { GrPrevious } from 'react-icons/gr';
 import { ProductInterface } from '../../types';
 import useFetch from '../hooks/useFetch';
 import PriceTag from '../products/PriceTag';
+import { useCart } from '../context/cartContext';
 
 const ProductPage = () => {
+  const { addToCart } = useCart();
   const navigate = useNavigate();
   const { id: productId } = useParams();
   const { data: product, isLoading, error } = useFetch<ProductInterface>(`http://localhost:8080/product/${productId}`);
@@ -59,7 +61,7 @@ const ProductPage = () => {
           </form>
           <button 
             className='my-5 text-sm text-center bg-yellow-300 rounded-l-full rounded-r-full w-full p-1 hover:bg-yellow-400'
-            onClick={() => console.log('Add to cart')}
+            onClick={() => addToCart(product.id, product.imageUrl, product.title, product.price, product.quantity)}
           >
             Add to Cart
           </button>
