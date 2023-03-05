@@ -1,15 +1,15 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
-import userRouter from './routes/user';
-import productRouter from './routes/product';
-import storeRouter from './routes/store';
+import cookieParser from 'cookie-parser';
+import moment from 'moment-timezone';
+import path from 'path';
+import fs from 'fs';
 import passport from 'passport';
 import cors from 'cors';
 import morgan from 'morgan';
-import fs from 'fs';
-import path from 'path';
-import moment from 'moment-timezone';
-import cookieParser from 'cookie-parser';
+import userRouter from './routes/user';
+import productRouter from './routes/product';
+import storeRouter from './routes/store';
 import './middlewares/passport-local-login';
 import './middlewares/passport-local-register';
 
@@ -17,13 +17,13 @@ dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT;
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'backend-logging' , 'access.log'), { flags: 'a' })
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'backend-logging', 'access.log'), { flags: 'a' });
 
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(cookieParser());
 app.use(passport.initialize());
-morgan.token('date', () =>  moment().tz('Europe/Stockholm').format('YYYY-MM-DD HH:mm ZZ'))
+morgan.token('date', () => moment().tz('Europe/Stockholm').format('YYYY-MM-DD HH:mm ZZ'));
 app.use(morgan('Type :method, Date [:date[Europe/Stockholm]], StatusCode :status', { stream: accessLogStream }));
 app.use('/user', userRouter);
 app.use('/product', productRouter);

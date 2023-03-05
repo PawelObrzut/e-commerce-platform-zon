@@ -8,7 +8,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
+    const authHeader = req.headers.authorization;
     if (!refreshKey) {
         return res.sendStatus(500);
     }
@@ -16,11 +16,12 @@ const authenticateToken = (req, res, next) => {
         return res.sendStatus(401);
     }
     const reqToken = authHeader.split(' ')[1];
-    jsonwebtoken_1.default.verify(reqToken, refreshKey, (error, decoded) => {
+    jsonwebtoken_1.default.verify(reqToken, refreshKey, error => {
         if (error) {
             return res.sendStatus(403);
         }
-        next();
+        return next();
     });
+    return (Error);
 };
 exports.default = authenticateToken;

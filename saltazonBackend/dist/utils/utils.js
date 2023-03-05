@@ -42,5 +42,5 @@ exports.modules = {
     findUserByEmail: exports.findUserByEmail,
     generateAccessJWT: exports.generateAccessJWT,
     genereteRefreshJWT: exports.genereteRefreshJWT,
-    expirationTime: exports.expirationTime
+    expirationTime: exports.expirationTime,
 };

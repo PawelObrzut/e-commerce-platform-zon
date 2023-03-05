@@ -15,16 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const authenticateToken_1 = __importDefault(require("../middlewares/authenticateToken"));
 const router = express_1.default.Router();
-router.get('/', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    return res.status(200).json({ message: "don't try, do!" });
-}));
+router.get('/', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json({ message: "don't try, do!" }); }));
 router.get('/:id', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const storeResponse = yield fetch(`http://localhost:8000/api/store/${req.params.id}`);
         const storeData = yield storeResponse.json();
         const productResponse = yield fetch('http://localhost:8000/api/product');
         const productData = yield productResponse.json();
-        const filteredProducts = productData.data.filter((product) => product.storeId === parseInt(req.params.id));
+        const filteredProducts = productData
+            .data.filter((product) => product.storeId === parseInt(req.params.id, 10));
         if (storeData && filteredProducts) {
             return res.status(200).json({
                 store: storeData.data.name,
@@ -35,11 +34,12 @@ router.get('/:id', authenticateToken_1.default, (req, res) => __awaiter(void 0, 
     catch (error) {
         return res.status(500).send();
     }
+    return res.status(500).send();
 }));
 router.post('/:id/product', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body);
     try {
-        fetch(`http://localhost:8000/api/product`, {
+        fetch('http://localhost:8000/api/product', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -49,8 +49,8 @@ router.post('/:id/product', authenticateToken_1.default, (req, res) => __awaiter
                 price: req.body.price,
                 quantity: req.body.quantity,
                 category: req.body.category,
-                storeId: req.body.storeId
-            })
+                storeId: req.body.storeId,
+            }),
         })
             .then(response => response.json())
             .then(data => {
@@ -61,5 +61,6 @@ router.post('/:id/product', authenticateToken_1.default, (req, res) => __awaiter
     catch (error) {
         return res.status(500).send();
     }
+    return res.status(500).send();
 }));
 exports.default = router;

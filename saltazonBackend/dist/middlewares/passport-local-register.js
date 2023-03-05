@@ -41,23 +41,23 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const utils_1 = require("../utils/utils");
 passport_1.default.use('register', new PassportLocal.Strategy({
     usernameField: 'email',
-    passReqToCallback: true
+    passReqToCallback: true,
 }, (req, email, password, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield (0, utils_1.findUserByEmail)(email);
         if (user) {
-            console.log("user exists!");
+            console.log('user exists!');
             return done(null, false);
         }
         yield fetch('http://localhost:8000/api/user/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                email: email,
+                email,
                 password: bcrypt_1.default.hashSync(password, 10),
                 role: req.body.role,
-                storeId: req.body.storeId || null
-            })
+                storeId: req.body.storeId || null,
+            }),
         })
             .then(response => response.json())
             .then(data => data);
@@ -66,4 +66,5 @@ passport_1.default.use('register', new PassportLocal.Strategy({
     catch (error) {
         done(error);
     }
+    return (Error);
 })));

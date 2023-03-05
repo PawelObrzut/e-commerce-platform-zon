@@ -40,6 +40,7 @@ const passport_1 = __importDefault(require("passport"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const utils_1 = require("../utils/utils");
 passport_1.default.serializeUser((user, done) => {
+    // eslint-disable-next-line no-param-reassign
     delete user.password;
     return done(null, user);
 });
@@ -67,4 +68,5 @@ passport_1.default.use('login', new PassportLocal.Strategy({
     catch (error) {
         done(error);
     }
+    return (Error);
 })));

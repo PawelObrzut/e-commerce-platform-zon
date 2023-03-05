@@ -11,7 +11,7 @@ router.get('/:id', authenticateToken, async (req: Request, res: Response) => {
   try {
     const product = await (await fetch(`http://localhost:8000/api/product/${req.params.id}`)).json();
     if (product) {
-      return res.status(200).json(product.data);
+      return res.status(200).json({ responseData: product.data });
     }
   } catch (error) {
     return res.status(500).send();

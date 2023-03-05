@@ -14,13 +14,13 @@ const paginate = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         const { page = '1', limit = '10' } = req.query;
         const startIndex = (+page - 1) * +limit;
         const endIndex = +page * +limit;
-        const productsCollection = yield fetch(`http://localhost:8000/api/product/`, { method: 'GET' }).then(response => response.json());
+        const productsCollection = yield fetch('http://localhost:8000/api/product/', { method: 'GET' }).then(response => response.json());
         const count = productsCollection.data.length;
         const paginatedData = {
             limit: +limit,
             page: +page,
-            count: count,
-            responseData: productsCollection.data.slice(startIndex, endIndex)
+            count,
+            responseData: productsCollection.data.slice(startIndex, endIndex),
         };
         if (startIndex > 0) {
             paginatedData.previous = +page - 1;

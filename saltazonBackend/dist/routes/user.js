@@ -13,17 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const utils_1 = require("../utils/utils");
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
 const passport_1 = __importDefault(require("passport"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const utils_1 = require("../utils/utils");
 const authenticateToken_1 = __importDefault(require("../middlewares/authenticateToken"));
+dotenv_1.default.config();
 const router = (0, express_1.Router)();
 const refreshTokens = [];
 const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 router.get('/', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const usersCollection = yield fetch(`http://localhost:8000/api/user/`, { method: 'GET' }).then(response => response.json());
+    const usersCollection = yield fetch('http://localhost:8000/api/user/', { method: 'GET' }).then(response => response.json());
     return res.send(usersCollection);
 }));
 router.post('/login', passport_1.default.authenticate('login'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,8 +32,8 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
     refreshTokens.push(refreshToken);
     return res.cookie('credentials', refreshToken).send();
 }));
-router.post('/refreshToken', (req, res, next) => {
-    const refreshToken = req.body.refreshToken;
+router.post('/refreshToken', (req, res) => {
+    const { refreshToken } = req.body;
     if (!refreshToken) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
@@ -48,8 +48,9 @@ router.post('/refreshToken', (req, res, next) => {
             return res.sendStatus(403);
         }
         const accessToken = (0, utils_1.generateAccessJWT)(user);
-        return res.json({ accessToken: accessToken });
+        return res.json({ accessToken });
     });
+    return res.status(500).json({ message: 'oops' });
 });
 router.post('/register', passport_1.default.authenticate('register'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('User or Admin has been created');
