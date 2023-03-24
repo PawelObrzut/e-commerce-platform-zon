@@ -1,16 +1,19 @@
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
+import { PaginateDetailsInterface } from '../../types';
 
 interface FetchData<T> {
   data?: T;
   isLoading: boolean;
   error: string | null;
+  details?: PaginateDetailsInterface
 }
 
 const useFetch = <T = unknown>(url: string): FetchData<T> => {
   const [data, setData] = useState<T | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [details, setDetails] = useState({} as PaginateDetailsInterface);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +27,12 @@ const useFetch = <T = unknown>(url: string): FetchData<T> => {
         });
         const json = await response.json();
         json.responseData && setData(json.responseData);
+        json && setDetails({
+          limit: json.limit,
+          page: json.page,
+          next: json.next,
+          count: json.count
+        })
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
@@ -33,7 +42,7 @@ const useFetch = <T = unknown>(url: string): FetchData<T> => {
     fetchData();
   }, [url]);
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, details };
 };
 
 export default useFetch;

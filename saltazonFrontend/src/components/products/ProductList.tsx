@@ -1,8 +1,9 @@
 import React from 'react';
 import Product from './Product';
-import useFetch from '../hooks/useFetch';
 import CategorySorter from './CategorySorter';
 import { ProductInterface } from '../../types';
+import Pagination from '../Pagination/Pagination';
+import { useProduct } from '../context/productContext';
 
 const sorted = false;
 
@@ -26,8 +27,12 @@ function sortSomething(category: any) {
 }
 
 function ProductList() {
-  const { data: products, isLoading, error } = useFetch<ProductInterface[]>('http://localhost:8080/product?page=1&limit=12');
-  
+  const {
+    products,
+    isLoading,
+    error
+  } = useProduct();
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -55,6 +60,7 @@ function ProductList() {
           sortedProducts?.map((product: ProductInterface) => (
             <Product key={product.id} {...product} />))
         }
+          <Pagination />
         </section>
       </main>
     </>);
