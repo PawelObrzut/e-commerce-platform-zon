@@ -17,12 +17,25 @@ type Product struct {
 	Category					string	`json:"category"`
 }
 
+type User struct {
+	Id 						int			`json:"id"`
+	Email					string	`json:"email"`
+	Password			string	`json:"password"`
+	Role					string	`json:"role"`
+	StoreId				int			`json:"storeId"`
+}
+
 func GetMainRoute(c *fiber.Ctx) error {
 	return c.SendString("Hello there general Kenobi")
 }
 
 func GetAllProducts(c *fiber.Ctx) error {
 	db, err := database.ConnectPostgres()
+	if err != nil {
+		fmt.Printf("Could not connect to db: %v", err)
+		panic(err)
+	}
+	defer db.Close()
 
 	rows, err := db.Query("SELECT * FROM ProductData")
 	if err != nil {
@@ -41,7 +54,104 @@ func GetAllProducts(c *fiber.Ctx) error {
 		}
 		products = append(products, product)
 	}
+
+	return c.JSON(fiber.Map{
+		"message": "success",
+		"data": products,
+	})
+}
+
+func GetOneProduct(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	db, err := database.ConnectPostgres()
+	if err != nil {
+		fmt.Printf("Could not connect to db: %v", err)
+		panic(err)
+	}
 	defer db.Close()
 
-	return c.JSON(products)
+	rows, err := db.Query("SELECT * FROM ProductData WHERE id=$1", id)
+	if err != nil {
+		fmt.Printf("Could not query ProductData: %v", err)
+		panic(err)
+	}
+
+	var product Product
+
+	for rows.Next() {
+		err := rows.Scan(&product.Id, &product.Title, &product.Description, &product.Imageurl, &product.Storeid, &product.Price, &product.Quantity, &product.Category); 
+		if err != nil {
+			fmt.Printf("Could not scan ProductData rows: %v", err)
+			panic(err)
+		}
+	}
+	fmt.Println(product)
+	return c.JSON(fiber.Map{
+		"message": "success",
+		"data": product,
+	})
+}
+
+func GetAllUsers(c *fiber.Ctx) error {
+	db, err := database.ConnectPostgres()
+	if err != nil {
+		fmt.Printf("Could not connect to db: %v", err)
+		panic(err)
+	}
+	defer db.Close()
+
+	rows, err := db.Query("SELECT * FROM Userdata")
+	if err != nil {
+		fmt.Printf("Could not query Userdata: %v", err)
+		panic(err)
+	}
+
+	users := []User{}
+
+	for rows.Next() {
+		var user User
+		err := rows.Scan(&user.Id, &user.Email, &user.Password, &user.Role, &user.StoreId)
+		if err != nil {
+			fmt.Printf("Could not scan UserData rows: %v", err)
+			panic(err)
+		}
+		users = append(users, user)
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "success",
+		"data": users,
+	})
+}
+
+func PostNewUser(c *fiber.Ctx) error {
+	user := new(User)
+	if err := c.BodyParser(user); err != nil {
+		return err
+	}
+
+	db, err := database.ConnectPostgres()
+	if err != nil {
+		fmt.Printf("Could not connect to db: %v", err)
+		panic(err)
+	}
+	defer db.Close()
+
+	sqlStatement := `
+		INSERT INTO UserData (email, password, role, storeid)
+		VALUES ($1, $2, $3, $4)
+		RETURNING id
+	`
+	var id int
+	err = db.QueryRow(sqlStatement, user.Email, user.Password, user.Role, user.StoreId).Scan(&id)
+	if err != nil {
+		panic(err)
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "success",
+		"data": user,
+		"id": id,
+	})
 }
