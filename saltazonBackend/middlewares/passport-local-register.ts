@@ -19,7 +19,7 @@ passport.use(
         }
 
         await fetch(
-          'http://localhost:8000/api/user/',
+          'http://127.0.0.1:8000/api/user/',
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

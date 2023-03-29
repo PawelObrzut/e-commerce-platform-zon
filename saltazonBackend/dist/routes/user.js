@@ -23,7 +23,9 @@ const router = (0, express_1.Router)();
 const refreshTokens = [];
 const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 router.get('/', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const usersCollection = yield fetch('http://localhost:8000/api/user/', { method: 'GET' }).then(response => response.json());
+    const usersCollection = yield fetch('http://127.0.0.1:8000/api/user/', { method: 'GET' })
+        .then(response => response.json())
+        .catch(error => console.log(error));
     return res.send(usersCollection);
 }));
 router.post('/login', passport_1.default.authenticate('login'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {

@@ -20,7 +20,7 @@ const privateKey = process.env.ACCESS_TOKEN_SECRET;
 const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 exports.expirationTime = 5;
 const findUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
-    const usersCollection = yield fetch('http://localhost:8000/api/user/', { method: 'GET' }).then(response => response.json());
+    const usersCollection = yield fetch('http://127.0.0.1:8000/api/user/', { method: 'GET' }).then(response => response.json());
     return usersCollection.data.find((user) => user.email === email);
 });
 exports.findUserByEmail = findUserByEmail;

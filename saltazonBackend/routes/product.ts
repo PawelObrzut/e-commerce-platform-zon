@@ -9,7 +9,7 @@ router.get('/', authenticateToken, paginate, async (req: Request, res: Response)
 
 router.get('/:id', authenticateToken, async (req: Request, res: Response) => {
   try {
-    const product = await (await fetch(`http://localhost:8000/api/product/${req.params.id}`)).json();
+    const product = await (await fetch(`http://127.0.0.1:8000/api/product/${req.params.id}`)).json();
     if (product) {
       return res.status(200).json({ responseData: product.data });
     }
@@ -21,7 +21,7 @@ router.get('/:id', authenticateToken, async (req: Request, res: Response) => {
 
 router.delete('/:id', authenticateToken, async (req: Request, res: Response) => {
   try {
-    fetch(`http://localhost:8000/api/product/${req.params.id}`, {
+    fetch(`http://127.0.0.1:8000/api/product/${req.params.id}`, {
       method: 'DELETE',
     })
       .then(response => response.json())

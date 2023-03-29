@@ -25,7 +25,7 @@ passport.use(
           return done(null, false);
         }
         try {
-          if (user.password === password || await bcrypt.compareSync(password, user.password)) {
+          if (bcrypt.compareSync(password, user.password)) {
             return done(null, user);
           }
           console.log('Password Incorrect');

@@ -49,7 +49,7 @@ passport_1.default.use('register', new PassportLocal.Strategy({
             console.log('user exists!');
             return done(null, false);
         }
-        yield fetch('http://localhost:8000/api/user/', {
+        yield fetch('http://127.0.0.1:8000/api/user/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

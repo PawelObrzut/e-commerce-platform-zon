@@ -55,7 +55,7 @@ passport_1.default.use('login', new PassportLocal.Strategy({
             return done(null, false);
         }
         try {
-            if (user.password === password || (yield bcrypt_1.default.compareSync(password, user.password))) {
+            if (bcrypt_1.default.compareSync(password, user.password)) {
                 return done(null, user);
             }
             console.log('Password Incorrect');

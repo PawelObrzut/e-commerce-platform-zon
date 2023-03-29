@@ -9,7 +9,7 @@ const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 export const expirationTime = 5;
 
 export const findUserByEmail = async (email: string): Promise<InterfaceUser | undefined> => {
-  const usersCollection = await fetch('http://localhost:8000/api/user/', { method: 'GET' }).then(response => response.json());
+  const usersCollection = await fetch('http://127.0.0.1:8000/api/user/', { method: 'GET' }).then(response => response.json());
   return usersCollection.data.find((user: InterfaceUser) => user.email === email);
 };
 

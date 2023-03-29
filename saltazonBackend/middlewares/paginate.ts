@@ -8,7 +8,10 @@ const paginate = async (req: Request, res: Response, next: NextFunction) => {
     const startIndex = (+page - 1) * +limit;
     const endIndex = +page * +limit;
 
-    const productsCollection = await fetch('http://localhost:8000/api/product/', { method: 'GET' }).then(response => response.json());
+    const productsCollection = await fetch('http://127.0.0.1:8000/api/product/')
+      .then(response => response.json())
+      .catch(error => console.log(error));
+
     const count = productsCollection.data.length;
 
     const paginatedData: PaginatedData = {

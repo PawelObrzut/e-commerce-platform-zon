@@ -15,7 +15,9 @@ const refreshTokens: string[] = [];
 const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 
 router.get('/', authenticateToken, async (req: Request, res: Response) => {
-  const usersCollection = await fetch('http://localhost:8000/api/user/', { method: 'GET' }).then(response => response.json());
+  const usersCollection = await fetch('http://127.0.0.1:8000/api/user/', { method: 'GET' })
+    .then(response => response.json())
+    .catch(error =>  console.log(error));
   return res.send(usersCollection);
 });
 
