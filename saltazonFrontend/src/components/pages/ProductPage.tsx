@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { GrPrevious } from 'react-icons/gr';
 import { ProductInterface } from '../../types';
@@ -11,6 +11,11 @@ const ProductPage = () => {
   const navigate = useNavigate();
   const { id: productId } = useParams();
   const { data: product, isLoading, error } = useFetch<ProductInterface>(`http://localhost:8080/product/${productId}`);
+
+  const [quantity, setQuantity] = useState(1);
+  const handleQuantity = (e: React.FormEvent<HTMLSelectElement>) => {
+    setQuantity(+e.currentTarget.value);
+  };
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -44,24 +49,21 @@ const ProductPage = () => {
           <PriceTag product={product} />
           <p className='text-xs text-gray-500'>No Import Fees Deposit & $15.00 Shipping to Sweden</p>
           {product.quantity > 0 && <p className='text-md text-green-600 py-3'>In Stock</p>}
-          <form action="" className='text-xs text-center border rounded-l-full rounded-r-full w-2/5 bg-gray-100'>
+
+          <form className='text-xs text-center border rounded-l-full rounded-r-full w-2/5 bg-gray-100'>
             <label htmlFor="Qty">Qty:</label>
-            <select name="quantity" id="Qty" className='bg-gray-100 pl-2'>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
+            <select onChange={handleQuantity} name="quantity" id="Qty" className='bg-gray-100 pl-2'>
+              {[...Array(10)].map((_, index) => (
+                <option key={index} value={index + 1}>
+                  {index + 1}
+                </option>
+              ))}
             </select>
           </form>
+          
           <button 
             className='my-5 text-sm text-center bg-yellow-300 rounded-l-full rounded-r-full w-full p-1 hover:bg-yellow-400'
-            onClick={() => addToCart(product.id, product.imageUrl, product.title, product.price, product.quantity)}
+            onClick={() => addToCart(product.id, product.imageUrl, product.title, product.price, product.quantity, quantity)}
           >
             Add to Cart
           </button>

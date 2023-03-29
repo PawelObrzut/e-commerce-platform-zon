@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { ReactEventHandler } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/cartContext';
 
 function CartItem({ product }: any) {
-  const { removeFromCart, itemQuantity } = useCart();
+  const { removeFromCart, itemQuantity, updateCartItem } = useCart();
+
+  const handleChange = (e: React.FormEvent<HTMLSelectElement>) => {
+    updateCartItem(product.id, + e.currentTarget.value)
+  }
   
   return (
     <article className='grid grid-cols-5 py-4 border-b'>
@@ -27,6 +31,7 @@ function CartItem({ product }: any) {
         <form className="text-sm text-center border rounded-lg w-24 p-1 bg-gray-100 drop-shadow">
             <label htmlFor="Qty">Qty: </label>
             <select
+              onChange={handleChange}
               name="quantity"
               id="Qty"
               className="bg-gray-100 pl-2"

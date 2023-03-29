@@ -38,10 +38,12 @@ function Cart() {
         <h3 className='float-right text-lg'>Subtotal ({cartQuantity} items): <span className='font-bold'>${cartValue.toFixed(2)}</span></h3>
       </section>
       <aside className='bg-slate-50 h-2/5 p-5 text-center'>
-        <div className='inline-flex'>
-          <h2 className='text-xl pr-2'>Subtotal ({cartQuantity} Items):</h2><span className='text-lg font-bold'>${cartValue.toFixed(2)}</span>
+        <div className='inline-flex '>
+          <h2 className='text-xl pr-2'>Subtotal ({cartQuantity} items):</h2><span className='text-lg font-bold'>${cartValue.toFixed(2)}</span>
         </div>
         <button className='text-center text-sm rounded-lg my-5 w-full p-1 bg-yellow-400 hover:bg-yellow-500'>Proceed to checkout</button>
+
+        <button className='text-center text-sm rounded-lg my-5 w-full p-1 bg-yellow-400 hover:bg-yellow-500'>Continue Shopping</button>
       </aside>
 
     </main>);

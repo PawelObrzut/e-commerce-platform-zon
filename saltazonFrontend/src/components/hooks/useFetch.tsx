@@ -39,7 +39,14 @@ const useFetch = <T = unknown>(url: string): FetchData<T> => {
         setError(error.message);
       }
     };
-    fetchData();
+
+    const credentials = Cookies.get('credentials');
+    if (credentials) {
+      fetchData();
+    } else {
+      setIsLoading(false);
+      setError('Missing credentials');
+    };
   }, [url]);
 
   return { data, isLoading, error, details };

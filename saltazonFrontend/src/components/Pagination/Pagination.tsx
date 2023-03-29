@@ -26,8 +26,9 @@ const Pagination = () => {
           <GrPrevious className='relative top-[16%]' /><span>Previous</span>
         </button>
       }
-      <div className='hover:bg-gray-200 hover:cursor-pointer px-5 py-3 border border-black'> {details.page} </div>
-      <div className='hover:bg-gray-200 hover:cursor-pointer px-5 py-3'> {details.next} </div>
+      <div className='px-5 py-3'> {details.page -1} </div>
+      <div className='hover:bg-gray-200 px-5 py-3 border border-black'> {details.page} </div>
+      <div className='px-5 py-3'> {details.next} </div>
       <div className='px-5 py-3 text-gray-400'> ... {Math.ceil(details.count / details.limit)}  </div>
 
       {details.next ?
