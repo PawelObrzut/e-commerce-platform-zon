@@ -16,7 +16,7 @@ const HomePage = () => {
     <>
       <Carousel />
       <main className='grid grid-cols-3 gap-5 -mt-36 mx-auto w-[98%] z-10 relative lg:grid-cols-4 pb-5'>
-        <Card title="Top Deals" img={<img src={deals} alt="deals" />} linkTitle="See all the deals" />
+        <Card title="Top Deals" img={<img src={deals} alt="deals" />} linkTitle="See all the deals" to="/productList"/>
         <Card title="Electronics" img={<img src={electronics} alt="electronics" />} linkTitle="See more" />
         <Card title="Shoes" img={<img src={shoes} alt="shoes" />} linkTitle="Shop now" />
         <Card title="Books" img={<img src={books} alt="books" />} linkTitle="Shop now" />

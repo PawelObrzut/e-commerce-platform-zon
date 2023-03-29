@@ -14,10 +14,9 @@ import ProductPage from './components/pages/ProductPage';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import ProductListPage from './components/pages/ProductListPage';
-import { fakecart as currentCart } from '../src/fakedata/fakecart';
+import PrivateRoutes from './components/utils/PrivateRoutes';
 
 function App() {
-	// const [currentCart, setCurrentCart] = useState(getCurrentCart());
 
 	return (
 		<div className="bg-[#e6e6e6]">
@@ -30,11 +29,14 @@ function App() {
 				<Routes>
 					<Route path='/login' element={ <LoginPage /> }></Route>
 					<Route path='/' element={ <HomePage /> }></Route>
-					<Route path='/productList' element={ <ProductListPage /> }></Route>
-					<Route path='/productList/:id' element={ <ProductPage /> }></Route>
-					<Route path='/cart'	element={	<Cart/> }></Route>
-					<Route path='/admin' element={< AdminPage />}></Route>
-					<Route path='/admin/super' element={< SuperAdminPage />}></Route>
+
+					<Route element={<PrivateRoutes />} >
+						<Route path='/productList' element={ <ProductListPage /> }></Route>
+						<Route path='/productList/:id' element={ <ProductPage /> }></Route>
+						<Route path='/cart'	element={	<Cart/> }></Route>
+						<Route path='/admin' element={< AdminPage />}></Route>
+						<Route path='/admin/super' element={< SuperAdminPage />}></Route>
+					</Route>
 				</Routes>
 				<div onClick={() => { window.scrollTo(0, 0) }} className='text-sm text-white text-center bg-gray-700 w-full p-4 cursor-pointer hover:bg-gray-600'>
 					Back to top
