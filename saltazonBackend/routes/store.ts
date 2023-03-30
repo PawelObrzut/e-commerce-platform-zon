@@ -9,10 +9,10 @@ router.get('/', authenticateToken, async (req: Request, res: Response) => res.st
 
 router.get('/:id', authenticateToken, async (req: Request, res: Response) => {
   try {
-    const storeResponse = await fetch(`http://localhost:8000/api/store/${req.params.id}`);
+    const storeResponse = await fetch(`http://127.0.0.1:8000/api/store/${req.params.id}`);
     const storeData = await storeResponse.json();
 
-    const productResponse = await fetch('http://localhost:8000/api/product');
+    const productResponse = await fetch('http://127.0.0.1:8000/api/product');
     const productData = await productResponse.json();
 
     const filteredProducts = productData
