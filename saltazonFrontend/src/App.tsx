@@ -15,6 +15,7 @@ import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import ProductListPage from './components/pages/ProductListPage';
 import PrivateRoutes from './components/utils/PrivateRoutes';
+import StorePage from './components/pages/StorePage';
 
 function App() {
 
@@ -34,8 +35,9 @@ function App() {
 						<Route path='/productList' element={ <ProductListPage /> }></Route>
 						<Route path='/productList/:id' element={ <ProductPage /> }></Route>
 						<Route path='/cart'	element={	<Cart/> }></Route>
-						<Route path='/admin' element={< AdminPage />}></Route>
-						<Route path='/admin/super' element={< SuperAdminPage />}></Route>
+						<Route path='/store/:id' element={ <StorePage /> }></Route>
+						<Route path='/admin' element={ <AdminPage /> }></Route>
+						<Route path='/admin/super' element={ <SuperAdminPage /> }></Route>
 					</Route>
 				</Routes>
 				<div onClick={() => { window.scrollTo(0, 0) }} className='text-sm text-white text-center bg-gray-700 w-full p-4 cursor-pointer hover:bg-gray-600'>

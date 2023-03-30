@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { GrPrevious } from 'react-icons/gr';
 import { ProductInterface } from '../../types';
 import useFetch from '../hooks/useFetch';
 import PriceTag from '../products/PriceTag';
 import { useCart } from '../context/cartContext';
 
+interface ProductPageInterface {
+  responseData: ProductInterface,
+}
+
 const ProductPage = () => {
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const { id: productId } = useParams();
-  const { data: product, isLoading, error } = useFetch<ProductInterface>(`http://localhost:8080/product/${productId}`);
+  const { data, isLoading, error } = useFetch<ProductPageInterface>(`http://localhost:8080/product/${productId}`);
+
+  const product = data?.responseData
 
   const [quantity, setQuantity] = useState(1);
   const handleQuantity = (e: React.FormEvent<HTMLSelectElement>) => {
@@ -36,7 +42,9 @@ const ProductPage = () => {
         <article className='col-span-2 pl-2'>
           <h2 className='text-xl font-semibold'>{product.title}</h2>
           <p className='py-5'>{product.description}</p>
-          <a href="#" className='text-sm text-blue-500 hover:text-red-500 hover:underline'>Visit the Store</a>
+
+          <Link to={`/store/${product.storeId}`} className='text-sm text-blue-500 hover:text-red-500 hover:underline'>Visit the Store</Link>
+
           <hr className='w-11/12 py-1' />
           <PriceTag product={product} />
           <ul className='list-disc pl-4'>
