@@ -25,6 +25,11 @@ type User struct {
 	StoreId				int			`json:"storeId"`
 }
 
+type Store struct {
+	Name						string	`json:"name"`
+	UniqueStoreId		int			`json:"storeId"`
+}
+
 func GetMainRoute(c *fiber.Ctx) error {
 	return c.SendString("Hello there general Kenobi")
 }
@@ -86,7 +91,7 @@ func GetOneProduct(c *fiber.Ctx) error {
 			panic(err)
 		}
 	}
-	fmt.Println(product)
+
 	return c.JSON(fiber.Map{
 		"message": "success",
 		"data": product,
@@ -153,5 +158,66 @@ func PostNewUser(c *fiber.Ctx) error {
 		"message": "success",
 		"data": user,
 		"id": id,
+	})
+}
+
+func GetAllStores(c *fiber.Ctx) error {
+	db, err := database.ConnectPostgres()
+	if err != nil {
+		fmt.Printf("Could not connect to db: %v", err)
+		panic(err)
+	}
+	defer db.Close()
+
+	rows, err := db.Query("SELECT * FROM StoreData")
+	if err != nil {
+		fmt.Printf("Could not query Storedata: %v", err)
+		panic(err)
+	}
+	stores := []Store{}
+	for rows.Next() {
+		var store Store
+		err := rows.Scan(&store.Name, &store.UniqueStoreId)
+		if err != nil {
+			fmt.Printf("Could not scan Storedata rows: %v", err)
+			panic(err)
+		}
+		stores = append(stores, store)
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "success",
+		"data": stores,
+	})
+}
+
+func GetOneStore(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	db, err := database.ConnectPostgres()
+	if err != nil {
+		fmt.Printf("Could not connect to db: %v", err)
+		panic(err)
+	}
+	defer db.Close()
+
+	rows, err := db.Query("SELECT * FROM StoreData WHERE UniqueStoreId=$1", id)
+	if err != nil {
+		fmt.Printf("Could not query StoreData: %v", err)
+		panic(err)
+	}
+
+	var store Store
+
+	for rows.Next() {
+		err := rows.Scan(&store.Name, &store.UniqueStoreId); 
+		if err != nil {
+			fmt.Printf("Could not scan StoreData rows: %v", err)
+			panic(err)
+		}
+	}
+	return c.JSON(fiber.Map{
+		"message": "success",
+		"data": store,
 	})
 }

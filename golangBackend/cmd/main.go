@@ -20,11 +20,16 @@ func main (){
 	app.Use(cors.New())
 	
 	app.Get("/", handlers.GetMainRoute)
+	
 	app.Get("/api/product", handlers.GetAllProducts)
 	app.Get("/api/product/:id", handlers.GetOneProduct)
 
 	app.Get("/api/user", handlers.GetAllUsers)
 	app.Post("/api/user", handlers.PostNewUser)
+
+	app.Get("/api/store", handlers.GetAllStores)
+	app.Get("/api/store/:id", handlers.GetOneStore)
+
 
 	app.Listen(":8000")
 }
