@@ -19,7 +19,7 @@ const useFetch = <T = unknown>(url: string): FetchData<T> => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + Cookies.get('credentials')
+            'Authorization': 'Bearer ' + Cookies.get('accessToken')
           }
         });
         const json = await response.json();
@@ -31,7 +31,7 @@ const useFetch = <T = unknown>(url: string): FetchData<T> => {
       }
     };
 
-    const credentials = Cookies.get('credentials');
+    const credentials = Cookies.get('accessToken');
     if (credentials) {
       fetchData();
     } else {

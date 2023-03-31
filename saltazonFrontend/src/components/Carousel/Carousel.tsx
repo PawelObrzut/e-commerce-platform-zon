@@ -6,12 +6,11 @@ import furniture from '../../images/c_furniture.png';
 import gameStore from '../../images/c_game-store.png';
 import newArrivals from '../../images/c_new-arrivals.png';
 import newCollection from '../../images/c_new-collection.png';
-import superSale from '../../images/c_super-sale.png';
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const carouselImages = [friday, furniture, gameStore, newArrivals, newCollection, fashion, superSale];
+  const carouselImages = [friday, furniture, gameStore, newArrivals, newCollection, fashion];
 
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
