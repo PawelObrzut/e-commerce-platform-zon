@@ -51,14 +51,12 @@ passport_1.default.use('login', new PassportLocal.Strategy({
     try {
         const user = yield (0, utils_1.findUserByEmail)(email);
         if (!user) {
-            console.log('User ist nicht da');
             return done(null, false);
         }
         try {
             if (bcrypt_1.default.compareSync(password, user.password)) {
                 return done(null, user);
             }
-            console.log('Password Incorrect');
             return done(null, false);
         }
         catch (error) {

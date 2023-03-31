@@ -1,20 +1,18 @@
 import {
-  Router, Request, Response,
+  Router, Request, Response, response,
 } from 'express';
 import dotenv from 'dotenv';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
-import { generateAccessJWT, genereteRefreshJWT } from '../utils/utils';
 import { RequestUser } from '../types/types';
-import authenticateToken from '../middlewares/authenticateToken';
 
 dotenv.config();
 const router = Router();
 
-const refreshTokens: string[] = [];
 const refreshKey = process.env.REFRESH_TOKEN_SECRET;
+const accessKey = process.env.ACCESS_TOKEN_SECRET;
 
-router.get('/', authenticateToken, async (req: Request, res: Response) => {
+router.get('/', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   const usersCollection = await fetch('http://127.0.0.1:8000/api/user/', { method: 'GET' })
     .then(response => response.json())
     .catch(error =>  console.log(error));
@@ -22,36 +20,79 @@ router.get('/', authenticateToken, async (req: Request, res: Response) => {
 });
 
 router.post('/login', passport.authenticate('login'), async (req: RequestUser, res: Response) => {
-  // const accessToken = generateAccessJWT(req.user as RequestUser);
-  const refreshToken = genereteRefreshJWT(req.user as RequestUser);
-  refreshTokens.push(refreshToken);
-  return res.cookie('credentials', refreshToken).send();
+  if (!accessKey || !refreshKey || !req.user) {
+    return res.status(500).json({ message: 'Internal server error'})
+  }
+  const { id: userId } = req.user
+  const accessToken = jwt.sign(req.user, accessKey, { expiresIn: '5m' });
+  const refreshToken = jwt.sign(req.user, refreshKey);
+
+  const body = new Map();
+  body.set('id', userId);
+  body.set('token', refreshToken);
+
+  fetch('http://127.0.0.1:8000/api/user/saveRefreshToken', 
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(Object.fromEntries(body))
+    }
+  )
+    .then(response => {
+      console.log(response.status)
+      return response.text();
+    })
+    .then(message => {
+      console.log(message);
+      return res
+      .status(203)
+      .cookie('accessToken', accessToken)
+      .cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: true,
+      })
+      .json({ message: 'Success on logging in' });
+    })
+    .catch(error => {
+      console.log(error)
+      return res.status(500).json({ message: 'Internat server error, could not save the refresh token.' })
+    })
 });
 
 router.post('/refreshToken', (req: Request, res: Response) => {
   const { refreshToken } = req.body;
   if (!refreshToken) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res.status(401).json({ message: 'Token not provided' });
   }
-  if (!refreshTokens.includes(refreshToken)) {
-    return res.status(403).json({ message: 'Forbidden' });
+
+  if (!refreshKey || !accessKey) {
+    return res.status(500).json({ message: 'Internal server error'})
   }
-  if (!refreshKey) {
-    return res.status(500).json({ message: 'Cannot refresh Token' });
-  }
-  jwt.verify(refreshToken, refreshKey, (error: any, user: any) => {
-    if (error) {
-      return res.sendStatus(403);
-    }
-    const accessToken = generateAccessJWT(user);
-    return res.json({ accessToken });
-  });
-  return res.status(500).json({ message: 'oops' });
+
+  fetch(`http://127.0.0.1:8000/api/user/token/${refreshToken}`, { method: 'GET' })
+    .then(response => response.json())
+    .then((message: boolean) => {
+      if (message) {
+        jwt.verify(refreshToken, refreshKey, (err: any, decode: any) => {
+          if (err) {
+            return res.sendStatus(403);
+          }
+          const { iat, exp, ...userData } = decode;
+          const accessToken = jwt.sign(userData, accessKey, { expiresIn: '5m' });
+          return res.status(203).cookie('accessToken', accessToken).json({ message: 'Token refreshed' });
+        });
+      } else {
+        return res.status(403).json({ message: 'Refresh token revoked' })
+      }
+    })
+    .catch(error => {
+      console.log(error)
+      return res.status(500).json({ message: 'Internat server error, could not refresh the token.' })
+    });
+
 });
 
-router.post('/register', passport.authenticate('register'), async (req: Request, res: Response) => {
-  console.log('User or Admin has been created');
-  return res.status(203).json({ message: 'User Registered' });
-});
+router.post('/register', passport.authenticate('register'), async (req: Request, res: Response) => res.status(203).json({ message: 'User Registered' }));
 
 export default router;

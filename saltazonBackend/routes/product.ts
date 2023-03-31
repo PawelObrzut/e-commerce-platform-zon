@@ -1,13 +1,13 @@
 import express, { Request } from 'express';
 import { Response } from 'express-serve-static-core';
+import passport from 'passport';
 import paginate from '../middlewares/paginate';
-import authenticateToken from '../middlewares/authenticateToken';
 
 const router = express.Router();
 
-router.get('/', authenticateToken, paginate, async (req: Request, res: Response) => res.status(200).json(res.respondWithData));
+router.get('/', passport.authenticate('authenticateJWT'), paginate, async (req: Request, res: Response) => res.status(200).json(res.respondWithData));
 
-router.get('/:id', authenticateToken, async (req: Request, res: Response) => {
+router.get('/:id', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {
     const product = await (await fetch(`http://127.0.0.1:8000/api/product/${req.params.id}`)).json();
     if (product) {
@@ -19,7 +19,7 @@ router.get('/:id', authenticateToken, async (req: Request, res: Response) => {
   return res.status(500).send();
 });
 
-router.delete('/:id', authenticateToken, async (req: Request, res: Response) => {
+router.delete('/:id', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {
     fetch(`http://127.0.0.1:8000/api/product/${req.params.id}`, {
       method: 'DELETE',

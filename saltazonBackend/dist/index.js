@@ -17,6 +17,7 @@ const product_1 = __importDefault(require("./routes/product"));
 const store_1 = __importDefault(require("./routes/store"));
 require("./middlewares/passport-local-login");
 require("./middlewares/passport-local-register");
+require("./middlewares/passport-jwt-auth");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;

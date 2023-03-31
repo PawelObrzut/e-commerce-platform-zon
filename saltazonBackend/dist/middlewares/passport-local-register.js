@@ -46,7 +46,6 @@ passport_1.default.use('register', new PassportLocal.Strategy({
     try {
         const user = yield (0, utils_1.findUserByEmail)(email);
         if (user) {
-            console.log('user exists!');
             return done(null, false);
         }
         yield fetch('http://127.0.0.1:8000/api/user/', {

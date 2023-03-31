@@ -13,11 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const passport_1 = __importDefault(require("passport"));
 const paginate_1 = __importDefault(require("../middlewares/paginate"));
-const authenticateToken_1 = __importDefault(require("../middlewares/authenticateToken"));
 const router = express_1.default.Router();
-router.get('/', authenticateToken_1.default, paginate_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json(res.respondWithData); }));
-router.get('/:id', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/', passport_1.default.authenticate('authenticateJWT'), paginate_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json(res.respondWithData); }));
+router.get('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const product = yield (yield fetch(`http://127.0.0.1:8000/api/product/${req.params.id}`)).json();
         if (product) {
@@ -29,7 +29,7 @@ router.get('/:id', authenticateToken_1.default, (req, res) => __awaiter(void 0, 
     }
     return res.status(500).send();
 }));
-router.delete('/:id', authenticateToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.delete('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         fetch(`http://127.0.0.1:8000/api/product/${req.params.id}`, {
             method: 'DELETE',

@@ -14,7 +14,6 @@ passport.use(
       try {
         const user = await findUserByEmail(email);
         if (user) {
-          console.log('user exists!');
           return done(null, false);
         }
 

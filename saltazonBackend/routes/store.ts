@@ -1,13 +1,13 @@
 import express, { Request } from 'express';
 import { Response } from 'express-serve-static-core';
+import passport from 'passport';
 import { ProductInterface } from '../types/types';
-import authenticateToken from '../middlewares/authenticateToken';
 
 const router = express.Router();
 
-router.get('/', authenticateToken, async (req: Request, res: Response) => res.status(200).json({ message: "don't try, do!" }));
+router.get('/', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => res.status(200).json({ message: "don't try, do!" }));
 
-router.get('/:id', authenticateToken, async (req: Request, res: Response) => {
+router.get('/:id', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {
     const storeResponse = await fetch(`http://127.0.0.1:8000/api/store/${req.params.id}`);
     const storeData = await storeResponse.json();
@@ -30,7 +30,7 @@ router.get('/:id', authenticateToken, async (req: Request, res: Response) => {
   return res.status(500).send();
 });
 
-router.post('/:id/product', authenticateToken, async (req: Request, res: Response) => {
+router.post('/:id/product', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   console.log(req.body);
   try {
     fetch('http://localhost:8000/api/product', {

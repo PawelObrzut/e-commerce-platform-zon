@@ -21,14 +21,12 @@ passport.use(
       try {
         const user = await findUserByEmail(email);
         if (!user) {
-          console.log('User ist nicht da');
           return done(null, false);
         }
         try {
           if (bcrypt.compareSync(password, user.password)) {
             return done(null, user);
           }
-          console.log('Password Incorrect');
           return done(null, false);
         } catch (error) {
           return done(error);

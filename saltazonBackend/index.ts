@@ -12,6 +12,7 @@ import productRouter from './routes/product';
 import storeRouter from './routes/store';
 import './middlewares/passport-local-login';
 import './middlewares/passport-local-register';
+import './middlewares/passport-jwt-auth';
 
 dotenv.config();
 
