@@ -26,6 +26,8 @@ func main (){
 
 	app.Get("/api/user", handlers.GetAllUsers)
 	app.Post("/api/user", handlers.PostNewUser)
+	app.Post("/api/user/saveRefreshToken", handlers.SaveUsersRefreshToken)
+	app.Get("/api/user/token/:refreshToken", handlers.GetRefreshToken)
 
 	app.Get("/api/store", handlers.GetAllStores)
 	app.Get("/api/store/:id", handlers.GetOneStore)

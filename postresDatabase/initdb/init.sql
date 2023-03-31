@@ -21,3 +21,9 @@ CREATE TABLE ProductData (
     quantity INT,
     category VARCHAR(250)
 );
+
+CREATE TABLE RefreshTokens (
+    id SERIAL PRIMARY KEY,
+    userId INT REFERENCES UserData(id),
+    refreshToken VARCHAR(250)
+)

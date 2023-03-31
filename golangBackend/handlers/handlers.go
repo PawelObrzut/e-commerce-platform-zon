@@ -4,6 +4,7 @@ import (
 	"github.com/PawelObrzut/e-commerce-platform-zon/golangBackend/connectPostgres"
 	"github.com/gofiber/fiber/v2"
 	"fmt"
+	"encoding/json"
 )
 
 type Product struct {
@@ -28,6 +29,11 @@ type User struct {
 type Store struct {
 	Name						string	`json:"name"`
 	UniqueStoreId		int			`json:"storeId"`
+}
+
+type UserRefreshToken struct {
+	ID    int    `json:"id"`
+	Token string `json:"token"`
 }
 
 func GetMainRoute(c *fiber.Ctx) error {
@@ -159,6 +165,67 @@ func PostNewUser(c *fiber.Ctx) error {
 		"data": user,
 		"id": id,
 	})
+}
+
+func SaveUsersRefreshToken(c *fiber.Ctx) error {
+	db, err := database.ConnectPostgres()
+	if err != nil {
+		fmt.Printf("Could not connect to db: %v", err)
+		panic(err)
+	}
+	defer db.Close()
+
+	var userRefreshToken UserRefreshToken
+	
+	if err := json.Unmarshal(c.Body(), &userRefreshToken); err != nil {
+		fmt.Printf("Failed to parse request body: %v", err)
+		return c.SendStatus(fiber.StatusBadRequest)
+	}
+
+	sqlStatement := "INSERT INTO RefreshTokens (userId, refreshToken) VALUES ($1, $2)"
+
+	result, err := db.Exec(sqlStatement, userRefreshToken.ID, userRefreshToken.Token)
+	if err != nil {
+		panic(err)
+	}
+
+	rowCount, err := result.RowsAffected()
+	if err != nil {
+		panic(err)
+	}
+	if rowCount != 1 {
+		panic("Expected to insert 1 row")
+	}
+
+	return c.SendString("Refresh Token Saved")
+}
+
+func GetRefreshToken(c *fiber.Ctx) error {
+	refreshToken := c.Params("refreshToken")
+	db, err := database.ConnectPostgres()
+	if err != nil {
+		fmt.Printf("Could not connect to db: %v", err)
+		panic(err)
+	}
+	defer db.Close()
+
+	var result bool
+
+	row, err := db.Query("SELECT EXISTS(SELECT 1 FROM RefreshTokens WHERE refreshToken = $1)", refreshToken)
+	if err != nil {
+		fmt.Printf("Could not query RefreshTokens: %v", err)
+		panic(err)
+	}
+
+	for row.Next() {
+		err := row.Scan(&result)
+		if err != nil {
+			fmt.Printf("Could not scan RefreshTokens row: %v", err)
+			panic(err)
+		}
+	}
+
+	return c.JSON(result)
 }
 
 func GetAllStores(c *fiber.Ctx) error {
