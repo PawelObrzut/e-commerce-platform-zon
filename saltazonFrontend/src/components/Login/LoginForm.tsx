@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useUser } from "../context/userContext";
+import axios from 'axios';
+import useAuth from '../hooks/useAuth';
+
 
 interface LogInFormInterface {
   email: string,
@@ -10,9 +13,10 @@ interface LogInFormInterface {
 }
 
 function LoginForm() {
-  const {
-    logIn
-  } = useUser();
+  const { setAuth } = useAuth();
+
+  const navigate = useNavigate();
+  const directTo = "/productList";
 
   const schema = yup.object().shape({
     email: yup.string().email().required(),
@@ -23,8 +27,23 @@ function LoginForm() {
     resolver: yupResolver(schema)
   });
 
-  const sumbitLogIn = ({email, password }: LogInFormInterface) => {
-    logIn(email, password);
+  const sumbitLogIn = async ({email, password }: LogInFormInterface) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/user/login',
+        JSON.stringify({ email, password }),
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
+        })
+        const accessToken = response?.data?.accessToken;
+      setAuth({email, password, accessToken})
+      navigate(directTo, { replace: true });
+
+    } catch (error) {
+      console.log(error)
+    }
+
     reset();
   }
 
