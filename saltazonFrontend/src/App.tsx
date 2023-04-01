@@ -16,29 +16,32 @@ import LoginPage from './components/pages/LoginPage';
 import ProductListPage from './components/pages/ProductListPage';
 import PrivateRoutes from './components/utils/PrivateRoutes';
 import StorePage from './components/pages/StorePage';
+import RequireAuth from './components/RequireAuth/RequireAuth';
 
 function App() {
 
 	return (
 		<div className="bg-[#e6e6e6]">
 			<Router>
-				<header>
-					<NavBar />
-					{/* <ProfileBar /> */}
-				</header>
+					<header>
+						<NavBar />
+						{/* <ProfileBar /> */}
+					</header>
 
 				<Routes>
-					<Route path='/login' element={ <LoginPage /> }></Route>
-					<Route path='/' element={ <HomePage /> }></Route>
 
-					<Route element={<PrivateRoutes />} >
-						<Route path='/productList' element={ <ProductListPage /> }></Route>
-						<Route path='/productList/:id' element={ <ProductPage /> }></Route>
-						<Route path='/cart'	element={	<Cart/> }></Route>
-						<Route path='/store/:id' element={ <StorePage /> }></Route>
-						<Route path='/admin' element={ <AdminPage /> }></Route>
-						<Route path='/admin/super' element={ <SuperAdminPage /> }></Route>
-					</Route>
+						<Route path='/login' element={ <LoginPage /> }></Route>
+						<Route path='/' element={ <HomePage /> }></Route>
+
+						<Route element={<RequireAuth />} >
+							<Route path='/productList' element={ <ProductListPage /> }></Route>
+							<Route path='/productList/:id' element={ <ProductPage /> }></Route>
+							<Route path='/cart'	element={	<Cart/> }></Route>
+							<Route path='/store/:id' element={ <StorePage /> }></Route>
+							<Route path='/admin' element={ <AdminPage /> }></Route>
+							<Route path='/admin/super' element={ <SuperAdminPage /> }></Route>
+						</Route>
+
 				</Routes>
 				<div onClick={() => { window.scrollTo(0, 0) }} className='text-sm text-white text-center bg-gray-700 w-full p-4 cursor-pointer hover:bg-gray-600'>
 					Back to top
