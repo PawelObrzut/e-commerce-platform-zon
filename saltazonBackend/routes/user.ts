@@ -44,7 +44,6 @@ router.post('/login', passport.authenticate('login'), async (req: RequestUser, r
       console.log(message);
       return res
         .status(203)
-        // .cookie('accessToken', accessToken)
         .cookie('refreshToken', refreshToken, {
           httpOnly: true,
           // sameSite: 'strict',
@@ -61,7 +60,7 @@ router.post('/login', passport.authenticate('login'), async (req: RequestUser, r
 });
 
 router.post('/refreshToken', (req: Request, res: Response) => {
-  const { refreshToken } = req.body;
+  const { refreshToken } = req.cookies;
   if (!refreshToken) {
     return res.status(401).json({ message: 'Token not provided' });
   }
@@ -80,7 +79,9 @@ router.post('/refreshToken', (req: Request, res: Response) => {
           }
           const { iat, exp, ...userData } = decode;
           const accessToken = jwt.sign(userData, accessKey, { expiresIn: '5m' });
-          return res.status(203).cookie('accessToken', accessToken).json({ message: 'Token refreshed' });
+          return res
+            .status(203)
+            .json({ accessToken: accessToken });
         });
       } else {
         return res.status(403).json({ message: 'Refresh token revoked' })
@@ -90,7 +91,6 @@ router.post('/refreshToken', (req: Request, res: Response) => {
       console.log(error)
       return res.status(500).json({ message: 'Internat server error, could not refresh the token.' })
     });
-
 });
 
 router.post('/register', passport.authenticate('register'), async (req: Request, res: Response) => res.status(203).json({ message: 'User Registered' }));

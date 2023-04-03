@@ -5,7 +5,7 @@ import paginate from '../middlewares/paginate';
 
 const router = express.Router();
 
-router.get('/', paginate, async (req: Request, res: Response) => res.status(200).json(res.respondWithData));
+router.get('/',  paginate, async (req: Request, res: Response) => res.status(200).json(res.respondWithData));
 
 router.get('/:id', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {

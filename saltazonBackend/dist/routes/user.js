@@ -57,7 +57,6 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
         console.log(message);
         return res
             .status(203)
-            // .cookie('accessToken', accessToken)
             .cookie('refreshToken', refreshToken, {
             httpOnly: true,
             // sameSite: 'strict',
@@ -73,7 +72,7 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
     });
 }));
 router.post('/refreshToken', (req, res) => {
-    const { refreshToken } = req.body;
+    const { refreshToken } = req.cookies;
     if (!refreshToken) {
         return res.status(401).json({ message: 'Token not provided' });
     }
@@ -90,7 +89,9 @@ router.post('/refreshToken', (req, res) => {
                 }
                 const { iat, exp } = decode, userData = __rest(decode, ["iat", "exp"]);
                 const accessToken = jsonwebtoken_1.default.sign(userData, accessKey, { expiresIn: '5m' });
-                return res.status(203).cookie('accessToken', accessToken).json({ message: 'Token refreshed' });
+                return res
+                    .status(203)
+                    .json({ accessToken: accessToken });
             });
         }
         else {
