@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import { ProductInterface } from '../../types';
 import useFetch from '../hooks/useFetch';
+import { baseURL } from '../utils/api'
 
 interface ProductListInterface {
   count?: number,
@@ -24,15 +25,14 @@ interface ProductContextInterface {
   setUrl: React.Dispatch<React.SetStateAction<string>>
 }
 
-const ProductContext = createContext({} as ProductContextInterface);
-export const useProduct = () => useContext(ProductContext);
+const ProductsContext = createContext({} as ProductContextInterface);
 
 interface ProductProviderInterface {
   children: ReactNode
 }
 
 export const ProductProvider = ({ children }: ProductProviderInterface) => {
-  const [url, setUrl] = useState(`http://localhost:8080/product?page=1&limit=12`)
+  const [url, setUrl] = useState(`${baseURL}/product?page=1&limit=12`)
 
   const categories: string[] = [
     'Baby', 'Movies', 'Sports', 'Beauty', 'Books', 'Clothing', 'Industrial', 'Grocery', 'Outdoors', 'Computers',
@@ -42,7 +42,7 @@ export const ProductProvider = ({ children }: ProductProviderInterface) => {
   const { data, isLoading, error } = useFetch<ProductListInterface>(url);
 
   return (
-    <ProductContext.Provider
+    <ProductsContext.Provider
       value= {{
         categories,
         products: data?.responseData,
@@ -56,6 +56,8 @@ export const ProductProvider = ({ children }: ProductProviderInterface) => {
       }}
     >
       { children }
-    </ProductContext.Provider>
+    </ProductsContext.Provider>
   );
 };
+
+export default ProductsContext;

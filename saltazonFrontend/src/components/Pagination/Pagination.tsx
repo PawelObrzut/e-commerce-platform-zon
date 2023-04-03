@@ -1,17 +1,18 @@
 import React from 'react'
 import { GrNext, GrPrevious } from 'react-icons/gr';
-import { useProduct } from '../context/productContext';
+import useProducts from '../hooks/useProducts';
+import { baseURL } from '../utils/api'
 
 const Pagination = () => {
-  const { setUrl, next, page, count, limit } = useProduct();
+  const { setUrl, next, page, count, limit } = useProducts();
 
   const handleNextPage = () => {
-    setUrl(`http://localhost:8080/product?page=${next}&limit=12`)
+    setUrl(`${baseURL}/product?page=${next}&limit=12`)
     window.scrollTo(0, 0);
   };
 
   const handlePreviousPage = () => {
-    setUrl(`http://localhost:8080/product?page=${page - 1}&limit=12`)
+    setUrl(`${baseURL}/product?page=${page - 1}&limit=12`)
     window.scrollTo(0, 0);
   };
 

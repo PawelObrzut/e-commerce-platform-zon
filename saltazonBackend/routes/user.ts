@@ -24,8 +24,9 @@ router.post('/login', passport.authenticate('login'), async (req: RequestUser, r
     return res.status(500).json({ message: 'Internal server error'})
   }
   const { id: userId } = req.user
-  const accessToken = jwt.sign(req.user, accessKey, { expiresIn: '5m' });
-  const refreshToken = jwt.sign(req.user, refreshKey);
+
+  const accessToken = jwt.sign({ ...req.user, iat: Math.floor(Date.now() / 1000) }, accessKey, { expiresIn: '5m' });
+  const refreshToken = jwt.sign({ ...req.user, iat: Math.floor(Date.now() / 1000) }, refreshKey);
 
   const body = new Map();
   body.set('id', userId);
@@ -38,21 +39,20 @@ router.post('/login', passport.authenticate('login'), async (req: RequestUser, r
       body: JSON.stringify(Object.fromEntries(body))
     }
   )
-    .then(response => {
-      console.log(response.status)
-      return response.text();
-    })
+    .then(response => response.text())
     .then(message => {
       console.log(message);
       return res
-      .status(203)
-      .cookie('accessToken', accessToken)
-      .cookie('refreshToken', refreshToken, {
-        httpOnly: true,
-        sameSite: 'strict',
-        secure: true,
-      })
-      .json({ message: 'Success on logging in' });
+        .status(203)
+        // .cookie('accessToken', accessToken)
+        .cookie('refreshToken', refreshToken, {
+          httpOnly: true,
+          // sameSite: 'strict',
+          secure: true,
+        })
+        .json({ 
+          accessToken: accessToken
+        });
     })
     .catch(error => {
       console.log(error)

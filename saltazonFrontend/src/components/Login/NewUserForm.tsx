@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useUser } from "../context/userContext";
+import { baseURL } from '../utils/api'
 
 interface SignUpFormInterface {
   email: string,
@@ -12,10 +12,6 @@ interface SignUpFormInterface {
 }
 
 function NewUserForm() {
-  const {
-    signUp
-  } = useUser();
-  
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(4).required(),
@@ -27,8 +23,29 @@ function NewUserForm() {
     resolver: yupResolver(schema)
   });
 
-  const submitSignUp = ({ email, password, role }: SignUpFormInterface) => {
-    signUp(email, password, role);
+  const submitSignUp = async ({ email, password, role }: SignUpFormInterface) => {
+    try {
+      const response = await fetch(`${baseURL}/user/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password,
+          role,
+          storeId: null
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+      } else {
+        throw new Error('Sign up failed');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
     reset();
   }
 

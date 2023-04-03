@@ -1,14 +1,14 @@
 import React from 'react';
 import { GrFormNext } from 'react-icons/gr';
 import { FaUserCircle } from 'react-icons/fa';
-import { useProduct } from '../context/productContext';
+import useProducts from '../hooks/useProducts';
 import { Link } from 'react-router-dom';
 import { MdOutlineNavigateNext } from 'react-icons/md';
 
 const Menu = ({ isOpen }) => {
   const {
     categories
-  } = useProduct();
+  } = useProducts();
 
   return (
     <>

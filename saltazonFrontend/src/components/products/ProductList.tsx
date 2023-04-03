@@ -3,7 +3,7 @@ import Product from './Product';
 import CategorySorter from './CategorySorter';
 import { ProductInterface } from '../../types';
 import Pagination from '../Pagination/Pagination';
-import { useProduct } from '../context/productContext';
+import useProducts from '../hooks/useProducts';
 
 const sorted = false;
 
@@ -31,7 +31,7 @@ function ProductList() {
     products,
     isLoading,
     error
-  } = useProduct();
+  } = useProducts();
 
   if (isLoading) {
     return <p>Loading...</p>;

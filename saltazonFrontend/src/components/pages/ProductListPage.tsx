@@ -1,9 +1,9 @@
-import React from 'react'
-import { useProduct } from '../context/productContext'
-import ProductList from '../Products/ProductList'
+import React from 'react';
+import useProducts from '../hooks/useProducts';
+import ProductList from '../Products/ProductList';
 
 const ProductListPage = () => {
-  const { isLoading, error } = useProduct();
+  const { isLoading, error } = useProducts();
 
   if (isLoading) {
     return <p>Loading...</p>;

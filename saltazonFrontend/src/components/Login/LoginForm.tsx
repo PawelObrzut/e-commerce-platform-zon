@@ -1,11 +1,12 @@
-import React, { useContext } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import axios from 'axios';
 import useAuth from '../hooks/useAuth';
-
+import { baseURL } from '../utils/api'
+import { decodeJwt } from "../utils/decodeJWT";
 
 interface LogInFormInterface {
   email: string,
@@ -13,8 +14,7 @@ interface LogInFormInterface {
 }
 
 function LoginForm() {
-  const { setAuth } = useAuth();
-
+  const { setUser } = useAuth();
   const navigate = useNavigate();
   const directTo = "/productList";
 
@@ -30,20 +30,19 @@ function LoginForm() {
   const sumbitLogIn = async ({email, password }: LogInFormInterface) => {
     try {
       const response = await axios.post(
-        'http://localhost:8080/user/login',
+        `${baseURL}/user/login`,
         JSON.stringify({ email, password }),
         {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true
-        })
-        const accessToken = response?.data?.accessToken;
-      setAuth({email, password, accessToken})
+        });
+      const accessToken = response?.data?.accessToken;
+      const { id, email: emailAddress, role, storeId} = decodeJwt(accessToken);
+      setUser({id, emailAddress, role, storeId, accessToken});
       navigate(directTo, { replace: true });
-
     } catch (error) {
       console.log(error)
     }
-
     reset();
   }
 
@@ -84,4 +83,3 @@ function LoginForm() {
 }
 
 export default LoginForm;
-

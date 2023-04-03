@@ -4,14 +4,13 @@ import { BsCart2 } from 'react-icons/bs';
 import { RiLoginBoxLine, RiLogoutBoxLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.png';
-import { useCart } from '../context/cartContext';
-import { useProduct } from '../context/productContext';
-import { useUser } from '../context/userContext';
+import useCart from '../hooks/useCart';
+import useProducts from '../hooks/useProducts';
 
 const Header = () => {
   const { cartQuantity } = useCart();
-  const { categories } = useProduct();
-  const { user } = useUser();
+  const { categories } = useProducts();
+
   const handleLogOut = () => {
     Cookies.remove('accessToken');
     window.location.href = '/';
@@ -40,17 +39,17 @@ const Header = () => {
       </div>
 
       {
-        user.email ?
-        <div onClick={handleLogOut} className='cursor-pointer p-1 text-white self-center text-sm flex hover:border-white border border-transparent'>
-          <span>
-            Hello, <br />
-            {user.email} 
-          </span>
-          <span className='pl-3'>
-            <RiLogoutBoxLine className='text-2xl' /> Logout
-          </span>
-        </div>
-        :
+        // user.email ?
+        // <div onClick={handleLogOut} className='cursor-pointer p-1 text-white self-center text-sm flex hover:border-white border border-transparent'>
+        //   <span>
+        //     Hello, <br />
+        //     {user.email} 
+        //   </span>
+        //   <span className='pl-3'>
+        //     <RiLogoutBoxLine className='text-2xl' /> Logout
+        //   </span>
+        // </div>
+        // :
         <Link to="/login" className='h-14  p-4 text-white self-center inline-flex hover:border-white border border-transparent'>Login <RiLoginBoxLine className='text-2xl' /></Link>
       }
 

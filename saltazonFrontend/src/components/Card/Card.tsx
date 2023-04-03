@@ -1,12 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-
-interface CardInterface {
-  title: string,
-  img: React.ReactElement,
-  linkTitle: string,
-  to?: string,
-}
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { CardInterface } from '../../types';
 
 const Card = ({title, img, linkTitle, to}: CardInterface) => {
   return (
@@ -16,6 +10,6 @@ const Card = ({title, img, linkTitle, to}: CardInterface) => {
       <Link to={to} className='text-sm text-blue-500 hover:text-red-500 hover:underline'>{linkTitle}</Link>
     </article>
   )
-}
+};
 
-export default Card
+export default Card;

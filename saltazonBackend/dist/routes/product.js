@@ -16,7 +16,7 @@ const express_1 = __importDefault(require("express"));
 const passport_1 = __importDefault(require("passport"));
 const paginate_1 = __importDefault(require("../middlewares/paginate"));
 const router = express_1.default.Router();
-router.get('/', passport_1.default.authenticate('authenticateJWT'), paginate_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json(res.respondWithData); }));
+router.get('/', paginate_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json(res.respondWithData); }));
 router.get('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const product = yield (yield fetch(`http://127.0.0.1:8000/api/product/${req.params.id}`)).json();

@@ -42,8 +42,8 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
         return res.status(500).json({ message: 'Internal server error' });
     }
     const { id: userId } = req.user;
-    const accessToken = jsonwebtoken_1.default.sign(req.user, accessKey, { expiresIn: '5m' });
-    const refreshToken = jsonwebtoken_1.default.sign(req.user, refreshKey);
+    const accessToken = jsonwebtoken_1.default.sign(Object.assign(Object.assign({}, req.user), { iat: Math.floor(Date.now() / 1000) }), accessKey, { expiresIn: '5m' });
+    const refreshToken = jsonwebtoken_1.default.sign(Object.assign(Object.assign({}, req.user), { iat: Math.floor(Date.now() / 1000) }), refreshKey);
     const body = new Map();
     body.set('id', userId);
     body.set('token', refreshToken);
@@ -52,21 +52,20 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(Object.fromEntries(body))
     })
-        .then(response => {
-        console.log(response.status);
-        return response.text();
-    })
+        .then(response => response.text())
         .then(message => {
         console.log(message);
         return res
             .status(203)
-            .cookie('accessToken', accessToken)
+            // .cookie('accessToken', accessToken)
             .cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            sameSite: 'strict',
+            // sameSite: 'strict',
             secure: true,
         })
-            .json({ message: 'Success on logging in' });
+            .json({
+            accessToken: accessToken
+        });
     })
         .catch(error => {
         console.log(error);

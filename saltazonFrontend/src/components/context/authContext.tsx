@@ -1,9 +1,5 @@
 import React, { createContext, useState, ReactNode } from "react";
-
-interface AuthContextInterface {
-  auth: any
-  setAuth: any
-}
+import { AuthContextInterface, UserInterface } from '../../types';
 
 const AuthContext = createContext({} as AuthContextInterface);
 
@@ -12,13 +8,13 @@ interface AuthProviderInterface {
 }
 
 export const AuthProvider = ({ children }: AuthProviderInterface) => {
-  const [auth, setAuth] = useState({});
+  const [user, setUser] = useState<UserInterface>({} as UserInterface);
 
   return (
     <AuthContext.Provider
       value={{
-        auth,
-        setAuth
+        user,
+        setUser
       }}
     >
       {children}

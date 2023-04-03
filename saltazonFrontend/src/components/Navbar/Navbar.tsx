@@ -7,7 +7,7 @@ function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <>
+    <header>
       <Header />
       <nav className="bg-gray-800 text-gray-50 text-sm h-8 flex items-center justify-between">
         <ul className="flex cursor-pointer">
@@ -54,7 +54,10 @@ function NavBar() {
           </li>
         </ul>
       </nav> */}
-    </>
+
+      {/* <ProfileBar /> */}
+      
+    </header>
   );
 }
 

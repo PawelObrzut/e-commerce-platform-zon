@@ -1,6 +1,6 @@
 import React, { ReactEventHandler } from 'react';
 import { Link } from 'react-router-dom';
-import { useCart } from '../context/cartContext';
+import useCart from '../hooks/useCart';
 
 function CartItem({ product }: any) {
   const { removeFromCart, itemQuantity, updateCartItem } = useCart();

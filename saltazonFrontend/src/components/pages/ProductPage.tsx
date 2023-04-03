@@ -3,8 +3,8 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { GrPrevious } from 'react-icons/gr';
 import { ProductInterface } from '../../types';
 import useFetch from '../hooks/useFetch';
-import PriceTag from '../products/PriceTag';
-import { useCart } from '../context/cartContext';
+import PriceTag from '../Products/PriceTag';
+import useCart from '../hooks/useCart';
 
 interface ProductPageInterface {
   responseData: ProductInterface,
