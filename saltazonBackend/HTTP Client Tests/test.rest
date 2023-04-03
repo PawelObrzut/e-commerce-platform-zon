@@ -1,0 +1,13 @@
+GET http://localhost:8080/product?page=2&limit=9
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJxdmFzaWNoZXYzQGVsZWdhbnR0aGVtZXMuY29tIiwicm9sZSI6InVzZXIiLCJzdG9yZUlkIjo5LCJpYXQiOjE2ODA1MzI1MDgsImV4cCI6MTY4MDUzMjgwOH0.wUBLBSElf9OM1DHZ6SkL9dCI3hS7DBEALr67W_qnDms
+
+###
+
+POST http://localhost:8080/user/login
+content-type: application/json
+
+{
+  "email": "qvasichev3@elegantthemes.com",
+  "password": "BWV8qNBX"
+}

@@ -16,15 +16,19 @@ export interface CardInterface {
 	to?: string,
 }
 
+export interface CartItem {
+  id: number,
+  imageUrl: string,
+  title: string,
+  price: string,
+  stock: number,
+  quantity: number,
+}
+
 export interface UserInterface {
   id: number,
   email: string,
   role: string,
   storeId?: number,
 	accessToken: string,
-}
-
-export interface AuthContextInterface {
-  user: UserInterface
-  setUser: React.Dispatch<React.SetStateAction<UserInterface>>
 }

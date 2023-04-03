@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import Header from '../Header/Header';
 import Menu from '../Menu/Menu';
+import ProfileBar from '../ProfileBar/ProfileBar';
 
 function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,6 +10,7 @@ function NavBar() {
   return (
     <header>
       <Header />
+      <ProfileBar />
       <nav className="bg-gray-800 text-gray-50 text-sm h-8 flex items-center justify-between">
         <ul className="flex cursor-pointer">
           <li onClick={() => setIsOpen(!isOpen)} className="pl-2 inline-flex">
@@ -36,27 +38,7 @@ function NavBar() {
           <li className="pl-4">Sell</li>
         </ul>
         <span className="ml-auto pr-5">Shop Great Deals Now</span>
-      </nav>
-
-      {/* <nav className='bg-gray-800 text-gray-50 h-8'>
-        <ul className='inline-flex'>
-          <li>
-            <Link to={'/'} className={'nav_button'}>SHOW ME ALL THE ITEMS</Link>
-          </li>
-          <li>
-            <Link to={'/login'} className={'nav_button'}>Login</Link>
-          </li>
-          <li>
-            <Link to={'/create-new-user'} className={'nav_button'}>Create new user</Link>
-          </li>
-          <li>
-            <Link to={'/cart'} className={'nav_button'}>Go to cart</Link>
-          </li>
-        </ul>
-      </nav> */}
-
-      {/* <ProfileBar /> */}
-      
+      </nav>      
     </header>
   );
 }

@@ -34,4 +34,6 @@ dotenv_1.default.config();
 passport_1.default.use('authenticateJWT', new PassportLocal.Strategy({
     secretOrKey: process.env.ACCESS_TOKEN_SECRET,
     jwtFromRequest: PassportLocal.ExtractJwt.fromAuthHeaderAsBearerToken(),
-}, (jwt_payload, done) => done(null, jwt_payload)));
+}, (jwt_payload, done) => {
+    return done(null, jwt_payload);
+}));

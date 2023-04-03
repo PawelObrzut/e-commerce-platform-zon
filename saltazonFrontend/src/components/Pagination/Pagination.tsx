@@ -1,10 +1,16 @@
 import React from 'react'
 import { GrNext, GrPrevious } from 'react-icons/gr';
-import useProducts from '../hooks/useProducts';
 import { baseURL } from '../utils/api'
 
-const Pagination = () => {
-  const { setUrl, next, page, count, limit } = useProducts();
+interface PaginationInterface {
+  setUrl: React.Dispatch<React.SetStateAction<string>>,
+  count: number,
+  limit: number,
+  next: number,
+  page: number,
+}
+
+const Pagination = ({ setUrl, count, limit, next, page}: PaginationInterface) => {
 
   const handleNextPage = () => {
     setUrl(`${baseURL}/product?page=${next}&limit=12`)

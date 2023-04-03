@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { ProductInterface } from '../../types';
 import useFetch from '../hooks/useFetch';
 import Product from '../Products/Product';
+import { baseURL } from '../utils/api';
 
 interface Store {
   store: string,
@@ -12,7 +13,7 @@ interface Store {
 const StorePage = () => {
   const { id: storeId } = useParams();
 
-  const { data, isLoading, error } = useFetch<Store>(`http://localhost:8080/store/${storeId}`);
+  const { data, isLoading, error } = useFetch<Store>(`${baseURL}/store/${storeId}`);
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -30,7 +31,7 @@ const StorePage = () => {
       <section className='grid grid-cols-4 gap-1'>
         {
           data?.products.map(product => (
-              <Product key={product.id} {...product} /> 
+            <Product key={product.id} {...product} />
           ))
         }
       </section>

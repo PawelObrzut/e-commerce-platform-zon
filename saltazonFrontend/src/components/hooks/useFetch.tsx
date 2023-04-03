@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import useAuth from './useAuth';
 
@@ -21,7 +20,7 @@ const useFetch = <T = unknown>(url: string): FetchData<T> => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + user.accessToken
+            'Authorization': 'Bearer ' + user?.accessToken
           }
         });
         const json = await response.json();

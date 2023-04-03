@@ -1,5 +1,10 @@
 import React, { createContext, useState, ReactNode } from "react";
-import { AuthContextInterface, UserInterface } from '../../types';
+import { UserInterface } from '../../types';
+
+interface AuthContextInterface {
+  user: UserInterface
+  setUser: React.Dispatch<React.SetStateAction<UserInterface>>
+}
 
 const AuthContext = createContext({} as AuthContextInterface);
 

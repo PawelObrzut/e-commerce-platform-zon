@@ -5,6 +5,7 @@ import { ProductInterface } from '../../types';
 import useFetch from '../hooks/useFetch';
 import PriceTag from '../Products/PriceTag';
 import useCart from '../hooks/useCart';
+import { baseURL } from '../utils/api';
 
 interface ProductPageInterface {
   responseData: ProductInterface,
@@ -14,7 +15,7 @@ const ProductPage = () => {
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const { id: productId } = useParams();
-  const { data, isLoading, error } = useFetch<ProductPageInterface>(`http://localhost:8080/product/${productId}`);
+  const { data, isLoading, error } = useFetch<ProductPageInterface>(`${baseURL}/product/${productId}`);
 
   const product = data?.responseData
 

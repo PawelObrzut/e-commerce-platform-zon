@@ -12,8 +12,7 @@ const Header = () => {
   const { categories } = useProducts();
 
   const handleLogOut = () => {
-    Cookies.remove('accessToken');
-    window.location.href = '/';
+
   }
 
   return (

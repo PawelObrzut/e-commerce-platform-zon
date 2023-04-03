@@ -15,7 +15,7 @@ import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import ProductListPage from './components/pages/ProductListPage';
 import StorePage from './components/pages/StorePage';
-import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes';
+import ProtectedRoutes from './components/ProtectedRoutes/RequireAuth';
 import Footer from './components/Footer/Footer';
 
 function App() {
@@ -28,14 +28,14 @@ function App() {
 					<Route path='/login' element={ <LoginPage /> }></Route>
 					<Route path='/' element={ <HomePage /> }></Route>
 
-					{/* <Route element={<ProtectedRoutes />} > */}
+					<Route element={<ProtectedRoutes />} >
 						<Route path='/productList' element={ <ProductListPage /> }></Route>
 						<Route path='/productList/:id' element={ <ProductPage /> }></Route>
 						<Route path='/cart'	element={	<Cart/> }></Route>
 						<Route path='/store/:id' element={ <StorePage /> }></Route>
 						<Route path='/admin' element={ <AdminPage /> }></Route>
 						<Route path='/admin/super' element={ <SuperAdminPage /> }></Route>
-					{/* </Route> */}
+					</Route>
 
 				</Routes>
 				<Footer />

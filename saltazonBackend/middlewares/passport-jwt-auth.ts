@@ -7,8 +7,11 @@ dotenv.config();
 
 passport.use(
   'authenticateJWT',
-  new PassportLocal.Strategy({
-    secretOrKey: process.env.ACCESS_TOKEN_SECRET,
-    jwtFromRequest: PassportLocal.ExtractJwt.fromAuthHeaderAsBearerToken(),
-  }, (jwt_payload, done) => done(null, jwt_payload)),
+  new PassportLocal.Strategy(
+    {
+      secretOrKey: process.env.ACCESS_TOKEN_SECRET,
+      jwtFromRequest: PassportLocal.ExtractJwt.fromAuthHeaderAsBearerToken(),
+    }, (jwt_payload, done) => {
+    return done(null, jwt_payload)
+  }),
 );

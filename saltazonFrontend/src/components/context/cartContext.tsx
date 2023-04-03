@@ -1,15 +1,7 @@
 import React, { createContext, useContext, ReactNode } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { decodeJwt } from '../utils/decodeJWT';
-
-interface CartItem {
-  id: number,
-  imageUrl: string,
-  title: string,
-  price: string,
-  stock: number,
-  quantity: number,
-}
+import { CartItem } from '../../types';
 
 interface CartContextInterface {
   addToCart: (id: number, imageUrl: string, title: string, price: string, stock: number, quantity: number) => void
@@ -22,8 +14,6 @@ interface CartContextInterface {
 }
 
 const CartContext = createContext({} as CartContextInterface);
-
-// export const useCart = () => useContext(CartContext);
 
 interface CartProviderProps {
   children: ReactNode

@@ -46,7 +46,6 @@ router.post('/login', passport.authenticate('login'), async (req: RequestUser, r
         .status(203)
         .cookie('refreshToken', refreshToken, {
           httpOnly: true,
-          // sameSite: 'strict',
           secure: true,
         })
         .json({ 

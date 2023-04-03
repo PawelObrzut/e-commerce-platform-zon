@@ -14,6 +14,8 @@ import './middlewares/passport-local-login';
 import './middlewares/passport-local-register';
 import './middlewares/passport-jwt-auth';
 
+
+
 dotenv.config();
 
 const app: Express = express();
