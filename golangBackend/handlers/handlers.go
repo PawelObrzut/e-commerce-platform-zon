@@ -228,6 +228,33 @@ func GetRefreshToken(c *fiber.Ctx) error {
 	return c.JSON(result)
 }
 
+func DeleteRefreshToken(c *fiber.Ctx) error {
+	refreshToken := c.Params("refreshToken")
+	db, err := database.ConnectPostgres()
+	if err != nil {
+		fmt.Printf("Could not connect to db: %v", err)
+		panic(err)
+	}
+	defer db.Close()
+
+	sqlStatement := "DELETE FROM RefreshTokens WHERE refreshtoken = ($1)"
+
+	result, err := db.Exec(sqlStatement, refreshToken)
+	if err != nil {
+		panic(err)
+	}
+
+	rowCount, err := result.RowsAffected()
+	if err != nil {
+		panic(err)
+	}
+	if rowCount != 1 {
+		panic("Expected to delete 1 row")
+	}
+
+	return c.SendString("Refresh Token Deleted")
+}
+
 func GetAllStores(c *fiber.Ctx) error {
 	db, err := database.ConnectPostgres()
 	if err != nil {

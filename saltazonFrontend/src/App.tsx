@@ -21,7 +21,7 @@ import Footer from './components/Footer/Footer';
 function App() {
 
 	return (
-		<div className="bg-[#e6e6e6]">
+		<>
 			<Router>
 				<NavBar />
 				<Routes>
@@ -40,7 +40,7 @@ function App() {
 				</Routes>
 				<Footer />
 			</Router>
-		</div>
+		</>
 	);
 }
 

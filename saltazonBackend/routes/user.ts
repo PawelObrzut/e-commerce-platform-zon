@@ -94,4 +94,34 @@ router.post('/refreshToken', (req: Request, res: Response) => {
 
 router.post('/register', passport.authenticate('register'), async (req: Request, res: Response) => res.status(203).json({ message: 'User Registered' }));
 
+router.delete('/logout', async (req: Request, res: Response) => {
+  const cookies = req.cookies;
+  if (!cookies?.refreshToken) {
+    return res.status(204).json({ message: 'No cookie-token to delete' })
+  }
+  const refreshToken = cookies.refreshToken
+
+  fetch(`http://127.0.0.1:8000/api/user/token/${refreshToken}`, { method: 'DELETE' })
+    .then(response => response.text())
+    .then(message => {
+      console.log(message)
+      return res
+        .clearCookie('refreshToken', {
+          httpOnly: true,
+          secure: true,
+        })
+        .sendStatus(204)
+    })
+    .catch(error => {
+      console.log(error)
+      return res
+        .status(500)
+        .clearCookie('refreshToken', {
+          httpOnly: true,
+          secure: true,
+        })
+        .json({ message: 'cookie deleted' })
+    });
+});
+
 export default router;

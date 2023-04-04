@@ -103,4 +103,32 @@ router.post('/refreshToken', (req, res) => {
     });
 });
 router.post('/register', passport_1.default.authenticate('register'), (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(203).json({ message: 'User Registered' }); }));
+router.delete('/logout', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cookies = req.cookies;
+    if (!(cookies === null || cookies === void 0 ? void 0 : cookies.refreshToken)) {
+        return res.status(204).json({ message: 'No cookie-token to delete' });
+    }
+    const refreshToken = cookies.refreshToken;
+    fetch(`http://127.0.0.1:8000/api/user/token/${refreshToken}`, { method: 'DELETE' })
+        .then(response => response.text())
+        .then(message => {
+        console.log(message);
+        return res
+            .clearCookie('refreshToken', {
+            httpOnly: true,
+            secure: true,
+        })
+            .sendStatus(204);
+    })
+        .catch(error => {
+        console.log(error);
+        return res
+            .status(500)
+            .clearCookie('refreshToken', {
+            httpOnly: true,
+            secure: true,
+        })
+            .json({ message: 'cookie deleted' });
+    });
+}));
 exports.default = router;

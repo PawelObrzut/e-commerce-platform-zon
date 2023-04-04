@@ -1,9 +1,11 @@
+import axios from "axios";
 import React from "react";
 import useAuth from "../hooks/useAuth";
 import useRefreshToken from "../hooks/useRefreshToken";
+import { baseURL } from "../utils/api";
 
 function ProfileBar() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const refresh = useRefreshToken()
 
   const forceRefresh = () => {
@@ -11,12 +13,22 @@ function ProfileBar() {
     refresh()
   }
 
+  const handleLogOut = async () => {
+    setUser({});
+    try {
+      const response = await axios.delete(`${baseURL}/user/logout`, { withCredentials: true });
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <div className='flex justify-end px-10 border-b bg-gray-800 text-gray-50 text-sm'>
         { user.emailAddress && <h1>Logged in as {user.emailAddress}</h1> }
         <button onClick={forceRefresh} className='px-10'>Refresh Token</button>
-        <p>Role: {user.role}</p>
+        <p className='px-10'>Role: {user.role}</p>
+        <button onClick={handleLogOut} className='px-10'>Logout</button>
       </div>
     </>
   );
