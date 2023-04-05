@@ -1,7 +1,7 @@
 import React, { createContext, useState, ReactNode } from "react";
 import { UserInterface } from '../../types';
 
-interface AuthContextInterface {
+export interface AuthContextInterface {
   user: UserInterface
   setUser: React.Dispatch<React.SetStateAction<UserInterface>>
 }

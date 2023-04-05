@@ -1,16 +1,17 @@
-import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import Header from '../Header/Header';
 import Menu from '../Menu/Menu';
 import ProfileBar from '../ProfileBar/ProfileBar';
+import useAuth from '../hooks/useAuth';
 
 function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <header>
       <Header />
-      <ProfileBar />
+      { <ProfileBar /> }
       <nav className="bg-gray-800 text-gray-50 text-sm h-8 flex items-center justify-between">
         <ul className="flex cursor-pointer">
           <li onClick={() => setIsOpen(!isOpen)} className="pl-2 inline-flex">

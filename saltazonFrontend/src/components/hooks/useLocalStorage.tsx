@@ -16,7 +16,9 @@ export function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
   });
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(storedValue));
+    if (key) {
+      localStorage.setItem(key, JSON.stringify(storedValue));
+    }
   }, [key, storedValue]);
 
   return [storedValue, setStoredValue] as [typeof storedValue, typeof setStoredValue];

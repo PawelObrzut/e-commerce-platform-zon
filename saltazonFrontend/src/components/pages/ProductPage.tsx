@@ -72,7 +72,7 @@ const ProductPage = () => {
           
           <button 
             className='my-5 text-sm text-center bg-yellow-300 rounded-l-full rounded-r-full w-full p-1 hover:bg-yellow-400'
-            onClick={() => addToCart(product.id, product.imageUrl, product.title, product.price, product.quantity, quantity)}
+            onClick={() => addToCart({id: product.id, imageUrl: product.imageUrl, title: product.title, price: product.price, stock: product.quantity, quantity})}
           >
             Add to Cart
           </button>

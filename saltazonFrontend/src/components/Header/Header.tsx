@@ -1,19 +1,13 @@
-import Cookies from 'js-cookie';
-import React, { useState } from 'react';
+import React from 'react';
 import { BsCart2 } from 'react-icons/bs';
 import { RiLoginBoxLine, RiLogoutBoxLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.png';
 import useCart from '../hooks/useCart';
-import useProducts from '../hooks/useProducts';
+import { categories } from '../utils/categories';
 
 const Header = () => {
   const { cartQuantity } = useCart();
-  const { categories } = useProducts();
-
-  const handleLogOut = () => {
-
-  }
 
   return (
     <header className='bg-black px-4 py-2 h-16 flex justify-between'>

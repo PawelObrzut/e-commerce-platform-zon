@@ -17,6 +17,7 @@ function Cart() {
       </main>
     )
   }
+  
   return (
     <main className='m-4 grid grid-cols-4 gap-5 pb-10'>
       <section className='col-span-3 bg-slate-50 p-5 pb-10'>

@@ -27,7 +27,7 @@ export interface CartItem {
 
 export interface UserInterface {
   id: number,
-  email: string,
+  emailAddress: string,
   role: string,
   storeId?: number,
 	accessToken: string,

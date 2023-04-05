@@ -1,15 +1,11 @@
 import React from 'react';
 import { GrFormNext } from 'react-icons/gr';
 import { FaUserCircle } from 'react-icons/fa';
-import useProducts from '../hooks/useProducts';
 import { Link } from 'react-router-dom';
 import { MdOutlineNavigateNext } from 'react-icons/md';
+import { categories } from '../utils/categories';
 
 const Menu = ({ isOpen }) => {
-  const {
-    categories
-  } = useProducts();
-
   return (
     <>
       <aside className={`fixed z-50 top-0 left-0 w-screen h-screen ${isOpen ? 'visible': 'invisible'}`}>

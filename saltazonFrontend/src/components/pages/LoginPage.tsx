@@ -27,17 +27,17 @@ const LoginPage = () => {
       <div className='mt-16 mx-16'>
         <p>tstrauns@amazon.co.jp</p>
         <p>vm2d9UHUC</p>
-        <p>super-admin</p>
+        <p>super-admin: id 29</p>
       </div>
       <div className='mx-16 my-6'>
         <p>dsubhan2h@shop-pro.jp</p>
         <p>xaqQgPRBm</p>
-        <p>user</p>
+        <p>user: id 90</p>
       </div>
       <div className='mx-16'>
         <p>bdixcey2g@163.com</p>
         <p>2sUy6HeUCZt</p>
-        <p>admin</p>
+        <p>admin: id 89</p>
       </div>
     </main>
   )

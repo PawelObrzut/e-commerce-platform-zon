@@ -1,10 +1,11 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, ReactNode } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { decodeJwt } from '../utils/decodeJWT';
 import { CartItem } from '../../types';
+import useAuth from '../hooks/useAuth';
 
-interface CartContextInterface {
-  addToCart: (id: number, imageUrl: string, title: string, price: string, stock: number, quantity: number) => void
+export interface CartContextInterface {
+  addToCart: ({ id, imageUrl, title, price, stock, quantity }: CartItem) => void
   updateCartItem: (id: number, quantity: number) => void
   removeFromCart: (id: number) => void
   cartItems: CartItem[]
@@ -20,56 +21,68 @@ interface CartProviderProps {
 }
 
 export const CartProvider = ({ children }: CartProviderProps) => {
-  let id: string;
-  if (document.cookie) {
-    id = decodeJwt(document.cookie).id;
-  }
-  const [cartItems, setCartItems] = useLocalStorage<CartItem[]>(id, []);
+  const { user } = useAuth();
 
-  const addToCart = (id: number, imageUrl: string, title: string, price: string, stock: number, quantity: number) => {
+  const [cartItems, setCartItems] = useLocalStorage<Record<string, CartItem[]>>('cartItems', () => {
+    const storedCart = localStorage.getItem(`cartItems`);
+    const parsedCart = JSON.parse(storedCart);
+    console.log('the cart is ', parsedCart);
+    return parsedCart || {};
+  });
+
+  const userCartItems = cartItems[user.emailAddress] || [];
+
+  const addToCart = ({ id, imageUrl, title, price, stock, quantity }: CartItem) => {
     setCartItems(items => {
-      if (items.find(item => item.id === id) === undefined) {
-        return [...items, { id, imageUrl, title, price, stock, quantity: quantity }];
+      const userCart = items[user.emailAddress] || [];
+      if (userCart.find(item => item.id === id) === undefined) {
+        return { ...items, [user.emailAddress]: [...userCart, { id, imageUrl, title, price, stock, quantity: quantity }] };
       }
-      return items.map(item => {
+      const updatedCart = userCart.map(item => {
         if (item.id === id) {
           return { ...item, quantity: item.quantity + quantity };
         }
         return item;
       });
+      return { ...items, [user.emailAddress]: updatedCart };
     });
   };
 
   const updateCartItem = (id: number, quantity: number) => {
     setCartItems(items => {
-      return items.map(item => {
+      const userCart = items[user.emailAddress] || [];
+      const updatedCart = userCart.map(item => {
         if (item.id === id) {
           return { ...item, quantity: quantity };
         }
         return item;
       });
+      return { ...items, [user.emailAddress]: updatedCart };
     });
   }
 
   const removeFromCart = (id: number) => {
     setCartItems(items => {
-      if (items.find(item => item.id === id)?.quantity === 1) {
-        return items.filter(item => item.id !== id);
+      const userCart = items[user.emailAddress] || [];
+      if (userCart.find(item => item.id === id)?.quantity === 1) {
+        const updatedCart = userCart.filter(item => item.id !== id);
+        return { ...items, [user.emailAddress]: updatedCart };
       }
-      return items.map(item => {
+      const updatedCart = userCart.map(item => {
         if (item.id === id) {
           return { ...item, quantity: item.quantity - 1 };
         }
         return item;
       });
+      return { ...items, [user.emailAddress]: updatedCart };
     });
   };
 
-  const itemQuantity = (id: number) => cartItems.find(item => item.id === id)?.quantity || 0;
+  const itemQuantity = (id: number) => userCartItems.find(item => item.id === id)?.quantity || 0;
 
-  const cartQuantity = cartItems.reduce((quantity, item) => item.quantity + quantity, 0);
+  const cartQuantity = userCartItems.reduce((quantity, item) => item.quantity + quantity, 0);
 
-  const cartValue = cartItems.reduce((total, item) => total + item.quantity * +item.price.slice(1), 0);
+  const cartValue = userCartItems.reduce((total, item) => total + item.quantity * +item.price.slice(1), 0);
 
   return (
     <CartContext.Provider
@@ -78,7 +91,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         updateCartItem,
         removeFromCart,
         itemQuantity,
-        cartItems,
+        cartItems: userCartItems,
         cartQuantity,
         cartValue
       }}

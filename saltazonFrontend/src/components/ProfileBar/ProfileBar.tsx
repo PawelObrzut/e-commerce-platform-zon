@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { UserInterface } from "../../types";
 import useAuth from "../hooks/useAuth";
 import useRefreshToken from "../hooks/useRefreshToken";
 import { baseURL } from "../utils/api";
@@ -14,7 +15,7 @@ function ProfileBar() {
   }
 
   const handleLogOut = async () => {
-    setUser({});
+    setUser({} as UserInterface);
     try {
       const response = await axios.delete(`${baseURL}/user/logout`, { withCredentials: true });
     } catch (error) {
