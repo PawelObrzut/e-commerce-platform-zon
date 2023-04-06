@@ -17,6 +17,7 @@ import ProductListPage from './components/pages/ProductListPage';
 import StorePage from './components/pages/StorePage';
 import ProtectedRoutes from './components/ProtectedRoutes/RequireAuth';
 import Footer from './components/Footer/Footer';
+import './App.css';
 
 function App() {
 

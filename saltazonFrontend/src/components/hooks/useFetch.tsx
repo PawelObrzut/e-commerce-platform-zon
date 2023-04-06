@@ -11,7 +11,7 @@ const useFetch = <T = unknown>(url: string): FetchData<T> => {
   const [data, setData] = useState<T | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { user } = useAuth();
+  const { user, setRefreshClass } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,9 +23,14 @@ const useFetch = <T = unknown>(url: string): FetchData<T> => {
             'Authorization': 'Bearer ' + user?.accessToken
           }
         });
+
+        if (response.status === 401) {
+          setRefreshClass(true)
+        }
         const json = await response.json();
         json && setData(json)
         setIsLoading(false);
+        setRefreshClass(false)
       } catch (error) {
         setIsLoading(false);
         setError(error.message);

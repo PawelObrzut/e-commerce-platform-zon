@@ -4,7 +4,7 @@ import { baseURL } from '../utils/api';
 import { UserInterface } from '../../types';
 
 const useRefreshToken = () => {
-	const { setUser } = useAuth();
+	const { setUser, setRefreshClass } = useAuth();
 
 	const refreshToken = async () => {
 		const response = await axios.post(`${baseURL}/user/refreshToken`, null, {
@@ -13,6 +13,7 @@ const useRefreshToken = () => {
 		setUser((prev: UserInterface) => {
 			return { ...prev, accessToken: response.data.accessToken }
 		});
+		setRefreshClass(false);
 		return response.data.accessToken;
 	}
 	return refreshToken;

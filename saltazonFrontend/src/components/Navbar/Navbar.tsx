@@ -3,6 +3,7 @@ import Header from '../Header/Header';
 import Menu from '../Menu/Menu';
 import ProfileBar from '../ProfileBar/ProfileBar';
 import useAuth from '../hooks/useAuth';
+import { Link } from 'react-router-dom';
 
 function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +39,7 @@ function NavBar() {
           <li className="pl-4">Registry</li>
           <li className="pl-4">Sell</li>
         </ul>
-        <span className="ml-auto pr-5">Shop Great Deals Now</span>
+        <Link to="/productList"><span className="ml-auto pr-5">Shop Great Deals Now</span></Link>
       </nav>      
     </header>
   );
