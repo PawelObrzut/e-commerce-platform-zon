@@ -100,8 +100,8 @@ function NewUserForm() {
 
       <input
         type="submit"
-        value="Submit"
-        className="cursor-pointer text-white text-right bg-orange-300 hover:bg-orange-400 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-sm text-sm w-full sm:w-auto px-5 py-2.5"
+        value="Sign Up"
+        className="cursor-pointer text-white text-right border border-black bg-orange-300 hover:bg-orange-400 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-sm text-sm w-full sm:w-auto px-5 py-2.5"
       />
 
     </form>
