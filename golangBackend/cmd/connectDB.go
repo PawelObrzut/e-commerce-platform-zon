@@ -11,7 +11,7 @@ func ConnectDB() (*sql.DB, error) {
 	dbPassword := os.Getenv("DB_PASSWORD")
 	dbName := os.Getenv("DB_NAME")
 
-	dataSourceName := fmt.Sprintf("host=localhost port=5432 sslmode=disable user=%s dbname=%s password=%s",
+	dataSourceName := fmt.Sprintf("host=dpg-cggpbm64daddcg55u0c0-a.frankfurt-postgres.render.com port=5432 sslmode=require user=%s dbname=%s password=%s",
 		dbUser, dbName, dbPassword,
 	)
 
