@@ -10,9 +10,10 @@ func ConnectPostgres() (*sql.DB, error) {
 	dbUser := os.Getenv("DB_USER")
 	dbPassword := os.Getenv("DB_PASSWORD")
 	dbName := os.Getenv("DB_NAME")
+	host := os.Getenv("HOST")
 
-	dataSourceName := fmt.Sprintf("host=localhost port=5432 sslmode=disable user=%s dbname=%s password=%s",
-		dbUser, dbName, dbPassword,
+	dataSourceName := fmt.Sprintf("host=%s port=5432 sslmode=require user=%s dbname=%s password=%s", 
+		host, dbUser, dbName, dbPassword,
 	)
 
 	db, err := sql.Open("postgres", dataSourceName)

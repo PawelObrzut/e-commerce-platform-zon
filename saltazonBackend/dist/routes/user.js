@@ -54,7 +54,7 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
     })
         .then(response => response.text())
         .then(message => {
-        console.log(message);
+        // console.log(message);
         return res
             .status(203)
             .cookie('refreshToken', refreshToken, {

@@ -41,7 +41,7 @@ router.post('/login', passport.authenticate('login'), async (req: RequestUser, r
   )
     .then(response => response.text())
     .then(message => {
-      console.log(message);
+      // console.log(message);
       return res
         .status(203)
         .cookie('refreshToken', refreshToken, {
