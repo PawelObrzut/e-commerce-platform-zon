@@ -14,15 +14,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const passport_1 = __importDefault(require("passport"));
+const axios_1 = __importDefault(require("axios"));
 const api_1 = __importDefault(require("../api"));
 const router = express_1.default.Router();
 router.get('/', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json({ message: "don't try, do!" }); }));
 router.get('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const storeResponse = yield fetch(`${api_1.default}/api/store/${req.params.id}`);
-        const storeData = yield storeResponse.json();
-        const productResponse = yield fetch('http://127.0.0.1:8000/api/product');
-        const productData = yield productResponse.json();
+        const storeResponse = yield axios_1.default.get(`${api_1.default}/api/store/${req.params.id}`);
+        const storeData = storeResponse.data;
+        const productResponse = yield axios_1.default.get(`${api_1.default}/api/product`);
+        const productData = productResponse.data;
         const filteredProducts = productData
             .data.filter((product) => product.storeId === parseInt(req.params.id, 10));
         if (storeData && filteredProducts) {
@@ -38,24 +39,19 @@ router.get('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res
     return res.status(500).send();
 }));
 router.post('/:id/product', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
+    // console.log(req.body);
     try {
-        fetch(`${api_1.default}/api/product`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                title: req.body.title,
-                description: req.body.description,
-                imageUrl: req.body.imageUrl,
-                price: req.body.price,
-                quantity: req.body.quantity,
-                category: req.body.category,
-                storeId: req.body.storeId,
-            }),
+        axios_1.default.post(`${api_1.default}/api/product`, {
+            title: req.body.title,
+            description: req.body.description,
+            imageUrl: req.body.imageUrl,
+            price: req.body.price,
+            quantity: req.body.quantity,
+            category: req.body.category,
+            storeId: req.body.storeId,
         })
-            .then(response => response.json())
-            .then(data => {
-            console.log(data);
+            .then(response => {
+            console.log(response.data);
             return res.status(201).json({ message: 'new has been product created' });
         });
     }

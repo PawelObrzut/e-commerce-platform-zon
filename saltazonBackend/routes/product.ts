@@ -1,6 +1,7 @@
 import express, { Request } from 'express';
 import { Response } from 'express-serve-static-core';
 import passport from 'passport';
+import axios from 'axios';
 import paginate from '../middlewares/paginate';
 import baseURL from '../api';
 
@@ -10,7 +11,7 @@ router.get('/', passport.authenticate('authenticateJWT'), paginate, async (req: 
 
 router.get('/:id', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {
-    const product = await (await fetch(`${baseURL}/api/product/${req.params.id}`)).json();
+    const product = await axios.get(`${baseURL}/api/product/${req.params.id}`).then(response => response.data);
     if (product) {
       return res.status(200).json({ responseData: product.data });
     }
@@ -22,13 +23,8 @@ router.get('/:id', passport.authenticate('authenticateJWT'), async (req: Request
 
 router.delete('/:id', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {
-    fetch(`${baseURL}/api/product/${req.params.id}`, {
-      method: 'DELETE',
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-      });
+    await axios.delete(`${baseURL}/api/product/${req.params.id}`);
+    console.log('Product deleted');
     return res.status(204).send();
   } catch (error) {
     return res.status(500).send();

@@ -12,15 +12,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const axios_1 = __importDefault(require("axios"));
 const api_1 = __importDefault(require("../api"));
 const paginate = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { page = '1', limit = '10' } = req.query;
         const startIndex = (+page - 1) * +limit;
         const endIndex = +page * +limit;
-        const productsCollection = yield fetch(`${api_1.default}/api/product/`)
-            .then(response => response.json())
-            .catch(error => console.log(error));
+        const response = yield axios_1.default.get(`${api_1.default}/api/product/`);
+        const productsCollection = response.data;
         const count = productsCollection.data.length;
         const paginatedData = {
             limit: +limit,

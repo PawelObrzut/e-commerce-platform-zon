@@ -13,9 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findUserByEmail = void 0;
+const axios_1 = __importDefault(require("axios"));
 const api_1 = __importDefault(require("../api"));
 const findUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
-    const usersCollection = yield fetch(`${api_1.default}/api/user/`, { method: 'GET' }).then(response => response.json());
+    const response = yield axios_1.default.get(`${api_1.default}/api/user/`);
+    const usersCollection = response.data;
     return usersCollection.data.find((user) => user.email === email);
 });
 exports.findUserByEmail = findUserByEmail;

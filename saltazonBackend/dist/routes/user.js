@@ -27,16 +27,22 @@ const express_1 = require("express");
 const dotenv_1 = __importDefault(require("dotenv"));
 const passport_1 = __importDefault(require("passport"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const axios_1 = __importDefault(require("axios"));
 const api_1 = __importDefault(require("../api"));
 dotenv_1.default.config();
 const router = (0, express_1.Router)();
 const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 const accessKey = process.env.ACCESS_TOKEN_SECRET;
 router.get('/', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const usersCollection = yield fetch(`${api_1.default}/api/user/`, { method: 'GET' })
-        .then(response => response.json())
-        .catch(error => console.log(error));
-    return res.send(usersCollection);
+    try {
+        const response = yield axios_1.default.get(`${api_1.default}/api/user/`);
+        const usersCollection = response.data;
+        return res.send(usersCollection);
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
 }));
 router.post('/login', passport_1.default.authenticate('login'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!accessKey || !refreshKey || !req.user) {
@@ -45,17 +51,12 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
     const { id: userId } = req.user;
     const accessToken = jsonwebtoken_1.default.sign(Object.assign(Object.assign({}, req.user), { iat: Math.floor(Date.now() / 1000) }), accessKey, { expiresIn: '5m' });
     const refreshToken = jsonwebtoken_1.default.sign(Object.assign(Object.assign({}, req.user), { iat: Math.floor(Date.now() / 1000) }), refreshKey);
-    const body = new Map();
-    body.set('id', userId);
-    body.set('token', refreshToken);
-    fetch(`${api_1.default}/api/user/saveRefreshToken`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(Object.fromEntries(body))
-    })
-        .then(response => response.text())
-        .then(message => {
-        // console.log(message);
+    const body = {
+        id: userId,
+        token: refreshToken,
+    };
+    try {
+        yield axios_1.default.post(`${api_1.default}/api/user/saveRefreshToken`, body, { headers: { 'Content-Type': 'application/json' } });
         return res
             .status(203)
             .cookie('refreshToken', refreshToken, {
@@ -63,13 +64,13 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
             secure: true,
         })
             .json({
-            accessToken: accessToken
+            accessToken: accessToken,
         });
-    })
-        .catch(error => {
+    }
+    catch (error) {
         console.log(error);
-        return res.status(500).json({ message: 'Internat server error, could not save the refresh token.' });
-    });
+        return res.status(500).json({ message: 'Internal server error, could not save the refresh token.' });
+    }
 }));
 router.post('/refreshToken', (req, res) => {
     const { refreshToken } = req.cookies;
@@ -79,9 +80,10 @@ router.post('/refreshToken', (req, res) => {
     if (!refreshKey || !accessKey) {
         return res.status(500).json({ message: 'Internal server error' });
     }
-    fetch(`${api_1.default}/api/user/token/${refreshToken}`, { method: 'GET' })
-        .then(response => response.json())
-        .then((message) => {
+    axios_1.default
+        .get(`${api_1.default}/api/user/token/${refreshToken}`)
+        .then((response) => {
+        const message = response.data;
         if (message) {
             jsonwebtoken_1.default.verify(refreshToken, refreshKey, (err, decode) => {
                 if (err) {
@@ -89,18 +91,16 @@ router.post('/refreshToken', (req, res) => {
                 }
                 const { iat, exp } = decode, userData = __rest(decode, ["iat", "exp"]);
                 const accessToken = jsonwebtoken_1.default.sign(userData, accessKey, { expiresIn: '5m' });
-                return res
-                    .status(203)
-                    .json({ accessToken: accessToken });
+                return res.status(203).json({ accessToken: accessToken });
             });
         }
         else {
             return res.status(403).json({ message: 'Refresh token revoked' });
         }
     })
-        .catch(error => {
+        .catch((error) => {
         console.log(error);
-        return res.status(500).json({ message: 'Internat server error, could not refresh the token.' });
+        return res.status(500).json({ message: 'Internal server error, could not refresh the token.' });
     });
 });
 router.post('/register', passport_1.default.authenticate('register'), (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(203).json({ message: 'User Registered' }); }));
@@ -110,18 +110,17 @@ router.delete('/logout', (req, res) => __awaiter(void 0, void 0, void 0, functio
         return res.status(204).json({ message: 'No cookie-token to delete' });
     }
     const refreshToken = cookies.refreshToken;
-    fetch(`${api_1.default}/api/user/token/${refreshToken}`, { method: 'DELETE' })
-        .then(response => response.text())
-        .then(message => {
-        // console.log(message)
+    try {
+        const response = yield axios_1.default.delete(`${api_1.default}/api/user/token/${refreshToken}`);
+        // console.log(response.data)
         return res
             .clearCookie('refreshToken', {
             httpOnly: true,
             secure: true,
         })
             .sendStatus(204);
-    })
-        .catch(error => {
+    }
+    catch (error) {
         console.log(error);
         return res
             .status(500)
@@ -130,6 +129,6 @@ router.delete('/logout', (req, res) => __awaiter(void 0, void 0, void 0, functio
             secure: true,
         })
             .json({ message: 'cookie deleted' });
-    });
+    }
 }));
 exports.default = router;

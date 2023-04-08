@@ -14,13 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const passport_1 = __importDefault(require("passport"));
+const axios_1 = __importDefault(require("axios"));
 const paginate_1 = __importDefault(require("../middlewares/paginate"));
 const api_1 = __importDefault(require("../api"));
 const router = express_1.default.Router();
 router.get('/', passport_1.default.authenticate('authenticateJWT'), paginate_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json(res.respondWithData); }));
 router.get('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const product = yield (yield fetch(`${api_1.default}/api/product/${req.params.id}`)).json();
+        const product = yield axios_1.default.get(`${api_1.default}/api/product/${req.params.id}`).then(response => response.data);
         if (product) {
             return res.status(200).json({ responseData: product.data });
         }
@@ -32,13 +33,8 @@ router.get('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res
 }));
 router.delete('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        fetch(`${api_1.default}/api/product/${req.params.id}`, {
-            method: 'DELETE',
-        })
-            .then(response => response.json())
-            .then(data => {
-            console.log(data);
-        });
+        yield axios_1.default.delete(`${api_1.default}/api/product/${req.params.id}`);
+        console.log('Product deleted');
         return res.status(204).send();
     }
     catch (error) {

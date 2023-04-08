@@ -36,6 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const PassportLocal = __importStar(require("passport-local"));
+const axios_1 = __importDefault(require("axios"));
 const passport_1 = __importDefault(require("passport"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const utils_1 = require("../utils/utils");
@@ -49,18 +50,12 @@ passport_1.default.use('register', new PassportLocal.Strategy({
         if (user) {
             return done(null, false);
         }
-        yield fetch(`${api_1.default}/api/user/`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email,
-                password: bcrypt_1.default.hashSync(password, 10),
-                role: req.body.role,
-                storeId: req.body.storeId || null,
-            }),
-        })
-            .then(response => response.json())
-            .then(data => data);
+        yield axios_1.default.post(`${api_1.default}/api/user/`, {
+            email,
+            password: bcrypt_1.default.hashSync(password, 10),
+            role: req.body.role,
+            storeId: req.body.storeId || null,
+        }, { headers: { 'Content-Type': 'application/json' } });
         done(null, true);
     }
     catch (error) {

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Request, NextFunction } from 'express';
 import { Response } from 'express-serve-static-core';
 import { PaginatedData } from '../types/types';
@@ -9,9 +10,8 @@ const paginate = async (req: Request, res: Response, next: NextFunction) => {
     const startIndex = (+page - 1) * +limit;
     const endIndex = +page * +limit;
 
-    const productsCollection = await fetch(`${baseURL}/api/product/`)
-      .then(response => response.json())
-      .catch(error => console.log(error));
+    const response = await axios.get(`${baseURL}/api/product/`);
+    const productsCollection = response.data;
 
     const count = productsCollection.data.length;
 

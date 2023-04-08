@@ -1,4 +1,5 @@
 import * as PassportLocal from 'passport-local';
+import axios from 'axios';
 import passport from 'passport';
 import bcrypt from 'bcrypt';
 import { findUserByEmail } from '../utils/utils';
@@ -18,21 +19,16 @@ passport.use(
           return done(null, false);
         }
 
-        await fetch(
+        await axios.post(
           `${baseURL}/api/user/`,
           {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email,
-              password: bcrypt.hashSync(password, 10),
-              role: req.body.role,
-              storeId: req.body.storeId || null,
-            }),
+            email,
+            password: bcrypt.hashSync(password, 10),
+            role: req.body.role,
+            storeId: req.body.storeId || null,
           },
-        )
-          .then(response => response.json())
-          .then(data => data);
+          { headers: { 'Content-Type': 'application/json' } }
+        );
 
         done(null, true);
       } catch (error) {
