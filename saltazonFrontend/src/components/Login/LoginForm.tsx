@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,6 +7,7 @@ import axios from 'axios';
 import useAuth from '../hooks/useAuth';
 import { baseURL } from '../utils/api'
 import { decodeJwt } from "../utils/decodeJWT";
+import Spinner from '../Spinner/Spinner';
 
 interface LogInFormInterface {
   email: string,
@@ -14,6 +15,7 @@ interface LogInFormInterface {
 }
 
 function LoginForm() {
+  const [loading, setLoading] = useState(false);
   const { setUser } = useAuth();
   const navigate = useNavigate();
   const directTo = "/productList";
@@ -28,6 +30,7 @@ function LoginForm() {
   });
 
   const sumbitLogIn = async ({email, password }: LogInFormInterface) => {
+    setLoading(true);
     try {
       const response = await axios.post(
         `${baseURL}/user/login`,
@@ -40,10 +43,19 @@ function LoginForm() {
       const { id, email: emailAddress, role, storeId} = decodeJwt(accessToken);
       setUser({id, emailAddress, role, storeId, accessToken});
       navigate(directTo, { replace: true });
+      setLoading(false)
     } catch (error) {
       console.log(error)
     }
     reset();
+  }
+
+  if (loading) {
+    return (
+      <div className='mt-32'>
+        <Spinner />
+      </div>
+    )
   }
 
   return (
