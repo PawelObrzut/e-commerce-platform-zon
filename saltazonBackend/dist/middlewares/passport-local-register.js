@@ -39,6 +39,7 @@ const PassportLocal = __importStar(require("passport-local"));
 const passport_1 = __importDefault(require("passport"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const utils_1 = require("../utils/utils");
+const api_1 = __importDefault(require("../api"));
 passport_1.default.use('register', new PassportLocal.Strategy({
     usernameField: 'email',
     passReqToCallback: true,
@@ -48,7 +49,7 @@ passport_1.default.use('register', new PassportLocal.Strategy({
         if (user) {
             return done(null, false);
         }
-        yield fetch('http://127.0.0.1:8000/api/user/', {
+        yield fetch(`${api_1.default}/api/user/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

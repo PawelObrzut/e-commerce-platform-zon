@@ -2,6 +2,7 @@ import * as PassportLocal from 'passport-local';
 import passport from 'passport';
 import bcrypt from 'bcrypt';
 import { findUserByEmail } from '../utils/utils';
+import baseURL from '../api';
 
 passport.use(
   'register',
@@ -18,7 +19,7 @@ passport.use(
         }
 
         await fetch(
-          'http://127.0.0.1:8000/api/user/',
+          `${baseURL}/api/user/`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

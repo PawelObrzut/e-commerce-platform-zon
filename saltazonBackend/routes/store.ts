@@ -2,6 +2,7 @@ import express, { Request } from 'express';
 import { Response } from 'express-serve-static-core';
 import passport from 'passport';
 import { ProductInterface } from '../types/types';
+import baseURL from '../api';
 
 const router = express.Router();
 
@@ -9,7 +10,7 @@ router.get('/', passport.authenticate('authenticateJWT'), async (req: Request, r
 
 router.get('/:id', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {
-    const storeResponse = await fetch(`http://127.0.0.1:8000/api/store/${req.params.id}`);
+    const storeResponse = await fetch(`${baseURL}/api/store/${req.params.id}`);
     const storeData = await storeResponse.json();
 
     const productResponse = await fetch('http://127.0.0.1:8000/api/product');
@@ -33,7 +34,7 @@ router.get('/:id', passport.authenticate('authenticateJWT'), async (req: Request
 router.post('/:id/product', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   console.log(req.body);
   try {
-    fetch('http://localhost:8000/api/product', {
+    fetch(`${baseURL}/api/product`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

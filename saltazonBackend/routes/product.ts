@@ -2,6 +2,7 @@ import express, { Request } from 'express';
 import { Response } from 'express-serve-static-core';
 import passport from 'passport';
 import paginate from '../middlewares/paginate';
+import baseURL from '../api';
 
 const router = express.Router();
 
@@ -9,7 +10,7 @@ router.get('/', passport.authenticate('authenticateJWT'), paginate, async (req: 
 
 router.get('/:id', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {
-    const product = await (await fetch(`http://127.0.0.1:8000/api/product/${req.params.id}`)).json();
+    const product = await (await fetch(`${baseURL}/api/product/${req.params.id}`)).json();
     if (product) {
       return res.status(200).json({ responseData: product.data });
     }
@@ -21,7 +22,7 @@ router.get('/:id', passport.authenticate('authenticateJWT'), async (req: Request
 
 router.delete('/:id', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {
-    fetch(`http://127.0.0.1:8000/api/product/${req.params.id}`, {
+    fetch(`${baseURL}/api/product/${req.params.id}`, {
       method: 'DELETE',
     })
       .then(response => response.json())

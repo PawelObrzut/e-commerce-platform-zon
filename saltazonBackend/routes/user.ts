@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import { RequestUser } from '../types/types';
+import baseURL from '../api';
 
 dotenv.config();
 const router = Router();
@@ -13,7 +14,7 @@ const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 const accessKey = process.env.ACCESS_TOKEN_SECRET;
 
 router.get('/', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
-  const usersCollection = await fetch('http://127.0.0.1:8000/api/user/', { method: 'GET' })
+  const usersCollection = await fetch(`${baseURL}/api/user/`, { method: 'GET' })
     .then(response => response.json())
     .catch(error =>  console.log(error));
   return res.send(usersCollection);
@@ -32,7 +33,7 @@ router.post('/login', passport.authenticate('login'), async (req: RequestUser, r
   body.set('id', userId);
   body.set('token', refreshToken);
 
-  fetch('http://127.0.0.1:8000/api/user/saveRefreshToken', 
+  fetch(`${baseURL}/api/user/saveRefreshToken`, 
     {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
@@ -68,7 +69,7 @@ router.post('/refreshToken', (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Internal server error'})
   }
 
-  fetch(`http://127.0.0.1:8000/api/user/token/${refreshToken}`, { method: 'GET' })
+  fetch(`${baseURL}/api/user/token/${refreshToken}`, { method: 'GET' })
     .then(response => response.json())
     .then((message: boolean) => {
       if (message) {
@@ -101,10 +102,10 @@ router.delete('/logout', async (req: Request, res: Response) => {
   }
   const refreshToken = cookies.refreshToken
 
-  fetch(`http://127.0.0.1:8000/api/user/token/${refreshToken}`, { method: 'DELETE' })
+  fetch(`${baseURL}/api/user/token/${refreshToken}`, { method: 'DELETE' })
     .then(response => response.text())
     .then(message => {
-      console.log(message)
+      // console.log(message)
       return res
         .clearCookie('refreshToken', {
           httpOnly: true,

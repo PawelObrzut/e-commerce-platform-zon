@@ -27,12 +27,13 @@ const express_1 = require("express");
 const dotenv_1 = __importDefault(require("dotenv"));
 const passport_1 = __importDefault(require("passport"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const api_1 = __importDefault(require("../api"));
 dotenv_1.default.config();
 const router = (0, express_1.Router)();
 const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 const accessKey = process.env.ACCESS_TOKEN_SECRET;
 router.get('/', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const usersCollection = yield fetch('http://127.0.0.1:8000/api/user/', { method: 'GET' })
+    const usersCollection = yield fetch(`${api_1.default}/api/user/`, { method: 'GET' })
         .then(response => response.json())
         .catch(error => console.log(error));
     return res.send(usersCollection);
@@ -47,7 +48,7 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
     const body = new Map();
     body.set('id', userId);
     body.set('token', refreshToken);
-    fetch('http://127.0.0.1:8000/api/user/saveRefreshToken', {
+    fetch(`${api_1.default}/api/user/saveRefreshToken`, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(Object.fromEntries(body))
@@ -78,7 +79,7 @@ router.post('/refreshToken', (req, res) => {
     if (!refreshKey || !accessKey) {
         return res.status(500).json({ message: 'Internal server error' });
     }
-    fetch(`http://127.0.0.1:8000/api/user/token/${refreshToken}`, { method: 'GET' })
+    fetch(`${api_1.default}/api/user/token/${refreshToken}`, { method: 'GET' })
         .then(response => response.json())
         .then((message) => {
         if (message) {
@@ -109,10 +110,10 @@ router.delete('/logout', (req, res) => __awaiter(void 0, void 0, void 0, functio
         return res.status(204).json({ message: 'No cookie-token to delete' });
     }
     const refreshToken = cookies.refreshToken;
-    fetch(`http://127.0.0.1:8000/api/user/token/${refreshToken}`, { method: 'DELETE' })
+    fetch(`${api_1.default}/api/user/token/${refreshToken}`, { method: 'DELETE' })
         .then(response => response.text())
         .then(message => {
-        console.log(message);
+        // console.log(message)
         return res
             .clearCookie('refreshToken', {
             httpOnly: true,

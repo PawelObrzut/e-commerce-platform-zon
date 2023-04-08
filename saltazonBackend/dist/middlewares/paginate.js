@@ -8,13 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const api_1 = __importDefault(require("../api"));
 const paginate = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { page = '1', limit = '10' } = req.query;
         const startIndex = (+page - 1) * +limit;
         const endIndex = +page * +limit;
-        const productsCollection = yield fetch('http://127.0.0.1:8000/api/product/')
+        const productsCollection = yield fetch(`${api_1.default}/api/product/`)
             .then(response => response.json())
             .catch(error => console.log(error));
         const count = productsCollection.data.length;

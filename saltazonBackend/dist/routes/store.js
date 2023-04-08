@@ -14,11 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const passport_1 = __importDefault(require("passport"));
+const api_1 = __importDefault(require("../api"));
 const router = express_1.default.Router();
 router.get('/', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json({ message: "don't try, do!" }); }));
 router.get('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const storeResponse = yield fetch(`http://127.0.0.1:8000/api/store/${req.params.id}`);
+        const storeResponse = yield fetch(`${api_1.default}/api/store/${req.params.id}`);
         const storeData = yield storeResponse.json();
         const productResponse = yield fetch('http://127.0.0.1:8000/api/product');
         const productData = yield productResponse.json();
@@ -39,7 +40,7 @@ router.get('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res
 router.post('/:id/product', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body);
     try {
-        fetch('http://localhost:8000/api/product', {
+        fetch(`${api_1.default}/api/product`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

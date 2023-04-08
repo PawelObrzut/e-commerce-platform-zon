@@ -1,6 +1,7 @@
 import { Request, NextFunction } from 'express';
 import { Response } from 'express-serve-static-core';
 import { PaginatedData } from '../types/types';
+import baseURL from '../api';
 
 const paginate = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -8,7 +9,7 @@ const paginate = async (req: Request, res: Response, next: NextFunction) => {
     const startIndex = (+page - 1) * +limit;
     const endIndex = +page * +limit;
 
-    const productsCollection = await fetch('http://127.0.0.1:8000/api/product/')
+    const productsCollection = await fetch(`${baseURL}/api/product/`)
       .then(response => response.json())
       .catch(error => console.log(error));
 
