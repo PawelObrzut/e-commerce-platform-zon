@@ -67,7 +67,9 @@ function LoginForm() {
 
   if (loading) {
     return (
-      <div className='mt-32'>
+      <div>
+        <p>I am using free hoisting services that is slow.</p>
+        <p className='mb-10'>It may take up to a minute on your first login.</p>
         <Spinner />
       </div>
     )

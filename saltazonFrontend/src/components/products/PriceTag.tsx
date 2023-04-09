@@ -1,6 +1,11 @@
-import React from 'react'
+import React from 'react';
+import { ProductInterface } from '../../types';
 
-const PriceTag = ({product}) => {
+interface PriceTagInterface {
+  product: ProductInterface
+}
+
+const PriceTag = ({product}: PriceTagInterface) => {
   return (
     <>
       <sup className='text-xs'>{product.price[0]}</sup>
@@ -9,4 +14,4 @@ const PriceTag = ({product}) => {
   )
 }
 
-export default PriceTag
+export default PriceTag;
