@@ -39,4 +39,4 @@ const StorePage = () => {
   )
 }
 
-export default StorePage
+export default StorePage;

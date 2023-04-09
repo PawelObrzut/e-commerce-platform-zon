@@ -3,9 +3,9 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { GrPrevious } from 'react-icons/gr';
 import { ProductInterface } from '../../types';
 import useFetch from '../hooks/useFetch';
-import PriceTag from '../Products/PriceTag';
 import useCart from '../hooks/useCart';
 import { baseURL } from '../utils/api';
+import PriceLabel from '../Products/PriceLabel';
 
 interface ProductPageInterface {
   responseData: ProductInterface,
@@ -47,7 +47,7 @@ const ProductPage = () => {
           <Link to={`/store/${product.storeId}`} className='text-sm text-blue-500 hover:text-red-500 hover:underline'>Visit the Store</Link>
 
           <hr className='w-11/12 py-1' />
-          <PriceTag product={product} />
+          <PriceLabel product={product} />
           <ul className='list-disc pl-4'>
             <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores deserunt inventore vero culpa adipisci minus nostrum nisi, saepe eos. Ad dolores nobis, harum at libero quaerat saepe exercitationem eaque explicabo.</li>
             <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta vero magnam voluptatibus ullam quo, delectus ipsam accusantium neque magni, expedita dolore quibusdam, inventore excepturi distinctio cupiditate amet odit. Cumque, atque?</li>
@@ -55,7 +55,7 @@ const ProductPage = () => {
           </ul>
         </article>
         <aside className='border rounded border-gray-300 p-5 h-3/4'>
-          <PriceTag product={product} />
+          <PriceLabel product={product} />
           <p className='text-xs text-gray-500'>No Import Fees Deposit & $15.00 Shipping to Sweden</p>
           {product.quantity > 0 && <p className='text-md text-green-600 py-3'>In Stock</p>}
 
@@ -82,4 +82,4 @@ const ProductPage = () => {
   )
 }
 
-export default ProductPage
+export default ProductPage;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import LoginForm from '../Login/LoginForm';
 import NewUserForm from '../Login/NewUserForm';
 
@@ -50,4 +50,4 @@ const LoginPage = () => {
   )
 }
 
-export default LoginPage
+export default LoginPage;
