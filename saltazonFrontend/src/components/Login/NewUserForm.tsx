@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { baseURL } from '../utils/api'
+import { baseURL } from '../utils/api';
+import Spinner from '../Spinner/Spinner';
 
 interface SignUpFormInterface {
   email: string,
@@ -12,6 +13,8 @@ interface SignUpFormInterface {
 }
 
 function NewUserForm() {
+  const [loading, setLoading] = useState(false);
+  
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(4).required(),
@@ -24,6 +27,7 @@ function NewUserForm() {
   });
 
   const submitSignUp = async ({ email, password, role }: SignUpFormInterface) => {
+    setLoading(true);
     try {
       const response = await fetch(`${baseURL}/user/register`, {
         method: 'POST',
@@ -38,15 +42,25 @@ function NewUserForm() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+        setLoading(false)
+        // console.log(data);
       } else {
+        setLoading(false);
         throw new Error('Sign up failed');
       }
     } catch (error) {
+      setLoading(false);
       console.error(error);
     }
-
     reset();
+  }
+
+  if (loading) {
+    return (
+      <div className='mt-32'>
+        <Spinner />
+      </div>
+    )
   }
 
   return (

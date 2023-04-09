@@ -38,6 +38,7 @@ const pool = new Pool({
     console.log(err.stack)
   } finally {
     console.log('finished')
-    client.release()
+    // client.release();
+    pool.end();
   }
 })();

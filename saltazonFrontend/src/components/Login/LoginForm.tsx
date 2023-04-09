@@ -16,6 +16,7 @@ interface LogInFormInterface {
 
 function LoginForm() {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const { setUser } = useAuth();
   const navigate = useNavigate();
   const directTo = "/productList";
@@ -43,11 +44,25 @@ function LoginForm() {
       const { id, email: emailAddress, role, storeId} = decodeJwt(accessToken);
       setUser({id, emailAddress, role, storeId, accessToken});
       navigate(directTo, { replace: true });
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      setLoading(false);
+      setError(true);
     }
     reset();
+  }
+
+  if (error) {
+    return (
+      <div>
+        <p>Inncorrect email or password.</p>
+        <button 
+          onClick={() => setError(false)}
+          className='border border-black bg-orange-300 hover:border-white p-4 mt-5'
+        >Try again</button>
+      </div>
+    )
   }
 
   if (loading) {
