@@ -1,6 +1,5 @@
 import React, { createContext, ReactNode } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import { decodeJwt } from '../utils/decodeJWT';
 import { CartItem } from '../../types';
 import useAuth from '../hooks/useAuth';
 
@@ -26,7 +25,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const [cartItems, setCartItems] = useLocalStorage<Record<string, CartItem[]>>('cartItems', () => {
     const storedCart = localStorage.getItem(`cartItems`);
     const parsedCart = JSON.parse(storedCart);
-    console.log('the cart is ', parsedCart);
     return parsedCart || {};
   });
 
