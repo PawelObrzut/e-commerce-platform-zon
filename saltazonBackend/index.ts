@@ -21,7 +21,7 @@ const port = process.env.PORT;
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'backend-logging', 'access.log'), { flags: 'a' });
 
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:4173', 'https://tradezon-vite.onrender.com'], credentials: true }));
 app.use(cookieParser());
 app.use(passport.initialize());
 morgan.token('date', () => moment().tz('Europe/Stockholm').format('YYYY-MM-DD HH:mm ZZ'));
