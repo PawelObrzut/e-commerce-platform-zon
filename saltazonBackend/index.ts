@@ -20,8 +20,13 @@ const app: Express = express();
 const port = process.env.PORT;
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'backend-logging', 'access.log'), { flags: 'a' });
 
+const corsOptions = {
+  credentials: true,
+  origin: '*'
+};
+
 app.use(express.json());
-app.use(cors({ origin: 'https://tradezon-vite.onrender.com', credentials: true }));
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(passport.initialize());
 morgan.token('date', () => moment().tz('Europe/Stockholm').format('YYYY-MM-DD HH:mm ZZ'));
