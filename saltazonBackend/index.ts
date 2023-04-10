@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import moment from 'moment-timezone';
@@ -19,6 +19,14 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'backend-logging', 'access.log'), { flags: 'a' });
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.header("Access-Control-Allow-Origin", "https://tradezon-vite.onrender.com");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Credentials", 'true');
+  next();
+});
 
 app.use(express.json());
 app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:4173', 'https://tradezon-vite.onrender.com'], credentials: true }));
