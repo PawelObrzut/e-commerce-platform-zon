@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import App from './app';
 import { CartProvider } from './components/context/cartContext';
 import { AuthProvider } from './components/context/authContext';
 import './index.css';
