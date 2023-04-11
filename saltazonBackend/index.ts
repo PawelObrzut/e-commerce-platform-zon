@@ -5,7 +5,6 @@ import moment from 'moment-timezone';
 import path from 'path';
 import fs from 'fs';
 import passport from 'passport';
-import cors from 'cors';
 import morgan from 'morgan';
 import userRouter from './routes/user';
 import productRouter from './routes/product';
@@ -20,13 +19,19 @@ const app: Express = express();
 const port = process.env.PORT;
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'backend-logging', 'access.log'), { flags: 'a' });
 
-const corsOptions = {
-  credentials: true,
-  origin: '*'
-};
+app.use(function(req, res, next) {
+  const allowedOrigins = ['https://tradezon-node.onrender.com'];
+  const origin = req.headers.origin;
+  if (origin && allowedOrigins.includes(origin)) {
+       res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, UPDATE');
+  next();
+});
 
 app.use(express.json());
-app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(passport.initialize());
 morgan.token('date', () => moment().tz('Europe/Stockholm').format('YYYY-MM-DD HH:mm ZZ'));
