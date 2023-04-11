@@ -10,7 +10,6 @@ const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const passport_1 = __importDefault(require("passport"));
-const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
 const user_1 = __importDefault(require("./routes/user"));
 const product_1 = __importDefault(require("./routes/product"));
@@ -22,8 +21,20 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 const accessLogStream = fs_1.default.createWriteStream(path_1.default.join(__dirname, 'backend-logging', 'access.log'), { flags: 'a' });
+app.use(function (req, res, next) {
+    const allowedOrigins = ['https://tradezon-vite.onrender.com', 'http://localhost:5173'];
+    const origin = req.headers.origin;
+    console.log('setting cors', origin);
+    if (origin && allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, UPDATE');
+    console.log('cors: res.header is set');
+    next();
+});
 app.use(express_1.default.json());
-app.use((0, cors_1.default)({ origin: 'http://localhost:5173', credentials: true }));
 app.use((0, cookie_parser_1.default)());
 app.use(passport_1.default.initialize());
 morgan_1.default.token('date', () => (0, moment_timezone_1.default)().tz('Europe/Stockholm').format('YYYY-MM-DD HH:mm ZZ'));
