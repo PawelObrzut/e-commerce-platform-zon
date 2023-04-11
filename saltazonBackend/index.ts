@@ -19,17 +19,17 @@ const app: Express = express();
 const port = process.env.PORT;
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'backend-logging', 'access.log'), { flags: 'a' });
 
-app.use(function(req, res, next) {
-  const allowedOrigins = ['https://tradezon-node.onrender.com'];
-  const origin = req.headers.origin;
-  if (origin && allowedOrigins.includes(origin)) {
-       res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-credentials', 'true');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, UPDATE');
-  next();
-});
+// app.use(function(req, res, next) {
+//   const allowedOrigins = ['https://tradezon-node.onrender.com'];
+//   const origin = req.headers.origin;
+//   if (origin && allowedOrigins.includes(origin)) {
+//        res.setHeader('Access-Control-Allow-Origin', origin);
+//   }
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+//   res.header('Access-Control-Allow-credentials', 'true');
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, UPDATE');
+//   next();
+// });
 
 app.use(express.json());
 app.use(cookieParser());
