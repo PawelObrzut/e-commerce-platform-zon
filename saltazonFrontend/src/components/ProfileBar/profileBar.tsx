@@ -8,7 +8,7 @@ import { baseURL } from "../utils/api";
 
 function ProfileBar() {
   const navigate = useNavigate();
-  const { user, setUser, refreshClass, setRefreshClass } = useAuth();
+  const { user, setUser, refreshClass } = useAuth();
   const refresh = useRefreshToken();
 
   const forceRefresh = () => {
@@ -19,8 +19,7 @@ function ProfileBar() {
   const handleLogOut = async () => {
     setUser({} as UserInterface);
     try {
-      await axios.delete(`${baseURL}/user/logout`, { withCredentials: true });
-      setRefreshClass(false);
+      const response = await axios.delete(`${baseURL}/user/logout`, { withCredentials: true });
     } catch (error) {
       console.log(error)
     }
