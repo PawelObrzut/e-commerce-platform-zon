@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserInterface } from "../../types";
 import useAuth from "../hooks/useAuth";
@@ -8,18 +8,19 @@ import { baseURL } from "../utils/api";
 
 function ProfileBar() {
   const navigate = useNavigate();
-  const { user, setUser, refreshClass } = useAuth();
+  const { user, setUser, refreshClass, setRefreshClass } = useAuth();
   const refresh = useRefreshToken();
 
-  const forceRefresh = () => {
-    refresh();
+  const forceRefresh = async () => {
+    await refresh();
     navigate(-1);
   }
 
   const handleLogOut = async () => {
     setUser({} as UserInterface);
     try {
-      const response = await axios.delete(`${baseURL}/user/logout`, { withCredentials: true });
+      await axios.delete(`${baseURL}/user/logout`, { withCredentials: true });
+      setRefreshClass(false);
     } catch (error) {
       console.log(error)
     }

@@ -16,8 +16,8 @@ const LoginPage = () => {
           <Button moveForm={() => setBtnState(!btnState)} btnText={'Log In'}/>
         </div>
         <div className=' w-2/4'>
-          <h2 className='text-xl pt-24'>New to Saltazon?</h2>
-          <h3 className='text-lg pb-12'>Create your Saltazon account!</h3>
+          <h2 className='text-xl pt-24'>New to Tradezon?</h2>
+          <h3 className='text-lg pb-12'>Create your Tradezon account!</h3>
           <Button moveForm={() => setBtnState(!btnState)} btnText={'Sign Up'}/>
         </div>
         <div className={`absolute h-full w-1/2 bg-gray-100 border border-black rounded-lg p-5 ${btnState ? 'right-0 transition-all duration-1000 ease-in-out' : 'right-[50%] transition-all duration-1000 ease-in-out'}`}>

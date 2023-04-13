@@ -4,6 +4,7 @@ import useFetch from '../hooks/useFetch';
 import Pagination from '../Pagination/pagination';
 import Product from '../Products/product';
 import { baseURL } from '../utils/api';
+import Spinner from '../Spinner/spinner';
 
 const sorted = false;
 
@@ -46,7 +47,11 @@ const ProductListPage = () => {
 
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <main className='flex items-center justify-center h-[70vh]'>
+        <Spinner />
+      </main>
+    )
   }
 
   if (error) {

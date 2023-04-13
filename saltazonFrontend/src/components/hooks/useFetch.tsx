@@ -15,6 +15,7 @@ const useFetch = <T = unknown>(url: string): FetchData<T> => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(url, {
           method: 'GET',

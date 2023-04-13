@@ -77,7 +77,7 @@ function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(sumbitLogIn)} >
-      <h3 className="text-lg pb-2">Login to saltazon</h3>
+      <h3 className="text-lg pb-2">Login to tradezon</h3>
       <div className="relative z-0 w-full mb-4 group text-left">
         <input 
           {...register("email")}

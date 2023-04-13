@@ -32,3 +32,7 @@ export interface UserInterface {
   storeId?: number,
 	accessToken: string,
 }
+
+export interface ProductPageInterface {
+  responseData: ProductInterface,
+}
