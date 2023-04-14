@@ -11,6 +11,7 @@ const router = Router();
 
 const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 const accessKey = process.env.ACCESS_TOKEN_SECRET;
+const expireTime = '1m';
 
 router.get('/', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {
@@ -30,7 +31,7 @@ router.post('/login', passport.authenticate('login'), async (req: RequestUser, r
 
   const { id: userId } = req.user;
 
-  const accessToken = jwt.sign({ ...req.user, iat: Math.floor(Date.now() / 1000) }, accessKey, { expiresIn: '5m' });
+  const accessToken = jwt.sign({ ...req.user, iat: Math.floor(Date.now() / 1000) }, accessKey, { expiresIn: expireTime });
   const refreshToken = jwt.sign({ ...req.user, iat: Math.floor(Date.now() / 1000) }, refreshKey);
 
   const body = {
@@ -45,6 +46,7 @@ router.post('/login', passport.authenticate('login'), async (req: RequestUser, r
       .cookie('refreshToken', refreshToken, {
         httpOnly: true,
         secure: true,
+        sameSite: 'none',
       })
       .json({
         accessToken: accessToken,
@@ -57,6 +59,7 @@ router.post('/login', passport.authenticate('login'), async (req: RequestUser, r
 
 router.post('/refreshToken', (req: Request, res: Response) => {
   const { refreshToken } = req.cookies;
+  console.log('the refresh token received from the client is :::', refreshToken);
   if (!refreshToken) {
     return res.status(401).json({ message: 'Token not provided' });
   }
@@ -75,7 +78,7 @@ router.post('/refreshToken', (req: Request, res: Response) => {
             return res.sendStatus(403);
           }
           const { iat, exp, ...userData } = decode;
-          const accessToken = jwt.sign(userData, accessKey, { expiresIn: '5m' });
+          const accessToken = jwt.sign(userData, accessKey, { expiresIn: expireTime });
           return res.status(203).json({ accessToken: accessToken });
         });
       } else {

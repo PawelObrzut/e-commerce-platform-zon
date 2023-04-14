@@ -33,6 +33,7 @@ dotenv_1.default.config();
 const router = (0, express_1.Router)();
 const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 const accessKey = process.env.ACCESS_TOKEN_SECRET;
+const expireTime = '1m';
 router.get('/', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield axios_1.default.get(`${api_1.default}/api/user/`);
@@ -49,7 +50,7 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
         return res.status(500).json({ message: 'Internal server error' });
     }
     const { id: userId } = req.user;
-    const accessToken = jsonwebtoken_1.default.sign(Object.assign(Object.assign({}, req.user), { iat: Math.floor(Date.now() / 1000) }), accessKey, { expiresIn: '5m' });
+    const accessToken = jsonwebtoken_1.default.sign(Object.assign(Object.assign({}, req.user), { iat: Math.floor(Date.now() / 1000) }), accessKey, { expiresIn: expireTime });
     const refreshToken = jsonwebtoken_1.default.sign(Object.assign(Object.assign({}, req.user), { iat: Math.floor(Date.now() / 1000) }), refreshKey);
     const body = {
         id: userId,
@@ -62,6 +63,7 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
             .cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: true,
+            sameSite: 'none',
         })
             .json({
             accessToken: accessToken,
@@ -74,6 +76,7 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
 }));
 router.post('/refreshToken', (req, res) => {
     const { refreshToken } = req.cookies;
+    console.log('the refresh token received from the client is :::', refreshToken);
     if (!refreshToken) {
         return res.status(401).json({ message: 'Token not provided' });
     }
@@ -90,7 +93,7 @@ router.post('/refreshToken', (req, res) => {
                     return res.sendStatus(403);
                 }
                 const { iat, exp } = decode, userData = __rest(decode, ["iat", "exp"]);
-                const accessToken = jsonwebtoken_1.default.sign(userData, accessKey, { expiresIn: '5m' });
+                const accessToken = jsonwebtoken_1.default.sign(userData, accessKey, { expiresIn: expireTime });
                 return res.status(203).json({ accessToken: accessToken });
             });
         }
