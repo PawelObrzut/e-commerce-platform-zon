@@ -36,3 +36,11 @@ export interface UserInterface {
 export interface ProductPageInterface {
   responseData: ProductInterface,
 }
+
+export interface ProductListInterface {
+  count?: number,
+  limit?: number,
+  next?: number,
+  page?: number,
+  responseData: ProductInterface[],
+}

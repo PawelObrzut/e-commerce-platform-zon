@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ProductInterface } from '../../types';
+import { ProductInterface, ProductListInterface } from '../../types';
 import useFetch from '../hooks/useFetch';
 import Pagination from '../Pagination/pagination';
 import Product from '../Products/product';
@@ -25,14 +25,6 @@ function sortByCategory(products: any) {
 
 function sortSomething(category: any) {
   console.log(`sorting things would be cool${category}`);
-}
-
-interface ProductListInterface {
-  count?: number,
-  limit?: number,
-  next?: number,
-  page?: number,
-  responseData: ProductInterface[],
 }
 
 const ProductListPage = () => {
