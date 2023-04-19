@@ -1,5 +1,6 @@
 import React from 'react'
 import { GrNext, GrPrevious } from 'react-icons/gr';
+import useSearch from '../hooks/useSearch';
 import { baseURL } from '../utils/api'
 
 interface PaginationInterface {
@@ -11,14 +12,15 @@ interface PaginationInterface {
 }
 
 const Pagination = ({ setUrl, count, limit, next, page}: PaginationInterface) => {
-
+  const { category, inputValue } = useSearch();
+  
   const handleNextPage = () => {
-    setUrl(`${baseURL}/product?page=${next}&limit=12`)
+    setUrl(`${baseURL}/product?page=${next}&limit=12&category=${category}&searchQuery=${inputValue.current.value}`)
     window.scrollTo(0, 0);
   };
 
   const handlePreviousPage = () => {
-    setUrl(`${baseURL}/product?page=${page - 1}&limit=12`)
+    setUrl(`${baseURL}/product?page=${page - 1}&limit=12&category=${category}&searchQuery=${inputValue.current.value}`)
     window.scrollTo(0, 0);
   };
 

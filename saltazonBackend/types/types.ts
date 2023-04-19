@@ -37,7 +37,3 @@ export interface PaginatedData {
   count?: number,
   responseData?: ProductInterface[]
 }
-
-export interface ResponseWithData extends Response {
-  respondWithData?: PaginatedData
-}

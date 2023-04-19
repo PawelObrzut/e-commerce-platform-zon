@@ -17,8 +17,8 @@ import ProductListPage from './components/pages/productListPage';
 import StorePage from './components/pages/storepage';
 import ProtectedRoutes from './components/ProtectedRoutes/requireAuth';
 import Footer from './components/Footer/footer';
-import './App.css';
 import SearchResultsPage from './components/pages/searchResultsPage';
+import './App.css';
 
 function App() {
 

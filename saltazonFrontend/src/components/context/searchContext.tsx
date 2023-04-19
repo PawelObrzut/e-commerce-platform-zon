@@ -29,4 +29,4 @@ export const SearchProvider = ({ children }: SearchProviderInterface) => {
   )
 }
 
-export default SearchContext
+export default SearchContext;

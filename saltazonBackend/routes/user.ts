@@ -11,7 +11,7 @@ const router = Router();
 
 const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 const accessKey = process.env.ACCESS_TOKEN_SECRET;
-const expireTime = '1m';
+const expireTime = '10m';
 
 router.get('/', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {

@@ -8,25 +8,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = __importDefault(require("axios"));
-const api_1 = __importDefault(require("../api"));
 const paginate = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { page = '1', limit = '10' } = req.query;
         const startIndex = (+page - 1) * +limit;
         const endIndex = +page * +limit;
-        const response = yield axios_1.default.get(`${api_1.default}/api/product/`);
-        const productsCollection = response.data;
-        const count = productsCollection.data.length;
+        const productsCollection = res.data;
+        if (!productsCollection) {
+            return res.status(500).json({ message: "error" });
+        }
+        const count = productsCollection.length;
         const paginatedData = {
             limit: +limit,
             page: +page,
             count,
-            responseData: productsCollection.data.slice(startIndex, endIndex),
+            responseData: productsCollection.slice(startIndex, endIndex),
         };
         if (startIndex > 0) {
             paginatedData.previous = +page - 1;

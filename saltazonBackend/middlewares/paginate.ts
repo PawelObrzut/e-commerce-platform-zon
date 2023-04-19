@@ -9,17 +9,18 @@ const paginate = async (req: Request, res: Response, next: NextFunction) => {
     const { page = '1', limit = '10' } = req.query;
     const startIndex = (+page - 1) * +limit;
     const endIndex = +page * +limit;
+    const productsCollection = res.data;
 
-    const response = await axios.get(`${baseURL}/api/product/`);
-    const productsCollection = response.data;
-
-    const count = productsCollection.data.length;
+    if (!productsCollection) {
+      return res.status(500).json({ message: "error" })
+    }
+    const count = productsCollection.length;
 
     const paginatedData: PaginatedData = {
       limit: +limit,
       page: +page,
       count,
-      responseData: productsCollection.data.slice(startIndex, endIndex),
+      responseData: productsCollection.slice(startIndex, endIndex),
     };
 
     if (startIndex > 0) {

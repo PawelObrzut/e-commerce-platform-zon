@@ -33,7 +33,7 @@ dotenv_1.default.config();
 const router = (0, express_1.Router)();
 const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 const accessKey = process.env.ACCESS_TOKEN_SECRET;
-const expireTime = '1m';
+const expireTime = '10m';
 router.get('/', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield axios_1.default.get(`${api_1.default}/api/user/`);

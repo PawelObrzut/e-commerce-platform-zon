@@ -10,15 +10,13 @@ import useSearch from '../hooks/useSearch';
 const SearchResultsPage = () => {
   const { category, inputValue } = useSearch();
   const [url, setUrl] = useState(`${baseURL}/product?page=1&limit=12&category=${category}&searchQuery=${inputValue.current.value}`);
-  console.log(url);
 
   const { data, isLoading, error } = useFetch<ProductListInterface>(url);
 
-  // const count = data?.count;
-  // const limit = data?.limit;
-  // const next = data?.next;
-  // const page = data?.page;
-
+  const count = data?.count;
+  const limit = data?.limit;
+  const next = data?.next;
+  const page = data?.page;
 
   if (isLoading) {
     return (
@@ -43,7 +41,7 @@ const SearchResultsPage = () => {
           data?.responseData?.map((product: ProductInterface) => (
             <Product key={product.id} {...product} />))
         }
-          {/* <Pagination setUrl={setUrl} count={count} limit={limit} next={next} page={page} /> */}
+          <Pagination setUrl={setUrl} count={count} limit={limit} next={next} page={page} />
         </section>
       </main>
     </>);
