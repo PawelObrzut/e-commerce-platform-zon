@@ -25,7 +25,7 @@ const Carousel = () => {
     setCurrentIndex(newIndex);
   };
 
-  const setLink = (index) => {
+  const setLink = (index: number) => {
     switch (index) {
       case 0:
         return "/";

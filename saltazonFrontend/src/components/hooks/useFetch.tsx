@@ -37,8 +37,9 @@ const useFetch = <T = unknown>(url: string): FetchData<T> => {
         setError(error.message);
       }
     };
-
-    fetchData();
+    if (user.accessToken) {
+      fetchData();
+    }
   }, [url]);
 
   return { data, isLoading, error };

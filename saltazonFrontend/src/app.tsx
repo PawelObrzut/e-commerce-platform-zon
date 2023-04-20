@@ -17,7 +17,6 @@ import ProductListPage from './components/pages/productListPage';
 import StorePage from './components/pages/storepage';
 import ProtectedRoutes from './components/ProtectedRoutes/requireAuth';
 import Footer from './components/Footer/footer';
-import SearchResultsPage from './components/pages/searchResultsPage';
 import './App.css';
 
 function App() {
@@ -37,7 +36,6 @@ function App() {
 						<Route path='/store/:id' element={ <StorePage /> }></Route>
 						<Route path='/admin' element={ <AdminPage /> }></Route>
 						<Route path='/admin/super' element={ <SuperAdminPage /> }></Route>
-						<Route path='/searchResults' element={ <SearchResultsPage/> }></Route>
 					</Route>
 
 				</Routes>

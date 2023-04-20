@@ -4,10 +4,11 @@ import Menu from '../Menu/menu';
 import ProfileBar from '../ProfileBar/profileBar';
 import useAuth from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
+import useSearch from '../hooks/useSearch';
 
 function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useAuth();
+  const { setCategory } = useSearch();
 
   return (
     <header>
@@ -39,7 +40,7 @@ function NavBar() {
           <li className="pl-4">Registry</li>
           <li className="pl-4">Sell</li>
         </ul>
-        <Link to="/productList"><span className="ml-auto pr-5">Shop Great Deals Now</span></Link>
+        <Link onClick={() => setCategory('')} to="/productList"><span className="ml-auto pr-5">Shop Great Deals Now</span></Link>
       </nav>      
     </header>
   );

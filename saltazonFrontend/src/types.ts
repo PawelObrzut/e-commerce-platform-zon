@@ -14,6 +14,7 @@ export interface CardInterface {
 	img: React.ReactElement,
 	linkTitle: string,
 	to?: string,
+  category?: string,
 }
 
 export interface CartItem {
