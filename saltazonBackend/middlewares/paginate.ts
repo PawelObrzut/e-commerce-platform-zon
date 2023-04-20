@@ -1,8 +1,6 @@
-import axios from 'axios';
 import { Request, NextFunction } from 'express';
 import { Response } from 'express-serve-static-core';
 import { PaginatedData } from '../types/types';
-import baseURL from '../api';
 
 const paginate = async (req: Request, res: Response, next: NextFunction) => {
   try {

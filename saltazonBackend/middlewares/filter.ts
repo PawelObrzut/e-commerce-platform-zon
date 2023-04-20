@@ -4,7 +4,7 @@ import { Response } from 'express-serve-static-core';
 import baseURL from '../api';
 import { ProductInterface } from '../types/types';
 
-const filter = async(req: Request, res: Response, next: NextFunction) => {
+const filter = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const response = await axios.get(`${baseURL}/api/product/`);
     const products = response.data.data;
@@ -13,7 +13,7 @@ const filter = async(req: Request, res: Response, next: NextFunction) => {
     let filtered = [] as ProductInterface[];
 
     if (category) {
-      filtered = products.filter( (product: ProductInterface) => product.category === category)
+      filtered = products.filter( (product: ProductInterface) => product.category === category);
       res.data = filtered;
     } else {
       res.data = products;
