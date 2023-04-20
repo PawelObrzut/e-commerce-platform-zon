@@ -9,7 +9,6 @@ const filter = async(req: Request, res: Response, next: NextFunction) => {
     const response = await axios.get(`${baseURL}/api/product/`);
     const products = response.data.data;
     const category = req.query.category as string | undefined;
-    const searchQuery = req.query.searchQuery as string | undefined;
     
     let filtered = [] as ProductInterface[];
 

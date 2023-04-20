@@ -17,9 +17,10 @@ const passport_1 = __importDefault(require("passport"));
 const axios_1 = __importDefault(require("axios"));
 const paginate_1 = __importDefault(require("../middlewares/paginate"));
 const filter_1 = __importDefault(require("../middlewares/filter"));
+const search_1 = __importDefault(require("../middlewares/search"));
 const api_1 = __importDefault(require("../api"));
 const router = express_1.default.Router();
-router.get('/', passport_1.default.authenticate('authenticateJWT'), filter_1.default, paginate_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json(res.respondWithData); }));
+router.get('/', passport_1.default.authenticate('authenticateJWT'), filter_1.default, search_1.default, paginate_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json(res.respondWithData); }));
 router.get('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const product = yield axios_1.default.get(`${api_1.default}/api/product/${req.params.id}`).then(response => response.data);

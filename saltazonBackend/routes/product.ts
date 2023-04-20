@@ -4,11 +4,12 @@ import passport from 'passport';
 import axios from 'axios';
 import paginate from '../middlewares/paginate';
 import filter from '../middlewares/filter';
+import search from '../middlewares/search';
 import baseURL from '../api';
 
 const router = express.Router();
 
-router.get('/', passport.authenticate('authenticateJWT'), filter, paginate, async (req: Request, res: Response) => res.status(200).json(res.respondWithData));
+router.get('/', passport.authenticate('authenticateJWT'), filter, search, paginate, async (req: Request, res: Response) => res.status(200).json(res.respondWithData));
 
 router.get('/:id', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {

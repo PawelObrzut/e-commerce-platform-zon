@@ -33,7 +33,7 @@ dotenv_1.default.config();
 const router = (0, express_1.Router)();
 const refreshKey = process.env.REFRESH_TOKEN_SECRET;
 const accessKey = process.env.ACCESS_TOKEN_SECRET;
-const expireTime = '10m';
+const expireTime = '5m';
 router.get('/', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield axios_1.default.get(`${api_1.default}/api/user/`);
@@ -76,7 +76,6 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
 }));
 router.post('/refreshToken', (req, res) => {
     const { refreshToken } = req.cookies;
-    console.log('the refresh token received from the client is :::', refreshToken);
     if (!refreshToken) {
         return res.status(401).json({ message: 'Token not provided' });
     }
