@@ -29,14 +29,16 @@ function sortSomething(category: any) {
 }
 
 const ProductListPage = () => {
-  const { category, inputValue } = useSearch();
-  const [url, setUrl] = useState(`${baseURL}/product?page=1&limit=12&category=${category}&searchQuery=${inputValue.current.value}`);
-
+  const { category, inputValue, url, setUrl } = useSearch();
   const { data, isLoading, error } = useFetch<ProductListInterface>(url);
 
   useEffect(() => {
     setUrl(`${baseURL}/product?page=1&limit=12&category=${category}&searchQuery=${inputValue.current.value}`);
-  }, [category])
+  }, [category]);
+
+  useEffect(() => {
+    setUrl(`${baseURL}/product?page=1&limit=12`);
+  }, [])
 
   const count = data?.count;
   const limit = data?.limit;

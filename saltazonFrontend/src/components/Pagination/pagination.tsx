@@ -11,7 +11,7 @@ interface PaginationInterface {
   page: number,
 }
 
-const Pagination = ({ setUrl, count, limit, next, page}: PaginationInterface) => {
+const Pagination = ({ setUrl, count, limit, next, page }: PaginationInterface) => {
   const { category, inputValue } = useSearch();
   
   const handleNextPage = () => {
@@ -25,7 +25,7 @@ const Pagination = ({ setUrl, count, limit, next, page}: PaginationInterface) =>
   };
 
   return (
-    <div className='col-span-4 mx-auto border border-gray-400 rounded-md m-2 inline-flex '>
+    <div className='col-span-4 mx-auto border border-gray-400 rounded-md m-2 h-14 inline-flex '>
       {page === 1 ?
         <button disabled className='p-3 border-r border-r-gray-200 inline-flex'>
           <GrPrevious className='relative top-[16%]' /><span>Previous</span>
@@ -53,4 +53,4 @@ const Pagination = ({ setUrl, count, limit, next, page}: PaginationInterface) =>
   )
 }
 
-export default Pagination
+export default Pagination;

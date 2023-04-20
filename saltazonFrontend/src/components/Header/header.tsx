@@ -5,22 +5,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../images/logo.png';
 import useCart from '../hooks/useCart';
 import useSearch from '../hooks/useSearch';
-import { categories } from '../utils/categories';
+import { baseURL } from '../utils/api';
 
 const Header = () => {
   const { cartQuantity } = useCart();
   const navigate = useNavigate();
-
-  const { setCategory, inputValue } = useSearch();
-
-  const handleCategory = (e: React.FormEvent<HTMLSelectElement>) => {
-    setCategory(e.currentTarget.value);
-  }
+  const { inputValue, category, setUrl } = useSearch();
 
   const handleSearch = () => {
+    setUrl(`${baseURL}/product?page=1&limit=12&category=${category}&searchQuery=${inputValue.current.value}`);
+    inputValue.current.value = '';
     navigate('/productList');
   }
-
 
   return (
     <header className='bg-black px-4 py-2 h-16 flex justify-between'>
@@ -28,15 +24,7 @@ const Header = () => {
         <img src={logo} alt='logo' className='h-12' />
       </Link>
       <div className="inline-flex shadow-sm h-10 rounded-md bg-white self-center" role="group">
-        {/* <select className='bg-gray-300 h-10 self-center rounded-l-md text-xs pl-2 pr-2' >
-          <option value="All Categories">All Categories</option>
-          {
-            categories.map((category: string): JSX.Element => (
-              <option key={category} value={category}>{category}</option>
-            ))
-          }
-        </select> */}
-        <input ref={inputValue} type='text' placeholder='Search Saltazon' className='text-xs pl-4 w-96 rounded-l-md' />
+        <input ref={inputValue} type='text' placeholder='Search Current Category' className='text-xs pl-4 w-96 rounded-l-md' />
         <button onClick={handleSearch} type="button" className='bg-orange-500 text-black w-10 items-center inline-flex justify-center rounded-r-md'>
           <svg className="h-4 w-4" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
