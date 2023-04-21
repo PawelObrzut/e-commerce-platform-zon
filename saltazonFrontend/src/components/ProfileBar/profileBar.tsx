@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserInterface } from "../../types";
 import useAuth from "../hooks/useAuth";
 import useRefreshToken from "../hooks/useRefreshToken";
@@ -28,7 +28,8 @@ function ProfileBar() {
 
   return (
     <>
-      <div className='flex justify-end px-10 border-b bg-gray-800 text-gray-50 text-sm'>
+      <div className='flex justify-around px-10 border-b bg-gray-800 text-gray-50 text-sm'>
+        { user.role === 'admin' && <Link to='./adminPage'><button>Manage your store</button></Link>}
         { user.emailAddress && <h1>Logged in as {user.emailAddress}</h1> }
         <button onClick={forceRefresh} className={refreshClass? 'px-10 refreshToken--active' : 'px-10'}>Refresh Token</button>
         <p className='px-10'>Role: {user.role}</p>

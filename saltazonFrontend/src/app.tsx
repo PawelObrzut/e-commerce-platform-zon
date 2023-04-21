@@ -8,7 +8,7 @@ import {
 import React from 'react';
 import NavBar from './components/Navbar/navbar';
 import Cart from './components/Cart/cart';
-import AdminPage from './admin/AdminPage';
+import AdminPage from './components/pages/adminPage';
 import SuperAdminPage from './admin/SuperAdminPage';
 import ProductPage from './components/pages/productpage';
 import HomePage from './components/pages/homePage';
@@ -34,7 +34,7 @@ function App() {
 						<Route path='/productList/:id' element={ <ProductPage /> }></Route>
 						<Route path='/cart'	element={	<Cart/> }></Route>
 						<Route path='/store/:id' element={ <StorePage /> }></Route>
-						<Route path='/admin' element={ <AdminPage /> }></Route>
+						<Route path='/adminPage' element={ <AdminPage /> }></Route>
 						<Route path='/admin/super' element={ <SuperAdminPage /> }></Route>
 					</Route>
 
