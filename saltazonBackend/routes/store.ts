@@ -22,7 +22,8 @@ router.get('/:id', passport.authenticate('authenticateJWT'), async (req: Request
 
     if (storeData && filteredProducts) {
       return res.status(200).json({
-        store: storeData.data.name,
+        uniqueStoreId: req.params.id,
+        storeName: storeData.data.name,
         products: filteredProducts,
       });
     }

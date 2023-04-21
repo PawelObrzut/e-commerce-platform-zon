@@ -28,7 +28,8 @@ router.get('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res
             .data.filter((product) => product.storeId === parseInt(req.params.id, 10));
         if (storeData && filteredProducts) {
             return res.status(200).json({
-                store: storeData.data.name,
+                uniqueStoreId: req.params.id,
+                storeName: storeData.data.name,
                 products: filteredProducts,
             });
         }
