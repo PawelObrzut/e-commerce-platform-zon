@@ -23,11 +23,23 @@ router.get('/:id', passport.authenticate('authenticateJWT'), async (req: Request
   return res.status(500).send();
 });
 
-router.delete('/:id', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
+router.delete('/:id', async (req: Request, res: Response) => {
   try {
-    await axios.delete(`${baseURL}/api/product/${req.params.id}`);
-    console.log('Product deleted');
+    await axios.delete(`${baseURL}/api/product/${req.params.id}`)
+      .catch(error => console.log(error));
     return res.status(204).send();
+  } catch (error) {
+    return res.status(500).send();
+  }
+});
+
+router.patch('/:id', async (req: Request, res: Response) => {
+  console.log(req.body);
+  try {
+    const product = await axios.patch(`${baseURL}/api/product/${req.params.id}`, req.body)
+      .catch(error => console.log(error));
+
+    return res.status(200).send();
   } catch (error) {
     return res.status(500).send();
   }

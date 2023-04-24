@@ -33,11 +33,22 @@ router.get('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res
     }
     return res.status(500).send();
 }));
-router.delete('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield axios_1.default.delete(`${api_1.default}/api/product/${req.params.id}`);
-        console.log('Product deleted');
+        yield axios_1.default.delete(`${api_1.default}/api/product/${req.params.id}`)
+            .catch(error => console.log(error));
         return res.status(204).send();
+    }
+    catch (error) {
+        return res.status(500).send();
+    }
+}));
+router.patch('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
+    try {
+        const product = yield axios_1.default.patch(`${api_1.default}/api/product/${req.params.id}`, req.body)
+            .catch(error => console.log(error));
+        return res.status(200).send();
     }
     catch (error) {
         return res.status(500).send();
