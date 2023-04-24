@@ -14,7 +14,7 @@ type Product struct {
 	Imageurl					string	`json:"imageUrl"`
 	Storeid						int			`json:"storeId"`
 	Price							string	`json:"price"`
-	Quantity					int			`json:"quantity"`
+	Quantity					*int			`json:"quantity"`
 	Category					string	`json:"category"`
 }
 
@@ -128,6 +128,42 @@ func DeleteOneProduct(c *fiber.Ctx) error {
 	}
 
 	return c.SendString("Product deleted")
+}
+
+func PatchOneProduct(c *fiber.Ctx) error {
+	db, err := database.ConnectPostgres()
+	if err != nil {
+		fmt.Printf("Could not connect to db: %v", err)
+		panic(err)
+	}
+	defer db.Close()
+
+	id := c.Params("id")
+
+	product := new(Product)
+	if err := c.BodyParser(product); err != nil {
+		return err
+	}
+
+	sqlStatement := "UPDATE productdata SET"
+
+	if product != nil && product.Quantity != nil {
+		sqlStatement += fmt.Sprintf(" quantity = %d,", *product.Quantity)
+	}
+
+	if product != nil && product.Price != "" {
+		sqlStatement += fmt.Sprintf(" price = '%s',", product.Price)
+	}
+
+	sqlStatement = sqlStatement[:len(sqlStatement)-1]
+	sqlStatement += fmt.Sprintf(" WHERE id = %s", id)
+
+  _, err = db.Exec(sqlStatement)
+  if err != nil {
+   panic(err)
+  }
+
+	return c.SendString("updated")
 }
 
 func GetAllUsers(c *fiber.Ctx) error {
