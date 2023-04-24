@@ -104,6 +104,32 @@ func GetOneProduct(c *fiber.Ctx) error {
 	})
 }
 
+func DeleteOneProduct(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	db, err := database.ConnectPostgres()
+	if err != nil {
+		fmt.Printf("Could not connect to db: %v", err)
+		panic(err)
+	}
+	defer db.Close()
+
+	result, err := db.Exec("DELETE FROM Productdata WHERE id=$1", id)
+	if err != nil {
+		panic(err)
+	}
+
+	rowCount, err := result.RowsAffected()
+	if err != nil {
+		panic(err)
+	}
+	if rowCount != 1 {
+		panic("Expected to delete 1 row")
+	}
+
+	return c.SendString("Product deleted")
+}
+
 func GetAllUsers(c *fiber.Ctx) error {
 	db, err := database.ConnectPostgres()
 	if err != nil {

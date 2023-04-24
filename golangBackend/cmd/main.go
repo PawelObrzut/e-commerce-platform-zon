@@ -17,6 +17,7 @@ func main (){
 	}
 
 	app := fiber.New()
+	
 	app.Use(cors.New(cors.Config{
     AllowOrigins: "https://tradezon-node.onrender.com",
 	}))
@@ -25,6 +26,7 @@ func main (){
 	
 	app.Get("/api/product", handlers.GetAllProducts)
 	app.Get("/api/product/:id", handlers.GetOneProduct)
+	app.Delete("/api/product/:id", handlers.DeleteOneProduct)
 
 	app.Get("/api/user", handlers.GetAllUsers)
 	app.Post("/api/user", handlers.PostNewUser)
@@ -34,7 +36,6 @@ func main (){
 
 	app.Get("/api/store", handlers.GetAllStores)
 	app.Get("/api/store/:id", handlers.GetOneStore)
-
 
 	app.Listen(":8000")
 }
