@@ -5,6 +5,7 @@ interface FetchData<T> {
   data?: T;
   isLoading: boolean;
   error: string | null;
+  setData: React.Dispatch<React.SetStateAction<T>>
 }
 
 const useFetch = <T = unknown>(url: string): FetchData<T> => {
@@ -42,7 +43,7 @@ const useFetch = <T = unknown>(url: string): FetchData<T> => {
     }
   }, [url]);
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, setData };
 };
 
 export default useFetch;
