@@ -4,7 +4,6 @@ import useFetch from '../hooks/useFetch';
 import Spinner from '../Spinner/spinner';
 import { baseURL } from '../utils/api';
 import { ProductInterface } from '../../types';
-import { fakeProducts } from '../../fakedata/fakedata';
 import { RiCloseCircleLine } from 'react-icons/ri';
 import axios from 'axios';
 import DeleteModal from '../DeleteModal/deleteModal';
@@ -22,6 +21,8 @@ const AdminPage = () => {
   const [selectProduct, setSelectProduct] = useState<number>(null);
   const url = `${baseURL}/store/${user.storeId}`;
   const { data, isLoading, error, setData } = useFetch<StoreInterface>(url);
+
+  const [ showSpinner, setShowSpinner] = useState(false);
 
   if (isLoading) {
     return (
@@ -46,8 +47,38 @@ const AdminPage = () => {
   }
 
   const handleSave = (productId: number) => {
-    console.log('not implemented yet')
-    console.log(updates[productId])
+    setShowSpinner(true);
+    axios({
+      method: 'patch',
+      url: `${baseURL}/product/${productId}`,
+      data: updates[productId],
+    })
+      .then(response => {
+        if (response.status === 200) {
+          const productIndex = data.products.findIndex(product => product.id === productId);
+
+          const updatedProduct = {
+            ...data.products[productIndex],
+            quantity: updates[productId].quantity,
+            price: updates[productId].price,
+          };
+  
+          const updatedProducts = [...data.products];
+          updatedProducts[productIndex] = updatedProduct;
+  
+          setData({
+            ...data,
+            products: updatedProducts
+          });
+  
+          delete updates[productId];
+
+        } else {
+          console.log('unable to update the product');
+        }
+        setShowSpinner(false);
+      })
+      .catch(error => console.log(error));
   }
 
   const handleShowModal = (productId: number) => {
@@ -58,7 +89,7 @@ const AdminPage = () => {
   const handleDelete = (productId: number) => {
     axios({
       method: 'delete',
-      url: `${baseURL}/product/${productId}`
+      url: `${baseURL}/product/${productId}`,
     })
       .then(response => {
         if (response.status === 204) {
@@ -90,9 +121,9 @@ const AdminPage = () => {
 
       <section>
         <table className='w-full'>
-          <thead className='border border-black '>
+          <thead className='sticky top-0 bg-slate-300 bg-opacity-90'>
             <tr>
-              <th className='p-2 font-normal'></th>
+              <th className='p-2 font-normal'>Del</th>
               <th className='p-2 font-normal'>Image</th>
               <th className='p-2 font-normal'>Id</th>
               <th className='p-2 font-normal'>Title</th>
@@ -105,8 +136,6 @@ const AdminPage = () => {
           </thead>
           <tbody>
             {
-              // data.products
-              // fakeProducts
               data.products.map((product: ProductInterface) => (
                 <tr key={product.id} className='hover:bg-gray-100 '>
                   <td className='p-2'>
@@ -140,7 +169,9 @@ const AdminPage = () => {
                   <td>{product.category}</td>
                   <td>
                     {
-                      updates[product.id] &&  <button onClick={() => handleSave(product.id)} className='block p-2 border rounded-md bg-orange-300 hover:bg-orange-400'>Save</button>
+                      showSpinner 
+                        ? <Spinner />
+                        : updates[product.id] &&  <button onClick={() => handleSave(product.id)} className='block p-2 border rounded-md bg-orange-300 hover:bg-orange-400'>Save</button>
                     }
                   </td>
                 </tr>
