@@ -34,9 +34,8 @@ router.delete('/:id', async (req: Request, res: Response) => {
 });
 
 router.patch('/:id', async (req: Request, res: Response) => {
-  console.log(req.body);
   try {
-    const product = await axios.patch(`${baseURL}/api/product/${req.params.id}`, req.body)
+    await axios.patch(`${baseURL}/api/product/${req.params.id}`, req.body)
       .catch(error => console.log(error));
 
     return res.status(200).send();

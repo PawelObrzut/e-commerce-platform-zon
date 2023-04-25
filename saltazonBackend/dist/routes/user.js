@@ -66,12 +66,12 @@ router.post('/login', passport_1.default.authenticate('login'), (req, res) => __
             sameSite: 'none',
         })
             .json({
-            accessToken: accessToken,
+            accessToken
         });
     }
     catch (error) {
         console.log(error);
-        return res.status(500).json({ message: 'Internal server error, could not save the refresh token.' });
+        return res.status(500).send();
     }
 }));
 router.post('/refreshToken', (req, res) => {

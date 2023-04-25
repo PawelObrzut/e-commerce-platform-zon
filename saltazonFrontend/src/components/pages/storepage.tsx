@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { ProductInterface } from '../../types';
 import useFetch from '../hooks/useFetch';
 import Product from '../Products/product';
+import Spinner from '../Spinner/spinner';
 import { baseURL } from '../utils/api';
 
 interface Store {
@@ -16,7 +17,11 @@ const StorePage = () => {
   const { data, isLoading, error } = useFetch<Store>(`${baseURL}/store/${storeId}`);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <main className='flex items-center justify-center h-[70vh]'>
+        <Spinner />
+      </main>
+    )
   }
 
   if (error) {

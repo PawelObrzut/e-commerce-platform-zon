@@ -44,9 +44,8 @@ router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 }));
 router.patch('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
     try {
-        const product = yield axios_1.default.patch(`${api_1.default}/api/product/${req.params.id}`, req.body)
+        yield axios_1.default.patch(`${api_1.default}/api/product/${req.params.id}`, req.body)
             .catch(error => console.log(error));
         return res.status(200).send();
     }

@@ -19,7 +19,6 @@ function LoginForm() {
   const [error, setError] = useState(false);
   const { setUser } = useAuth();
   const navigate = useNavigate();
-  const directTo = "/productList";
 
   const schema = yup.object().shape({
     email: yup.string().email().required(),
@@ -40,11 +39,13 @@ function LoginForm() {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true
         });
+
       const accessToken = response?.data?.accessToken;
       const { id, email: emailAddress, role, storeId} = decodeJwt(accessToken);
       setUser({id, emailAddress, role, storeId, accessToken});
-      navigate(directTo, { replace: true });
+
       setLoading(false);
+      navigate('/productList', { replace: true });
     } catch (error) {
       console.log(error);
       setLoading(false);

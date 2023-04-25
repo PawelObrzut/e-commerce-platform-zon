@@ -13,7 +13,7 @@ function ProfileBar() {
 
   const forceRefresh = async () => {
     await refresh();
-    navigate(-1);
+    // navigate(-1);
   }
 
   const handleLogOut = async () => {

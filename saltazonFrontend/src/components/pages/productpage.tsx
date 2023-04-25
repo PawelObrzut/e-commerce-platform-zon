@@ -6,6 +6,7 @@ import useFetch from '../hooks/useFetch';
 import useCart from '../hooks/useCart';
 import { baseURL } from '../utils/api';
 import PriceLabel from '../Products/pricelabel';
+import Spinner from '../Spinner/spinner';
 
 interface ProductPageInterface {
   responseData: ProductInterface,
@@ -25,7 +26,11 @@ const ProductPage = () => {
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <main className='flex items-center justify-center h-[70vh]'>
+        <Spinner />
+      </main>
+    )
   }
 
   if (error) {

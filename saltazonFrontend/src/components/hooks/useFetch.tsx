@@ -18,22 +18,30 @@ const useFetch = <T = unknown>(url: string): FetchData<T> => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(url, {
+        fetch(url, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + user?.accessToken
           }
-        });
+        })
+        .then(response => {
+          if (response.status === 401) {
+            setRefreshClass(true)
+          }
+          return response.json();
+        })
+        .then(data => {
+          setData(data)
+          setIsLoading(false);
+          setRefreshClass(false)
+        })
+        .catch(error => {
+          return new Error(error)
+        })
 
-        if (response.status === 401) {
-          setRefreshClass(true)
-        }
-        const json = await response.json();
-        json && setData(json)
-        setIsLoading(false);
-        setRefreshClass(false)
       } catch (error) {
+        console.log(error)
         setIsLoading(false);
         setError(error.message);
       }
