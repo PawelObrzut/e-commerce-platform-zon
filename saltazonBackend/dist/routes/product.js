@@ -21,7 +21,7 @@ const search_1 = __importDefault(require("../middlewares/search"));
 const api_1 = __importDefault(require("../api"));
 const router = express_1.default.Router();
 router.get('/', passport_1.default.authenticate('authenticateJWT'), filter_1.default, search_1.default, paginate_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json(res.respondWithData); }));
-router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newProduct = yield axios_1.default.post(`${api_1.default}/api/product`, req.body)
             .then(response => response.data)
@@ -44,7 +44,7 @@ router.get('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res
     }
     return res.status(500).send();
 }));
-router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.delete('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield axios_1.default.delete(`${api_1.default}/api/product/${req.params.id}`)
             .catch(error => console.log(error));
@@ -54,7 +54,7 @@ router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         return res.status(500).send();
     }
 }));
-router.patch('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.patch('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield axios_1.default.patch(`${api_1.default}/api/product/${req.params.id}`, req.body)
             .catch(error => console.log(error));

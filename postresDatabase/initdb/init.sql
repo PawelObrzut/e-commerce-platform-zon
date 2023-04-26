@@ -12,8 +12,8 @@ CREATE TABLE UserData (
 );
 
 CREATE TABLE StoreData (
-    name VARCHAR(50),
-    uniqueStoreId INT
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50)
 );
 
 CREATE TABLE ProductData (

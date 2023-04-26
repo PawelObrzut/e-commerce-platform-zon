@@ -54,7 +54,7 @@ passport_1.default.use('register', new PassportLocal.Strategy({
             email,
             password: bcrypt_1.default.hashSync(password, 10),
             role: req.body.role,
-            storeId: req.body.storeId || null,
+            storeName: req.body.storeName,
         }, { headers: { 'Content-Type': 'application/json' } });
         done(null, true);
     }

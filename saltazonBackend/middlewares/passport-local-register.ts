@@ -25,7 +25,7 @@ passport.use(
             email,
             password: bcrypt.hashSync(password, 10),
             role: req.body.role,
-            storeId: req.body.storeId || null,
+            storeName: req.body.storeName,
           },
           { headers: { 'Content-Type': 'application/json' } }
         );

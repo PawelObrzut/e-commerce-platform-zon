@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get('/', passport.authenticate('authenticateJWT'), filter, search, paginate, async (req: Request, res: Response) => res.status(200).json(res.respondWithData));
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {
     const newProduct = await axios.post(`${baseURL}/api/product`, req.body)
       .then(response => response.data)
@@ -35,7 +35,7 @@ router.get('/:id', passport.authenticate('authenticateJWT'), async (req: Request
   return res.status(500).send();
 });
 
-router.delete('/:id', async (req: Request, res: Response) => {
+router.delete('/:id', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {
     await axios.delete(`${baseURL}/api/product/${req.params.id}`)
       .catch(error => console.log(error));
@@ -45,7 +45,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
   }
 });
 
-router.patch('/:id', async (req: Request, res: Response) => {
+router.patch('/:id', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {
     await axios.patch(`${baseURL}/api/product/${req.params.id}`, req.body)
       .catch(error => console.log(error));

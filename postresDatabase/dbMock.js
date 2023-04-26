@@ -7,11 +7,12 @@ const Stores = require('./mockData/Store_Mock_data.json');
 const Products = require('./mockData/Products_Mock_data.json');
 const Users = require('./mockData/User_Mock_data.json');
 
+// provide your credentials to create a pool
 const pool = new Pool({
-	user: '<USER>',
-	password: '<PASSWORD>',
-	host: '<HOST>.frankfurt-postgres.render.com',
-	database: '<DATABASE>',
+	user: user,
+	password: password,
+	host: host,
+	database: database,
 	port: 5432,
 	ssl: {
 		rejectUnauthorized: false
@@ -23,7 +24,7 @@ const pool = new Pool({
   try {
     for (let i = 0; i < Stores.length; i ++) {
       const store = Stores[i];
-      client.query('INSERT INTO StoreData (name, uniqueStoreId) VALUES ($1, $2)', [store.name, store.uniqueStoreId]);
+      client.query('INSERT INTO StoreData (name) VALUES ($1)', [store.name]);
     }
     console.log('store data ready')
 

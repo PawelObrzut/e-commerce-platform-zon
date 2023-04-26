@@ -9,24 +9,26 @@ interface SignUpFormInterface {
   email: string,
   password: string,
   confirmPassword: string,
-  role: string
+  role: string,
+  storeName?: string,
 }
 
 function NewUserForm() {
   const [loading, setLoading] = useState(false);
-  
+
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(4).required(),
     confirmPassword: yup.string().oneOf([yup.ref("password"), undefined]).required(),
     role: yup.string().required(),
-  })
+    storeName: yup.string()
+  });
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<SignUpFormInterface>({
     resolver: yupResolver(schema)
   });
 
-  const submitSignUp = async ({ email, password, role }: SignUpFormInterface) => {
+  const submitSignUp = async ({ email, password, role, storeName }: SignUpFormInterface) => {
     setLoading(true);
     try {
       const response = await fetch(`${baseURL}/user/register`, {
@@ -36,7 +38,7 @@ function NewUserForm() {
           email,
           password,
           role,
-          storeId: null
+          storeName: storeName
         })
       });
 
@@ -110,6 +112,16 @@ function NewUserForm() {
           <option value={"user"}>User</option>
           <option value={"admin"}>Admin</option>
         </select>
+      </div>
+
+      <div className="relative z-0 w-full mb-4 group text-left">
+        <input
+          {...register("storeName")}
+          type="text"
+          className={` block py-2 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-yellow-500 peer`}
+          placeholder=" "
+        />
+        <label className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-yellow-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Store Name - for Admin only</label>
       </div>
 
       <input

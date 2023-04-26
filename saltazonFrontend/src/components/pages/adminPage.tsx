@@ -37,7 +37,7 @@ const AdminPage = () => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [selectProduct, setSelectProduct] = useState<number>(null);
 
-  const [ showSpinner, setShowSpinner] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(false);
 
   if (isLoading) {
     return (
@@ -67,6 +67,9 @@ const AdminPage = () => {
       method: 'patch',
       url: `${baseURL}/product/${productId}`,
       data: updates[productId],
+      headers: {
+        'Authorization': 'Bearer ' + user?.accessToken
+      }
     })
       .then(response => {
         if (response.status === 200) {
@@ -105,6 +108,9 @@ const AdminPage = () => {
     axios({
       method: 'delete',
       url: `${baseURL}/product/${productId}`,
+      headers: {
+        'Authorization': 'Bearer ' + user?.accessToken
+      }
     })
       .then(response => {
         if (response.status === 204) {
@@ -127,13 +133,16 @@ const AdminPage = () => {
     }
     axios({
       method: 'post',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + user?.accessToken
+      },
       url: `${baseURL}/product/`,
       data: newProduct
+      
     })
       .then(response => {
         if (response.status === 201) {
-          console.log('product id is:', response.data.id)
           const newProducts = [...data.products, { ...newProduct, id: response.data.id}];
           setData({
             ...data,
@@ -186,7 +195,6 @@ const AdminPage = () => {
                 placeholder="Price" 
                 required/>
             </div>
-            
             
             <input 
               {...register("quantity")} 

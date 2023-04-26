@@ -14,7 +14,7 @@ type Product struct {
 	Imageurl					string	`json:"imageUrl"`
 	Storeid						int			`json:"storeId"`
 	Price							string	`json:"price"`
-	Quantity					*int			`json:"quantity"`
+	Quantity					*int		`json:"quantity"`
 	Category					string	`json:"category"`
 }
 
@@ -24,11 +24,12 @@ type User struct {
 	Password			string	`json:"password"`
 	Role					string	`json:"role"`
 	StoreId				int			`json:"storeId"`
+	StoreName			string	`json:"storeName"`
 }
 
 type Store struct {
 	Name						string	`json:"name"`
-	UniqueStoreId		int			`json:"storeId"`
+	Id							int			`json:"storeId"`
 }
 
 type UserRefreshToken struct {
@@ -243,21 +244,37 @@ func PostNewUser(c *fiber.Ctx) error {
 	}
 	defer db.Close()
 
-	sqlStatement := `
-		INSERT INTO UserData (email, password, role, storeid)
-		VALUES ($1, $2, $3, $4)
-		RETURNING id
-	`
-	var id int
-	err = db.QueryRow(sqlStatement, user.Email, user.Password, user.Role, user.StoreId).Scan(&id)
-	if err != nil {
-		panic(err)
+	if user.Role == "admin" {
+		var id int
+		err = db.QueryRow(`
+			INSERT INTO storedata (name)
+			VALUES ($1)
+			RETURNING id
+			`, user.StoreName).Scan(&id)
+		if err != nil {
+			panic(err)
+			}
+
+		_, err = db.Exec(`
+			INSERT INTO UserData (email, password, role, storeid)
+			VALUES ($1, $2, $3, $4)
+			`, user.Email, user.Password, user.Role, id)
+		if err != nil {
+		 panic(err)
+		}
+	} else {
+		_, err = db.Exec(`
+			INSERT INTO UserData (email, password, role, storeid)
+			VALUES ($1, $2, $3, $4)
+			`, user.Email, user.Password, user.Role, 0)
+		if err != nil {
+		 panic(err)
+		}
 	}
 
 	return c.JSON(fiber.Map{
 		"message": "success",
 		"data": user,
-		"id": id,
 	})
 }
 
@@ -365,7 +382,7 @@ func GetAllStores(c *fiber.Ctx) error {
 	stores := []Store{}
 	for rows.Next() {
 		var store Store
-		err := rows.Scan(&store.Name, &store.UniqueStoreId)
+		err := rows.Scan(&store.Id, &store.Name)
 		if err != nil {
 			fmt.Printf("Could not scan Storedata rows: %v", err)
 			panic(err)
@@ -389,7 +406,7 @@ func GetOneStore(c *fiber.Ctx) error {
 	}
 	defer db.Close()
 
-	rows, err := db.Query("SELECT * FROM StoreData WHERE UniqueStoreId=$1", id)
+	rows, err := db.Query("SELECT * FROM StoreData WHERE Id=$1", id)
 	if err != nil {
 		fmt.Printf("Could not query StoreData: %v", err)
 		panic(err)
@@ -398,7 +415,7 @@ func GetOneStore(c *fiber.Ctx) error {
 	var store Store
 
 	for rows.Next() {
-		err := rows.Scan(&store.Name, &store.UniqueStoreId); 
+		err := rows.Scan(&store.Id, &store.Name); 
 		if err != nil {
 			fmt.Printf("Could not scan StoreData rows: %v", err)
 			panic(err)

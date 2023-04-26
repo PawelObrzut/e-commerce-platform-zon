@@ -8,12 +8,13 @@ import useSearch from '../hooks/useSearch';
 
 function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth();
   const { setCategory } = useSearch();
 
   return (
     <header>
       <Header />
-      { <ProfileBar /> }
+      { user.emailAddress && <ProfileBar /> }
       <nav className="bg-gray-800 text-gray-50 text-sm h-8 flex items-center justify-between">
         <ul className="flex cursor-pointer">
           <li onClick={() => setIsOpen(!isOpen)} className="pl-2 inline-flex">
