@@ -34,8 +34,8 @@ function App() {
 						<Route path='/productList/:id' element={ <ProductPage /> }></Route>
 						<Route path='/cart'	element={	<Cart/> }></Route>
 						<Route path='/store/:id' element={ <StorePage /> }></Route>
-						<Route path='/admin/super' element={ <SuperAdminPage /> }></Route>
 						<Route path='/adminPage' element={ <AdminPage /> }></Route>
+						<Route path='/admin/super' element={ <SuperAdminPage /> }></Route>
 					</Route>
 
 				</Routes>
