@@ -26,6 +26,7 @@ func main (){
 	
 	app.Get("/api/product", handlers.GetAllProducts)
 	app.Get("/api/product/:id", handlers.GetOneProduct)
+	app.Post("/api/product", handlers.PostNewProduct)
 	app.Delete("/api/product/:id", handlers.DeleteOneProduct)
 	app.Patch("/api/product/:id", handlers.PatchOneProduct)
 

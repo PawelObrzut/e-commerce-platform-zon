@@ -104,6 +104,38 @@ func GetOneProduct(c *fiber.Ctx) error {
 	})
 }
 
+func PostNewProduct(c *fiber.Ctx) error {
+	product := new(Product)
+
+	if err := c.BodyParser(product); err != nil {
+		return err
+	}
+
+	db, err := database.ConnectPostgres()
+	if err != nil {
+		fmt.Printf("Could not connect to db: %v", err)
+		panic(err)
+	}
+	defer db.Close()
+
+	var id int
+	sqlStatement := `
+		INSERT INTO ProductData (title, description, imageurl, storeid, price, quantity, category)
+		VALUES ($1, $2, $3, $4, $5, $6, $7)
+		RETURNING id
+		`
+	err = db.QueryRow(sqlStatement, product.Title, product.Description, product.Imageurl, product.Storeid, product.Price, product.Quantity, product.Category).Scan(&id)
+	
+	if err != nil {
+		panic(err)
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "success",
+		"id": id,
+	})
+}
+
 func DeleteOneProduct(c *fiber.Ctx) error {
 	id := c.Params("id")
 
