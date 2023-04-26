@@ -11,6 +11,18 @@ const router = express.Router();
 
 router.get('/', passport.authenticate('authenticateJWT'), filter, search, paginate, async (req: Request, res: Response) => res.status(200).json(res.respondWithData));
 
+router.post('/', async (req: Request, res: Response) => {
+  try {
+    const newProduct = await axios.post(`${baseURL}/api/product`, req.body)
+      .then(response => response.data)
+      .catch(error => console.log(error));
+
+    return res.status(201).json({ id: newProduct.id });
+  } catch (error) {
+    return res.status(500).send();
+  }
+})
+
 router.get('/:id', passport.authenticate('authenticateJWT'), async (req: Request, res: Response) => {
   try {
     const product = await axios.get(`${baseURL}/api/product/${req.params.id}`).then(response => response.data);

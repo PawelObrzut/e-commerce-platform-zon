@@ -21,6 +21,17 @@ const search_1 = __importDefault(require("../middlewares/search"));
 const api_1 = __importDefault(require("../api"));
 const router = express_1.default.Router();
 router.get('/', passport_1.default.authenticate('authenticateJWT'), filter_1.default, search_1.default, paginate_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json(res.respondWithData); }));
+router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const newProduct = yield axios_1.default.post(`${api_1.default}/api/product`, req.body)
+            .then(response => response.data)
+            .catch(error => console.log(error));
+        return res.status(201).json({ id: newProduct.id });
+    }
+    catch (error) {
+        return res.status(500).send();
+    }
+}));
 router.get('/:id', passport_1.default.authenticate('authenticateJWT'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const product = yield axios_1.default.get(`${api_1.default}/api/product/${req.params.id}`).then(response => response.data);
