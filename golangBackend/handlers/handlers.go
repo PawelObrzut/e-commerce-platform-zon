@@ -38,7 +38,7 @@ type UserRefreshToken struct {
 }
 
 func GetMainRoute(c *fiber.Ctx) error {
-	return c.SendString("Hello there general Kenobi")
+	return c.SendString("Hello there! General Kenobi.")
 }
 
 func GetAllProducts(c *fiber.Ctx) error {
