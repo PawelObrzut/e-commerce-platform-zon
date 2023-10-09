@@ -22,7 +22,7 @@ const app = (0, express_1.default)();
 const port = process.env.PORT;
 const accessLogStream = fs_1.default.createWriteStream(path_1.default.join(__dirname, 'backend-logging', 'access.log'), { flags: 'a' });
 app.use(function (req, res, next) {
-    const allowedOrigins = ['https://tradezon-vite.onrender.com', 'http://localhost:5173'];
+    const allowedOrigins = ['https://tradezon-vite.onrender.com', 'http://localhost:5173', '*'];
     const origin = req.headers.origin;
     if (origin && allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
@@ -41,7 +41,7 @@ app.use('/user', user_1.default);
 app.use('/product', product_1.default);
 app.use('/store', store_1.default);
 app.get('/', (req, res) => {
-    res.send('Index');
+    res.send('This is node backend service.');
 });
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
