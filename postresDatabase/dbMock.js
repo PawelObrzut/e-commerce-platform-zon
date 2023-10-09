@@ -8,11 +8,11 @@ const Products = require('./mockData/Products_Mock_data.json');
 const Users = require('./mockData/User_Mock_data.json');
 
 const pool = new Pool({
-	user: proces.env.DB_USER,
-	password: proces.env.DB_PASSWORD,
-	host: proces.env.DB_HOST,
-	database: proces.env.DB_NAME,
-	port: proces.env.DB_PORT,
+	user: process.env.DB_USER,
+	password: process.env.DB_PASSWORD,
+	host: process.env.DB_HOST,
+	database: process.env.DB_NAME,
+	port: process.env.DB_PORT,
 	ssl: {
 		rejectUnauthorized: false
 	}
