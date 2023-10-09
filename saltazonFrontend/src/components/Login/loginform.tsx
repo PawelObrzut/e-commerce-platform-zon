@@ -69,8 +69,6 @@ function LoginForm() {
   if (loading) {
     return (
       <div>
-        <p>I am using free hosting services that is slow.</p>
-        <p className='mb-10'>It may take up to a minute on your first login.</p>
         <Spinner />
       </div>
     )
