@@ -19,7 +19,7 @@ func main (){
 	app := fiber.New()
 	
 	app.Use(cors.New(cors.Config{
-    AllowOrigins: "https://tradezon-node.onrender.com",
+    AllowOrigins: "https://tradezon-node.onrender.com, *",
 	}))
 	
 	app.Get("/", handlers.GetMainRoute)
