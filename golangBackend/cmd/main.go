@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"github.com/PawelObrzut/e-commerce-platform-zon/golangBackend/handlers"
 
 	"github.com/gofiber/fiber/v2"
@@ -39,5 +40,10 @@ func main (){
 	app.Get("/api/store", handlers.GetAllStores)
 	app.Get("/api/store/:id", handlers.GetOneStore)
 
-	app.Listen(":8000")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8000"
+	}
+
+	app.Listen(":" + port)
 }
