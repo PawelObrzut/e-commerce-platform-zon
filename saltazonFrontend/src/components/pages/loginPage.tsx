@@ -31,9 +31,10 @@ const LoginPage = () => {
       </div>
       <section className='flex text-center mt-10'>
         <div className='w-1/3'>
-          <p>tstrauns@amazon.co.jp</p>
-          <p>vm2d9UHUC</p>
-          <p>super-admin: id 29</p>
+          <p>cjurczyk6@theatlantic.com</p>
+          <p>xxnBq4wz</p>
+          <p>admin: id 7</p>
+          <p>storeId: 2</p>
         </div>
         <div className='w-1/3'>
           <p>dsubhan2h@shop-pro.jp</p>
@@ -44,6 +45,7 @@ const LoginPage = () => {
           <p>bdixcey2g@163.com</p>
           <p>2sUy6HeUCZt</p>
           <p>admin: id 89</p>
+          <p>storeId: 1</p>
         </div>
       </section>
     </main>

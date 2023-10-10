@@ -68,9 +68,7 @@ function LoginForm() {
 
   if (loading) {
     return (
-      <div>
-        <Spinner />
-      </div>
+      <Spinner />
     )
   }
 
