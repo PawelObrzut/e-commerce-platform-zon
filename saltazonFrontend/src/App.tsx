@@ -11,7 +11,7 @@ import Cart from './components/Cart/cart';
 import AdminPage from './admin/AdminPage';
 import SuperAdminPage from './admin/SuperAdminPage';
 import ProductPage from './components/pages/productpage';
-import HomePage from './components/pages/homePage';
+import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/loginPage';
 import ProductListPage from './components/pages/productListPage';
 import StorePage from './components/pages/storepage';
