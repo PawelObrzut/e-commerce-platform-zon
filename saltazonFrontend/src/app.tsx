@@ -10,11 +10,11 @@ import NavBar from './components/Navbar/navbar';
 import Cart from './components/Cart/cart';
 import AdminPage from './components/pages/adminPage';
 import SuperAdminPage from './admin/SuperAdminPage';
-import ProductPage from './components/pages/productpage';
+import ProductPage from './components/pages/productPage'
 import HomePage from './components/pages/homePage';
 import LoginPage from './components/pages/loginPage';
 import ProductListPage from './components/pages/productListPage';
-import StorePage from './components/pages/storepage';
+import StorePage from './components/pages/storePage';
 import ProtectedRoutes from './components/ProtectedRoutes/requireAuth';
 import Footer from './components/Footer/footer';
 import './App.css';
