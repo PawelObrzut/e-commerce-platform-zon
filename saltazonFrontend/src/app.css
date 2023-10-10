@@ -1,9 +1,0 @@
-.refreshToken--active {
-  animation: blinks 1s linear infinite;
-}
-
-@keyframes blinks {
-  10% {
-    opacity: 0.1;
-  }
-}
