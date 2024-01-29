@@ -8,28 +8,28 @@ import (
 )
 
 type Product struct {
-	Id								int			`json:"id"`
-	Title							string	`json:"title"`
-	Description				string	`json:"description"`
-	Imageurl					string	`json:"imageUrl"`
-	Storeid						int			`json:"storeId"`
-	Price							string	`json:"price"`
-	Quantity					*int		`json:"quantity"`
-	Category					string	`json:"category"`
+	Id		int	`json:"id"`
+	Title		string	`json:"title"`
+	Description	string	`json:"description"`
+	Imageurl	string	`json:"imageUrl"`
+	Storeid		int	`json:"storeId"`
+	Price		string	`json:"price"`
+	Quantity	*int	`json:"quantity"`
+	Category	string	`json:"category"`
 }
 
 type User struct {
-	Id 						int			`json:"id"`
-	Email					string	`json:"email"`
-	Password			string	`json:"password"`
-	Role					string	`json:"role"`
-	StoreId				int			`json:"storeId"`
-	StoreName			string	`json:"storeName"`
+	Id 		int	`json:"id"`
+	Email		string	`json:"email"`
+	Password	string	`json:"password"`
+	Role		string	`json:"role"`
+	StoreId		int	`json:"storeId"`
+	StoreName	string	`json:"storeName"`
 }
 
 type Store struct {
-	Name						string	`json:"name"`
-	Id							int			`json:"storeId"`
+	Name	string	`json:"name"`
+	Id	int	`json:"storeId"`
 }
 
 type UserRefreshToken struct {
