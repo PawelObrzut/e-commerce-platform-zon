@@ -20,7 +20,7 @@ const port = process.env.PORT;
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'backend-logging', 'access.log'), { flags: 'a' });
 
 app.use(function(req, res, next) {
-  const allowedOrigins = ['https://tradezon-vite.onrender.com', 'http://localhost:5173', '*'];
+  const allowedOrigins = ['https://react-saltazon-production.up.railway.app/', 'http://localhost:5173', '*'];
   const origin = req.headers.origin;
   if (origin && allowedOrigins.includes(origin)) {
        res.setHeader('Access-Control-Allow-Origin', origin);
