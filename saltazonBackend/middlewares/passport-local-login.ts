@@ -23,18 +23,17 @@ passport.use(
         if (!user) {
           return done(null, false);
         }
-        try {
-          if (bcrypt.compareSync(password, user.password)) {
-            return done(null, user);
-          }
+
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) {
           return done(null, false);
-        } catch (error) {
-          return done(error);
         }
+        const { password: _, ...userSafe } = user;
+        return done(null, userSafe);
       } catch (error) {
-        done(error);
+        console.error('Passport login error:', error);
+        return done(error);
       }
-      return (Error);
-    },
-  ),
+    }
+  )
 );
