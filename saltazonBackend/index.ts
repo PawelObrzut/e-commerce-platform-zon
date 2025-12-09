@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import moment from 'moment-timezone';
@@ -17,17 +17,51 @@ dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT;
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'backend-logging', 'access.log'), { flags: 'a' });
 
-app.use(function(req, res, next) {
-  const allowedOrigins = ['https://react-saltazon-production.up.railway.app'];
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, 'backend-logging', 'access.log'),
+  { flags: 'a' }
+);
+
+const allowedOrigins: string[] = ['https://react-saltazon-production.up.railway.app'];
+
+app.options('*', (req: Request, res: Response) => {
   const origin = req.headers.origin;
+
   if (origin && allowedOrigins.includes(origin)) {
-       res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Origin', origin);
   }
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+
   res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, UPDATE, PATCH');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Content-Type, Authorization, X-Requested-With, Accept, Origin'
+  );
+  res.header(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PUT, DELETE, PATCH'
+  );
+
+  return res.sendStatus(200);
+});
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const origin = req.headers.origin;
+
+  if (origin && allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Content-Type, Authorization, X-Requested-With, Accept, Origin'
+  );
+  res.header(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PUT, DELETE, PATCH'
+  );
+
   next();
 });
 
@@ -35,7 +69,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
 morgan.token('date', () => moment().tz('Europe/Stockholm').format('YYYY-MM-DD HH:mm ZZ'));
-app.use(morgan('Type :method, Date [:date[Europe/Stockholm]], StatusCode :status', { stream: accessLogStream }));
+app.use(morgan('Type :method, Date [:date[Europe/Stockholm]], StatusCode :status', {stream: accessLogStream}));
 app.use('/user', userRouter);
 app.use('/product', productRouter);
 app.use('/store', storeRouter);
@@ -45,5 +79,5 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+  console.log(`⚡️[server]: Running at http://localhost:${port}`);
 });
