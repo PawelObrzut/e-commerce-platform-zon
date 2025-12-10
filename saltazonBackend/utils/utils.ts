@@ -2,22 +2,12 @@ import axios from 'axios';
 import { InterfaceUser } from '../types/types';
 import baseURL from '../api';
 
-export const findUserByEmail = async (
-  email: string
-): Promise<InterfaceUser | undefined> => {
-  try {
-    const url = `${baseURL}api/user`; 
-    const response = await axios.get(url);
+export const findUserByEmail = async (email: string): Promise<InterfaceUser | undefined> => {
+  const response = await axios.get(`${baseURL}/api/user/`);
+  const usersCollection = response.data;
+  return usersCollection.data.find((user: InterfaceUser) => user.email === email);
+};
 
-    if (!response.data || !response.data.data) {
-      console.error('Unexpected response format from API:', response.data);
-      return undefined;
-    }
-
-    return response.data.data.find((user: InterfaceUser) => user.email === email);
-    
-  } catch (error) {
-    console.error('Error fetching user by email:', error);
-    return undefined;
-  }
+exports.modules = {
+  findUserByEmail,
 };
